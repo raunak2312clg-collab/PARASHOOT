@@ -16,7 +16,11 @@ function cloneHeadNode(node) {
 
   if (tag === 'link') {
     const link = document.createElement('link');
-    for (const attr of node.attributes) link.setAttribute(attr.name, attr.value);
+
+    for (const attr of node.attributes) {
+      link.setAttribute(attr.name, attr.value);
+    }
+
     link.setAttribute(HEAD_MARKER, 'true');
     document.head.appendChild(link);
     return link;
@@ -36,18 +40,84 @@ function addScript(scriptNode) {
 
     if (scriptNode.src) {
       script.async = false;
+
       script.onload = resolve;
+
       script.onerror = () => {
         console.warn(`Unable to load external script: ${scriptNode.src}`);
         resolve();
       };
+
       document.body.appendChild(script);
       return;
     }
 
     script.textContent = scriptNode.textContent;
     document.body.appendChild(script);
+
     resolve();
+  });
+}
+
+function convertLegacyLinks(documentNode) {
+  documentNode.querySelectorAll('a[href]').forEach((anchor) => {
+    const href = anchor.getAttribute('href');
+
+    if (!href) return;
+
+    const trimmedHref = href.trim();
+
+    // Leave external/special links untouched
+    if (
+      trimmedHref.startsWith('http://') ||
+      trimmedHref.startsWith('https://') ||
+      trimmedHref.startsWith('mailto:') ||
+      trimmedHref.startsWith('tel:') ||
+      trimmedHref.startsWith('javascript:') ||
+      trimmedHref.startsWith('#')
+    ) {
+      return;
+    }
+
+    // Remove ./ or leading /
+    let path = trimmedHref
+      .replace(/^\.\//, '')
+      .replace(/^\//, '');
+
+    // Home page
+    if (
+      path === '' ||
+      path === 'index.html' ||
+      path === 'index'
+    ) {
+      anchor.setAttribute('href', '#/');
+      return;
+    }
+
+    // Convert internal HTML/page links to HashRouter URLs
+    const internalPages = [
+      'about',
+      'services',
+      'work',
+      'portfolio',
+      'advideo',
+      'ads',
+      'careers',
+      'connect',
+      'team',
+      'clients'
+    ];
+
+    const cleanPath = path.replace(/\.html$/, '');
+
+    if (internalPages.includes(cleanPath)) {
+      // Use /ads because App.jsx uses that cleaner route
+      if (cleanPath === 'advideo') {
+        anchor.setAttribute('href', '#/ads');
+      } else {
+        anchor.setAttribute('href', `#/${cleanPath}`);
+      }
+    }
   });
 }
 
@@ -63,39 +133,74 @@ export default function LegacyPage({ source }) {
 
     window.scrollTo(0, 0);
 
-    document.querySelectorAll(`[${HEAD_MARKER}]`).forEach((node) => node.remove());
-    document.querySelectorAll(`[${SCRIPT_MARKER}]`).forEach((node) => node.remove());
+    document
+      .querySelectorAll(`[${HEAD_MARKER}]`)
+      .forEach((node) => node.remove());
 
-    if (pageDocument.title) document.title = pageDocument.title;
+    document
+      .querySelectorAll(`[${SCRIPT_MARKER}]`)
+      .forEach((node) => node.remove());
+
+    if (pageDocument.title) {
+      document.title = pageDocument.title;
+    }
+
+    // Convert old HTML navigation to HashRouter navigation
+    convertLegacyLinks(pageDocument);
 
     const injectedHeadNodes = [];
-    pageDocument.head.querySelectorAll('link, style').forEach((node) => {
-      const injected = cloneHeadNode(node);
-      if (injected) injectedHeadNodes.push(injected);
-    });
+
+    pageDocument.head
+      .querySelectorAll('link, style')
+      .forEach((node) => {
+        const injected = cloneHeadNode(node);
+
+        if (injected) {
+          injectedHeadNodes.push(injected);
+        }
+      });
 
     const bodyClone = pageDocument.body.cloneNode(true);
-    bodyClone.querySelectorAll('script').forEach((node) => node.remove());
+
+    bodyClone
+      .querySelectorAll('script')
+      .forEach((node) => node.remove());
+
     mountNode.innerHTML = bodyClone.innerHTML;
 
-    const scriptNodes = Array.from(pageDocument.querySelectorAll('script'));
+    const scriptNodes = Array.from(
+      pageDocument.querySelectorAll('script')
+    );
+
     let cancelled = false;
 
     (async () => {
       for (const scriptNode of scriptNodes) {
         if (cancelled) break;
+
         await addScript(scriptNode);
       }
     })();
 
     return () => {
       cancelled = true;
+
       injectedHeadNodes.forEach((node) => node.remove());
-      document.querySelectorAll(`[${SCRIPT_MARKER}]`).forEach((node) => node.remove());
+
+      document
+        .querySelectorAll(`[${SCRIPT_MARKER}]`)
+        .forEach((node) => node.remove());
+
       mountNode.innerHTML = '';
+
       document.body.style.overflow = '';
     };
   }, [source]);
 
-  return <div className="react-legacy-page" ref={mountRef} />;
+  return (
+    <div
+      className="react-legacy-page"
+      ref={mountRef}
+    />
+  );
 }
