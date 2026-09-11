@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Services — Parashoot Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  /* ══════════════════════════════════
+     DESIGN TOKENS — copied 1:1 from the Home page
+  ══════════════════════════════════ */
+  :root{
+    --bg:           #050816;
+    --bg-mid:       #0d1326;
+    --bg-light:     #111827;
+    --bg-blue:      #1e3a8a;
+    --panel:        rgba(255,255,255,0.04);
+    --panel-hover:  rgba(255,255,255,0.08);
+    --ink:          #ffffff;
+    --ink-2:        rgba(255,255,255,0.85);
+    --ink-mid:      rgba(255,255,255,0.6);
+    --ink-dim:      rgba(255,255,255,0.35);
+    --line:         rgba(255,255,255,0.08);
+    --line-strong:  rgba(255,255,255,0.16);
+    --nav-bg:       #F4F2EC;
+    --footer-bg:    #FFFFFF;
+    --footer-ink:   #15140F;
+    --footer-ink-mid: #5C5C53;
+    --footer-line:  rgba(21,20,15,0.10);
+    --indigo:       #2A1FFF;
+    --indigo-soft:  rgba(42,31,255,.18);
+    --lime:         #D8FF3D;
+    --lime-soft:    rgba(216,255,61,.22);
+    --r-sm: 10px;
+    --r-md: 18px;
+    --r-lg: 28px;
+    --r-xl: 40px;
+    --shadow-sm: 0 1px 2px rgba(5,8,22,.3), 0 2px 6px rgba(5,8,22,.2);
+    --shadow-md: 0 6px 20px -8px rgba(5,8,22,.6), 0 2px 6px rgba(5,8,22,.3);
+    --shadow-lg: 0 30px 60px -20px rgba(5,8,22,.8), 0 10px 20px -10px rgba(5,8,22,.5);
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --site-bg: linear-gradient(135deg, #050816 0%, #0d1326 30%, #111827 60%, #1e3a8a 100%);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--site-bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.8;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.4; mix-blend-mode:overlay;
+  }
+
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; }
+
+  /* ══════════════════════════════════
+     NAV — identical to Home
+  ══════════════════════════════════ */
+  nav{
+    position:fixed; top:14px; left:14px; right:14px; z-index:500;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 14px 10px 22px; height:62px;
+    background: rgba(244,242,236,.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border:1px solid rgba(21,20,15,.10);
+    border-radius: 999px;
+    transition: box-shadow .35s var(--ease), background .35s var(--ease);
+  }
+  nav.scrolled{ background: rgba(244,242,236,.92); box-shadow: 0 6px 20px -8px rgba(21,20,15,.18), 0 2px 6px rgba(21,20,15,.05); }
+  .nav-logo img{ height:30px; }
+  .nav-links{ display:flex; gap:6px; list-style:none; }
+  .nav-links a{
+    color: #3A3A33; text-decoration:none;
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.04em; font-weight:500;
+    padding:8px 14px; border-radius:999px;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .nav-links a:hover{ background: #15140F; color:#fff; }
+  .nav-links a.active{ background: #15140F; color:#fff; }
+  .nav-cta{
+    background: var(--indigo); color:#fff;
+    border:none; padding:11px 20px;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    box-shadow: 0 6px 18px -8px rgba(42,31,255,.55);
+  }
+  .nav-cta::after{ content:"→"; transition: transform .25s var(--ease); }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(42,31,255,.7); }
+  .nav-cta:hover::after{ transform: translateX(3px); }
+
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index:1000; }
+  .hamburger span{ width:22px; height:2px; background: #15140F; display:block; transition:.3s; }
+  .mobile-menu{
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999;
+    background: #0d1326;
+    flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    box-shadow: var(--shadow-lg);
+    padding:40px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    color: #fff; text-decoration:none;
+    font-family:'Bebas Neue', sans-serif; font-size:36px; letter-spacing:.08em;
+    transition: color .2s; text-transform: uppercase;
+  }
+  .mobile-menu a:hover{ color: var(--lime); }
+
+  /* ══════════════════════════════════
+     SECTION LABEL — identical to Home
+  ══════════════════════════════════ */
+  .section-label{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color: rgba(255,255,255,.75);
+    font-weight:800;
+    margin-bottom:48px;
+    font-family:'Inter',sans-serif;
+}
+  .section-label::before{ content:""; width:36px; height:2px; background: rgba(255,255,255,.45); }
+
+  /* ══════════════════════════════════
+     BUTTONS — identical to Home
+  ══════════════════════════════════ */
+  .btn-primary{
+    padding:14px 26px; font-size:13px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    border:none; cursor:pointer;
+    font-family:'Inter',sans-serif;
+    background: var(--lime); color:#0E0D0A;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  }
+  .btn-primary::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-primary:hover{ background: var(--indigo); color:#fff; transform: translateY(-2px); }
+  .btn-primary:hover::after{ transform: translate(3px,-3px); }
+
+  .btn-ghost{
+    background: transparent; border:1px solid rgba(255,255,255,.3); color:#F4F2EC;
+    padding:14px 26px; font-size:13px; font-weight:500;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    font-family:'Inter',sans-serif;
+    transition: background .25s var(--ease), border-color .25s var(--ease);
+  }
+  .btn-ghost:hover{ background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); color:#fff; }
+
+  .btn-light{
+    background: var(--lime); color: #0E0D0A;
+    padding:16px 30px; font-size:13px; font-weight:700;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; white-space:nowrap;
+    display:inline-flex; align-items:center; gap:10px;
+    transition: transform .25s var(--ease);
+    box-shadow: 0 10px 30px -10px rgba(216,255,61,.5);
+    font-family:'Inter',sans-serif;
+  }
+  .btn-light::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-light:hover{ transform: translateY(-2px); }
+  .btn-light:hover::after{ transform: translate(3px,-3px); }
+
+  /* ══════════════════════════════════
+     PAGE HERO — matched 1:1 to About page hero
+  ══════════════════════════════════ */
+  .page-hero{
+    position:relative; min-height:100vh; height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:110px 24px 40px;
+    overflow:hidden;
+    color:#F4F2EC;
+  }
+  .page-hero-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(42,31,255,.45), transparent 55%),
+      radial-gradient(ellipse at 15% 88%, rgba(216,255,61,.10), transparent 55%),
+      linear-gradient(160deg, var(--bg) 0%, var(--bg-mid) 45%, var(--bg-blue) 100%);
+  }
+  .page-hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 30% 40%, #000 25%, transparent 75%);
+  }
+
+  .hero-ticker{
+    position:absolute; top:50%; left:0; z-index:1;
+    transform:translateY(-50%);
+    pointer-events:none;
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(160px, 22vw, 320px);
+    color:rgba(255,255,255,.04); line-height:1;
+    white-space:nowrap; letter-spacing:-.01em;
+    animation:ticker 22s linear infinite;
+  }
+  @keyframes ticker{ from{ transform:translateY(-50%) translateX(0); } to{ transform:translateY(-50%) translateX(-50%); } }
+
+  .page-hero-content{
+    position:relative; z-index:2;
+    max-width:1100px; width:100%;
+    margin:0 auto;
+    text-align:center;
+  }
+  .page-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:7px 16px 7px 12px;
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:999px;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #F4F2EC; font-weight:600; margin-bottom:20px;
+    backdrop-filter: blur(10px);
+    font-family:'Inter',sans-serif;
+  }
+  .page-eyebrow::before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background: var(--lime);
+    box-shadow:0 0 0 4px rgba(216,255,61,.18);
+    animation: pulse 2.2s var(--ease) infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 0 4px rgba(216,255,61,.18); }
+    50%   { box-shadow:0 0 0 9px rgba(216,255,61,.02); }
+  }
+  .page-hero h1{
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(32px, 4.5vw, 62px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: #F4F2EC;
+    text-transform: uppercase;
+  }
+  .page-hero h1 em{
+    color: var(--lime);
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: normal;
+    letter-spacing: inherit;
+    display: inline;
+  }
+  .page-hero-sub{
+    color: rgba(244,242,236,.65);
+    margin:12px auto 0;
+    margin-top:18px;
+    font-size:15px;
+    max-width:560px;
+    text-align:center;
+    line-height:1.7; font-weight:400;
+    font-family:'Inter',sans-serif;
+  }
+  .page-hero-actions{ margin-top:24px; display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; }
+
+  /* ══════════════════════════════════
+     SERVICES GRID
+  ══════════════════════════════════ */
+  .services-section{ padding:100px 40px; }
+
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+  }
+
+  .service-card{
+    position:relative; overflow:hidden;
+    background: rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius: var(--r-md);
+    padding:24px 22px 64px;
+    display:flex; flex-direction:column;
+    backdrop-filter: blur(8px);
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
+    isolation: isolate;
+  }
+  .service-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -20px rgba(42,31,255,.4), 0 10px 20px -10px rgba(5,8,22,.5);
+    background: rgba(42,31,255,.12);
+    border-color: rgba(42,31,255,.3);
+  }
+  .service-card:hover h3{ color: var(--lime); }
+  .service-card:hover .svc-num{ color: rgba(216,255,61,.12); }
+  .service-card:hover .svc-bar{ background: var(--lime); }
+
+  .svc-bar{
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background: rgba(255,255,255,.08);
+    transition: background .35s var(--ease);
+  }
+
+  .svc-tag{
+    font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+    color: var(--indigo); font-weight:700; margin:18px 0 18px;
+    font-family:'Inter',sans-serif;
+  }
+
+  .service-card h3{
+    font-family:'Bebas Neue', sans-serif; font-size: 28px;
+    letter-spacing:.06em; color: #fff;
+    font-weight: 400; line-height:1; margin-bottom:16px;
+    transition: color .35s var(--ease);
+  }
+
+  .service-card p{
+    font-size:13.5px; color: rgba(255,255,255,.55); line-height:1.65;
+    font-weight:400;
+    font-family:'Inter',sans-serif;
+  }
+
+  .svc-list{
+    list-style:none; display:flex; flex-direction:column; gap:11px;
+    margin-top:4px;
+  }
+  .svc-list li{
+    font-size:13px; color: rgba(255,255,255,.55);
+    padding-left:20px; position:relative;
+    line-height:1.5; font-weight:400;
+    font-family:'Inter',sans-serif;
+    transition: color .35s var(--ease);
+  }
+  .svc-list li::before{
+    content:'→'; position:absolute; left:0;
+    color: var(--indigo); font-size:11px;
+    transition: color .35s var(--ease);
+  }
+  .service-card:hover .svc-list li{ color: rgba(255,255,255,.7); }
+  .service-card:hover .svc-list li::before{ color: var(--lime); }
+
+  .svc-num{
+    font-family:'Bebas Neue', sans-serif; font-size:80px;
+    color: rgba(255,255,255,.04); line-height:1;
+    position:absolute; bottom:14px; right:18px;
+    pointer-events:none; user-select:none;
+    transition: color .35s var(--ease);
+  }
+
+  /* ══════════════════════════════════
+     PROJECT BAND — identical to Home
+  ══════════════════════════════════ */
+  .project-band{
+    margin: 0 40px 40px;
+    background: rgba(13,19,38,.8);
+    border: 1px solid rgba(255,255,255,.08);
+    color:#fff;
+    padding: 64px 56px; border-radius: var(--r-lg);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:24px;
+    position:relative; overflow:hidden;
+    backdrop-filter: blur(12px);
+  }
+  .project-band::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 90% 110%, rgba(42,31,255,.5), transparent 50%),
+      radial-gradient(circle at 10% -10%, rgba(216,255,61,.12), transparent 50%);
+    pointer-events:none;
+  }
+  .project-band > *{ position:relative; z-index:1; }
+  .project-band h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5.5vw, 72px);
+    color:#fff; letter-spacing:.04em; line-height:1; font-weight:400;
+  }
+  .project-band p{
+    font-size:15px; color: rgba(255,255,255,.55); max-width:440px;
+    margin-top:12px; line-height:1.7;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ══════════════════════════════════
+     FOOTER — identical to Home
+  ══════════════════════════════════ */
+  footer{
+    margin: 0 40px 40px;
+    background: #FFFFFF; border:1px solid rgba(21,20,15,.10);
+    border-radius: var(--r-lg); padding: 64px 56px 32px;
+    color: #15140F;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap:48px; margin-bottom:56px;
+  }
+  .footer-brand img{ height:30px; margin-bottom:20px; }
+  .footer-brand p{ font-size:14px; color: #5C5C53; line-height:1.7; max-width:300px; margin-bottom:24px; font-family:'Inter',sans-serif; }
+  .footer-socials{ display:flex; gap:10px; }
+  .footer-socials a{
+    width:38px; height:38px; border:1px solid rgba(21,20,15,.10);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color: #5C5C53; text-decoration:none; font-size:13px; font-weight:600;
+    transition: all .25s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .footer-socials a:hover{ background: #15140F; color:#fff; border-color: #15140F; transform: translateY(-2px); }
+  .footer-col h4{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #15140F; margin-bottom:20px; font-weight:700;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col ul a{
+    color: #5C5C53; text-decoration:none; font-size:14px;
+    transition: color .2s; display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul a::before{ content:""; width:0; height:1px; background: #15140F; transition: width .25s var(--ease); }
+  .footer-col ul a:hover{ color: #15140F; }
+  .footer-col ul a:hover::before{ width:14px; }
+  .footer-address{ font-size:14px; color: #5C5C53; line-height:1.7; font-family:'Inter',sans-serif; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid rgba(21,20,15,.10);
+    font-size:12px; color: rgba(21,20,15,.4); flex-wrap:wrap; gap:12px;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ══════════════════════════════════
+     REVEAL — identical to Home
+  ══════════════════════════════════ */
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in{ opacity:1; transform:none; }
+
+/* ══════════════════════════════════
+     IN-CARD IMAGE REVEAL
+  ══════════════════════════════════ */
+
+  /* Background image layer — completely hidden until hover */
+  .service-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.55s cubic-bezier(.2,.7,.2,1),
+                visibility 0s linear 0.55s;
+  }
+
+  /* Image itself */
+  .service-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.05);
+    transition: transform 0.65s cubic-bezier(.2,.7,.2,1);
+    will-change: transform;
+  }
+
+  /* Dark gradient overlay — keeps text legible */
+  .service-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(5, 8, 22, 0.82)  0%,
+      rgba(13, 19, 38, 0.72) 40%,
+      rgba(42, 31, 255, 0.28) 100%
+    );
+    border-radius: inherit;
+  }
+
+  /* Reveal on hover — only for the card being hovered */
+  .service-card:hover > .service-bg {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.55s cubic-bezier(.2,.7,.2,1),
+                visibility 0s linear 0s;
+  }
+  .service-card:hover > .service-bg img {
+    transform: scale(1.15);
+  }
+
+  /* Ensure all card content stays above the image */
+  .svc-bar,
+  .svc-tag,
+  .service-card h3,
+  .service-card p,
+  .svc-list,
+  .svc-num {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Mobile image strips — hidden everywhere, removed from flow */
+  .svc-mobile-img {
+    display: none !important;
+  }
+  /* ══════════════════════════════════
+     RESPONSIVE — mirrors Home's breakpoints
+  ══════════════════════════════════ */
+  @media (max-width: 1100px){
+    .services-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 1024px){
+    .footer-grid{ grid-template-columns: 1fr 1fr; gap:36px; }
+  }
+  @media (max-width: 768px){
+    nav{ left:10px; right:10px; padding:8px 10px 8px 18px; }
+    .nav-links, .nav-cta{ display:none; }
+    .hamburger{ display:flex; }
+    .page-hero{
+      height:100vh;
+      min-height:100vh;
+      padding:100px 24px 30px;
+    }
+    .page-hero h1{
+      font-size:clamp(28px,9vw,48px);
+      line-height:1.05;
+    }
+    .page-hero-sub{
+      font-size:14px;
+      max-width:90%;
+    }
+    .hero-ticker{
+      font-size:clamp(120px,35vw,180px);
+    }
+    .services-section{ padding: 60px 24px; }
+    .services-grid{ grid-template-columns: 1fr; }
+    .project-band{ padding:44px 24px; flex-direction:column; align-items:flex-start; margin-left:14px; margin-right:14px; }
+    footer{ padding: 44px 24px 24px; margin-left:14px; margin-right:14px; }
+    .footer-grid{ grid-template-columns: 1fr; gap:32px; }
+  }
+</style>
+
+<style id="parashoot-nav-expansion-fix">
+@media (min-width:769px) and (max-width:1200px){
+  .nav-links{gap:0!important;}
+  .nav-links a{font-size:11px!important;padding:8px 8px!important;letter-spacing:.02em!important;}
+  .nav-cta{font-size:11px!important;padding:10px 14px!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Studio</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="work.html">Portfolio</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="careers.html">Careers</a></li>
+    <li><a href="connect.html">Connect</a></li>
+  </ul>
+  <a href="connect.html" class="nav-cta">Start a Project</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Studio</a>
+  <a href="services.html" class="active">Services</a>
+  <a href="work.html">Portfolio</a>
+  <a href="team.html">Team</a>
+  <a href="clients.html">Clients</a>
+  <a href="careers.html">Careers</a>
+  <a href="connect.html">Connect</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="hero-ticker" aria-hidden="true">SERVICES &nbsp; SERVICES &nbsp; SERVICES &nbsp; SERVICES &nbsp; SERVICES &nbsp; SERVICES &nbsp;</div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow">What We Offer</p>
+    <h1>EVERYTHING YOUR <em>BRAND</em> NEEDS</h1>
+    <div class="page-hero-actions">
+      <a href="connect.html" class="btn-primary">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ALL SERVICES — one unified grid -->
+<section class="services-section">
+  <p class="section-label">What We Do</p>
+  <div class="services-grid">
+
+    <!-- 1 -->
+<div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/content-production.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Package</div>
+      <h3>Content Production</h3>
+      <ul class="svc-list">
+        <li>Photography — Food, Cars, Products, Aerial &amp; everything else</li>
+        <li>Creative Video Commercials &amp; Short Videos</li>
+        <li>Voiceover Writing &amp; Recording</li>
+        <li>Audio Recording, Mixing &amp; Mastering</li>
+      </ul>
+      <span class="svc-num">01</span>
+      
+    </div>
+
+    <!-- 2 -->
+    <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/live-event.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Package</div>
+      <h3>Live Event Coverage</h3>
+      <ul class="svc-list">
+        <li>Media Coverage — Photo &amp; Video</li>
+        <li>Live Video on Social Media (Facebook / Twitter)</li>
+        <li>Live Social Media Feed Updates</li>
+        <li>Conference &amp; Weddings Live Coverage</li>
+        <li>Property Drone Coverage</li>
+      </ul>
+      <span class="svc-num">02</span>
+    </div>
+
+    <!-- 3 -->
+    <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/post-production.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Package</div>
+      <h3>Post Production</h3>
+      <ul class="svc-list">
+        <li>Photography Editing — Food, Cars, Products, Aerial</li>
+        <li>Creative Video Editing &amp; Colour Grading</li>
+        <li>Voiceover Writing &amp; Recording</li>
+        <li>Audio Recording, Mixing &amp; Mastering</li>
+      </ul>
+      <span class="svc-num">03</span>
+      
+    </div>
+
+    <!-- 4 -->
+    <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/voiceover.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Post Production</div>
+      <h3>Voiceover Writing &amp; Recording</h3>
+      <p>With scripts for voice overs, we provide you with the best voice over for your video or commercial that is impactful and captivating — taking your listening experience to the next level with professional sound mixing. We keep in mind all the different aspects in producing quality content.</p>
+      <span class="svc-num">04</span>
+     
+    </div>
+
+    <!-- 5 -->
+    <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/photography.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Content Production</div>
+      <h3>Photography</h3>
+      <p>We specialise in delivering a strong, meaningful message with every picture. Whether you're looking for food, sports, corporate, property or aerial photography — we've got a team of experienced photographers who have a deep knowledge of technology and equipment and can deliver just that.</p>
+      <span class="svc-num">05</span>
+      
+    </div>
+
+    <!-- 6 -->
+    <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/video-commercial.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Content Production</div>
+      <h3>Creative Video Commercials</h3>
+      <p>We can boast about our ability to work under pressure, creating engaging videos daily. Our content aims to turn every event into an experience. With a team of designers, creative directors, photographers, editors and animators that can produce anything — from movie screenings to Instagram filters.</p>
+      <span class="svc-num">06</span>
+      
+    </div>
+
+    <!-- 7 -->
+  <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/wedding.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Live Event</div>
+      <h3>Wedding Live Coverage</h3>
+      <p>Whether it's a conference or your big day, we offer the highest available video technology to tell your story and make this day unforgettable. Whatever package you choose, we deliver ultimate production quality.</p>
+      <span class="svc-num">07</span>
+    </div>
+
+    <!-- 8 -->
+   <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/media-coverage.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Live Event</div>
+      <h3>Media Coverage</h3>
+      <p>Working with clients like FC Goa and Deltin, we push ourselves to deliver quality content under short time constraints — from daily highlight videos to festival movies. A dynamic and innovative team of videographers, photographers, storytellers and a kick-ass production team. Also a couple of drones!</p>
+      <span class="svc-num">08</span>
+    </div>
+
+    <!-- 9 -->
+    <div class="service-card reveal">
+      <div class="service-bg"><img src="assets/images/services/drone.jpg" alt="" loading="lazy"/></div>
+      <div class="svc-bar"></div>
+      <div class="svc-tag">Aerial</div>
+      <h3>Property Drone Coverage</h3>
+      <p>We provide stunning aerial footage including image, video and panoramas. This gives a unique perspective from the sky — perfect for showing surrounding neighbourhoods and viewing large properties from angles no ground-level camera can match.</p>
+      <span class="svc-num">09</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECT BAND -->
+<div class="project-band reveal">
+  <div>
+    <h2>Start Your Project</h2>
+    <p>Parashoot covers all types of video &amp; photo content — social media, branding collaterals, ad films, wedding coverage &amp; more.</p>
+  </div>
+  <a href="connect.html" class="btn-light">Enquire Now</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+      <p>Goa's leading creative studio — photography, film, aerial &amp; post-production content.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
+        <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
+        <a href="https://instagram.com/parashoot.studio" target="_blank">ig</a>
+        <a href="https://www.youtube.com/channel/UCuFtcVt_Yp9CZ82UG6pm-pg" target="_blank">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Studio</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="connect.html">Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.flashlabcreative.com/services/" target="_blank">Digital Marketing</a></li>
+        <li><a href="https://cybercreative.in/services/" target="_blank">Web &amp; App Dev</a></li>
+        <li><a href="https://backstagexchange.com/" target="_blank">Event Activation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Location</h4>
+      <p class="footer-address">G26 Vikrant Complex,<br/>Next to State Bank of India (PBB),<br/>Opposite Luis &amp; Company,<br/>Malbhat Margao, Goa — 403601</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Copyright © 2022 - Parashoot Studio | Designed and Developed by 
+      <a href="https://cybercreative.in/" target="_blank" rel="noopener noreferrer">
+    Cyber Creative
+  </a></span>
+    <span>Designed &amp; Developed with ♥ in Goa</span>
+  </div>
+</footer>
+
+<script>
+  /* ─── Existing nav / mobile-menu / scroll / reveal ─── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.10 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+ 
+  /* ─── END ADDED SECTION ─── */
+</script>
+</body>
+</html>

@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Team — Parashoot Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:           #050816;
+    --bg-mid:       #0d1326;
+    --bg-light:     #111827;
+    --bg-blue:      #1e3a8a;
+    --panel:        rgba(255,255,255,0.04);
+    --panel-hover:  rgba(255,255,255,0.08);
+    --ink:          #ffffff;
+    --ink-2:        rgba(255,255,255,0.85);
+    --ink-mid:      rgba(255,255,255,0.6);
+    --ink-dim:      rgba(255,255,255,0.35);
+    --line:         rgba(255,255,255,0.08);
+    --line-strong:  rgba(255,255,255,0.16);
+    --nav-bg:       #F4F2EC;
+    --footer-bg:    #FFFFFF;
+    --footer-ink:   #15140F;
+    --footer-ink-mid: #5C5C53;
+    --footer-line:  rgba(21,20,15,0.10);
+    --indigo:       #2A1FFF;
+    --indigo-soft:  rgba(42,31,255,.18);
+    --lime:         #D8FF3D;
+    --lime-soft:    rgba(216,255,61,.22);
+    --r-sm: 10px;
+    --r-md: 18px;
+    --r-lg: 28px;
+    --r-xl: 40px;
+    --shadow-sm: 0 1px 2px rgba(5,8,22,.3), 0 2px 6px rgba(5,8,22,.2);
+    --shadow-md: 0 6px 20px -8px rgba(5,8,22,.6), 0 2px 6px rgba(5,8,22,.3);
+    --shadow-lg: 0 30px 60px -20px rgba(5,8,22,.8), 0 10px 20px -10px rgba(5,8,22,.5);
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --site-bg: linear-gradient(135deg, #050816 0%, #0d1326 30%, #111827 60%, #1e3a8a 100%);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--site-bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.8;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.4; mix-blend-mode:overlay;
+  }
+
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; }
+
+  /* NAV */
+  nav{
+    position:fixed; top:14px; left:14px; right:14px; z-index:500;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 14px 10px 22px; height:62px;
+    background: rgba(244,242,236,.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border:1px solid rgba(21,20,15,.10);
+    border-radius: 999px;
+    transition: box-shadow .35s var(--ease), background .35s var(--ease);
+  }
+  nav.scrolled{ background: rgba(244,242,236,.92); box-shadow: 0 6px 20px -8px rgba(21,20,15,.18), 0 2px 6px rgba(21,20,15,.05); }
+  .nav-logo img{ height:30px; }
+  .nav-links{ display:flex; gap:6px; list-style:none; }
+  .nav-links a{
+    color: #3A3A33; text-decoration:none;
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.04em; font-weight:500;
+    padding:8px 14px; border-radius:999px;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .nav-links a:hover{ background: #15140F; color:#fff; }
+  .nav-links a.active{ background: #15140F; color:#fff; }
+  .nav-cta{
+    background: var(--indigo); color:#fff;
+    border:none; padding:11px 20px;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    box-shadow: 0 6px 18px -8px rgba(42,31,255,.55);
+  }
+  .nav-cta::after{ content:"→"; transition: transform .25s var(--ease); }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(42,31,255,.7); }
+  .nav-cta:hover::after{ transform: translateX(3px); }
+
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index:1000; }
+  .hamburger span{ width:22px; height:2px; background: #15140F; display:block; transition:.3s; }
+  .mobile-menu{
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999;
+    background: #0d1326;
+    flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    box-shadow: var(--shadow-lg);
+    padding:40px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    color: #fff; text-decoration:none;
+    font-family:'Bebas Neue', sans-serif; font-size:36px; letter-spacing:.08em;
+    transition: color .2s; text-transform: uppercase;
+  }
+  .mobile-menu a:hover{ color: var(--lime); }
+
+  /* BUTTONS */
+  .btn-light{
+    background: var(--lime); color: #0E0D0A;
+    padding:16px 30px; font-size:13px; font-weight:700;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; white-space:nowrap;
+    display:inline-flex; align-items:center; gap:10px;
+    transition: transform .25s var(--ease);
+    box-shadow: 0 10px 30px -10px rgba(216,255,61,.5);
+    font-family:'Inter',sans-serif;
+  }
+  .btn-light::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-light:hover{ transform: translateY(-2px); }
+  .btn-light:hover::after{ transform: translate(3px,-3px); }
+
+  .btn-primary{
+    padding:14px 26px; font-size:13px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    border:none; cursor:pointer;
+    font-family:'Inter',sans-serif;
+    background: var(--lime); color:#0E0D0A;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  }
+  .btn-primary::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-primary:hover{ background: var(--indigo); color:#fff; transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(42,31,255,.6); }
+  .btn-primary:hover::after{ transform: translate(3px,-3px); }
+
+  .btn-ghost{
+    background: transparent; border:1px solid rgba(255,255,255,.3); color:#F4F2EC;
+    padding:14px 26px; font-size:13px; font-weight:500;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    font-family:'Inter',sans-serif;
+    transition: background .25s var(--ease), border-color .25s var(--ease);
+  }
+  .btn-ghost:hover{ background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); color:#fff; }
+ 
+
+  /* HERO */
+  .page-hero{
+    position:relative; min-height:100vh; height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:110px 24px 40px;
+    overflow:hidden;
+    color:#F4F2EC;
+  }
+  .hero-photo{ position:absolute; inset:0; z-index:0; }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; opacity:0.25; }
+  .page-hero-bg{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(42,31,255,.45), transparent 55%),
+      radial-gradient(ellipse at 15% 88%, rgba(216,255,61,.12), transparent 55%),
+      linear-gradient(160deg, rgba(5,8,22,.92) 0%, rgba(13,19,38,.88) 50%, rgba(30,58,138,.55) 100%);
+  }
+  .page-hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 30% 40%, #000 25%, transparent 75%);
+  }
+  .hero-ticker{
+    position:absolute; top:50%; left:0; z-index:2;
+    transform:translateY(-50%);
+    pointer-events:none;
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(160px, 22vw, 320px);
+    color:rgba(255,255,255,.04); line-height:1;
+    white-space:nowrap; letter-spacing:-.01em;
+    animation:ticker 22s linear infinite;
+  }
+  @keyframes ticker{ from{ transform:translateY(-50%) translateX(0); } to{ transform:translateY(-50%) translateX(-50%); } }
+
+  .page-hero-content{
+    position:relative; z-index:3;
+    max-width:1100px; width:100%;
+    margin:0 auto;
+    text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:28px;
+  }
+  .page-hero h1{
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(30px, 4.2vw, 58px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #F4F2EC;
+    text-transform: uppercase;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .page-hero h1 .lime-word{
+    color: var(--lime);
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: normal;
+    letter-spacing: inherit;
+    display: inline;
+  }
+
+  /* HOW WE WORK */
+  .how-we-work-section{
+    margin:40px 40px 40px;
+    padding:72px 56px;
+    text-align:center;
+    background: rgba(13,19,38,.7);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius: var(--r-lg);
+    backdrop-filter: blur(8px);
+    position:relative; overflow:hidden;
+  }
+  .how-we-work-section::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(42,31,255,.3), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(216,255,61,.08), transparent 55%);
+    pointer-events:none;
+  }
+  .how-we-work-section > *{ position:relative; z-index:1; }
+  .how-we-work-section p{
+    font-size:15px; color: rgba(255,255,255,.6); line-height:1.85;
+    max-width:68ch; margin:0 auto;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ECOSYSTEM */
+  .ecosystem-section{
+    display:grid; grid-template-columns:1fr 1fr;
+    margin:0 40px 40px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    backdrop-filter: blur(8px);
+  }
+  .ecosystem-card{
+    padding:64px 56px;
+    border-right:1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.04);
+    transition:background .3s var(--ease);
+    position:relative; overflow:hidden;
+  }
+  .ecosystem-card:last-child{ border-right:none; }
+  .ecosystem-card:hover{ background: rgba(42,31,255,.12); }
+  .ecosystem-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:transparent; transition:background .3s var(--ease);
+  }
+  .ecosystem-card:hover::before{ background: var(--lime); }
+  .ecosystem-logo{ margin-bottom:28px; }
+  .ecosystem-logo img{ height:52px; object-fit:contain; border-radius:var(--r-sm); }
+  .ecosystem-card h3{
+    font-family:'Bebas Neue', sans-serif; font-size:28px;
+    letter-spacing:.04em; margin-bottom:16px; color:#fff; font-weight:400;
+  }
+  .ecosystem-card p{ font-size:14px; color: rgba(255,255,255,.55); line-height:1.75; font-family:'Inter',sans-serif; }
+
+  /* WHO WE ARE */
+  .who-section{
+    display:grid; grid-template-columns:1fr 1fr;
+    margin:0 40px 40px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+  }
+.who-visual{
+  position:relative;
+  height:340px;
+  overflow:hidden;
+}
+
+.who-visual img{
+    width:100%; height:100%; object-fit:cover;
+    filter:saturate(85%) contrast(102%);
+    transition:transform 1s var(--ease), filter .6s var(--ease);
+  }
+  .who-visual:hover img{ transform:scale(1.05); filter:saturate(110%) contrast(105%); }
+  .who-visual-tag{
+    position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(to top, rgba(5,8,22,.88), transparent);
+    padding:48px 32px 24px;
+  }
+  
+  .who-text{
+    padding:40px 48px;
+    display:flex; flex-direction:column; justify-content:center;
+    border-left:1px solid rgba(255,255,255,.08);
+    background: rgba(13,19,38,.7);
+    backdrop-filter: blur(8px);
+  }
+  .who-text h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(32px, 4vw, 52px);
+    line-height:.95; margin-bottom:18px; color:#fff;
+    font-weight:400; letter-spacing:.04em; text-transform: uppercase;
+  }
+  .who-text p{ font-size:13.5px; color: rgba(255,255,255,.55); line-height:1.75; margin-bottom:12px; font-family:'Inter',sans-serif; }
+
+  /* WHY WORK WITH US */
+  .equipment-section{
+    display:grid; grid-template-columns:1fr 1fr;
+    margin:0 40px 40px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+  }
+.equipment-visual{
+  position:relative;
+  height:340px;          /* same height as Who We Are image */
+  overflow:hidden;
+  order:1;
+}  .equipment-visual img{
+    width:100%; height:100%; object-fit:cover;
+    filter:saturate(85%) contrast(102%);
+    transition:transform 1s var(--ease), filter .6s var(--ease);
+  }
+  .equipment-visual:hover img{ transform:scale(1.05); filter:saturate(110%) contrast(105%); }
+  .equipment-visual-tag{
+    position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(to top, rgba(5,8,22,.88), transparent);
+    padding:48px 32px 24px;
+  }
+
+  .equipment-text{
+    padding:40px 48px;
+    display:flex; flex-direction:column; justify-content:center;
+    border-right:1px solid rgba(255,255,255,.08);
+    background: rgba(13,19,38,.7);
+    backdrop-filter: blur(8px);
+    order:0;
+  }
+  .equipment-text h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(32px, 4vw, 52px);
+    line-height:.95; margin-bottom:18px; color:#fff;
+    font-weight:400; letter-spacing:.04em; text-transform: uppercase;
+  }
+  .equipment-text p{ font-size:13.5px; color: rgba(255,255,255,.55); line-height:1.75; margin-bottom:12px; font-family:'Inter',sans-serif; }
+
+  /* FEATURE CARDS — two cards only */
+  .best-section{ padding:0 40px 40px; }
+  .best-cards{
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .best-card{
+    position:relative; overflow:hidden;
+    display:flex; flex-direction:column;
+    height:100%;
+    padding:32px 28px 80px;
+    background: rgba(13,19,38,.75);
+    border:1px solid rgba(42,31,255,.35);
+    border-radius: var(--r-lg);
+    backdrop-filter: blur(8px);
+    transition: border-color .35s var(--ease), transform .35s var(--ease), background .35s var(--ease);
+  }
+  .best-card:hover{
+    border-color: rgba(216,255,61,.5);
+    transform: translateY(-6px);
+    background: rgba(13,19,38,.9);
+  }
+  .best-card-visual{
+    width:100%; aspect-ratio: 16/10;
+    overflow:hidden; border-radius: var(--r-md);
+    border:1px solid rgba(255,255,255,.08);
+    margin-bottom:28px;
+  }
+  .best-card-visual img{
+    width:100%; height:100%; object-fit:cover;
+    filter:saturate(85%) contrast(102%);
+    transition:transform 1s var(--ease), filter .6s var(--ease);
+  }
+  .best-card:hover .best-card-visual img{ transform:scale(1.06); filter:saturate(110%) contrast(105%); }
+  .best-card h3{
+    font-family:'Bebas Neue', sans-serif; font-size: clamp(24px, 2.2vw, 30px);
+    letter-spacing:.04em; color: var(--lime); line-height:1.1;
+    font-weight:400; margin-bottom:14px; text-transform:uppercase;
+    position:relative; z-index:1;
+  }
+  .best-card p{
+    font-size:14px; color: rgba(255,255,255,.55); line-height:1.75;
+    font-weight:400;
+    font-family:'Inter',sans-serif;
+    position:relative; z-index:1;
+  }
+  .best-card-num{
+    position:absolute; bottom:-14px; right:18px; z-index:0;
+    font-family:'Bebas Neue', sans-serif;
+    font-size:96px; line-height:1;
+    color: rgba(255,255,255,.06);
+    letter-spacing:.02em;
+    pointer-events:none;
+    transition: color .35s var(--ease);
+  }
+  .best-card:hover .best-card-num{ color: rgba(216,255,61,.12); }
+
+  /* PROJECT BAND */
+  .project-band{
+    margin: 0 40px 40px;
+    background: rgba(13,19,38,.8);
+    border: 1px solid rgba(255,255,255,.08);
+    color:#fff;
+    padding: 64px 56px; border-radius: var(--r-lg);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:24px;
+    position:relative; overflow:hidden;
+    backdrop-filter: blur(12px);
+  }
+  .project-band::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 90% 110%, rgba(42,31,255,.5), transparent 50%),
+      radial-gradient(circle at 10% -10%, rgba(216,255,61,.12), transparent 50%);
+    pointer-events:none;
+  }
+  .project-band > *{ position:relative; z-index:1; }
+  .project-band h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5.5vw, 72px);
+    color:#fff; letter-spacing:.04em; line-height:1; font-weight:400;
+  }
+  .project-band h2 .lime-word{ color: var(--lime); }
+  .project-band p{
+    font-size:15px; color: rgba(255,255,255,.55); max-width:440px;
+    margin-top:12px; line-height:1.7;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* FOOTER */
+  footer{
+    margin: 0 40px 40px;
+    background: #FFFFFF; border:1px solid rgba(21,20,15,.10);
+    border-radius: var(--r-lg); padding: 64px 56px 32px;
+    color: #15140F;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap:48px; margin-bottom:56px;
+  }
+  .footer-brand img{ height:30px; margin-bottom:20px; }
+  .footer-brand p{ font-size:14px; color: #5C5C53; line-height:1.7; max-width:300px; margin-bottom:24px; font-family:'Inter',sans-serif; }
+  .footer-socials{ display:flex; gap:10px; }
+  .footer-socials a{
+    width:38px; height:38px; border:1px solid rgba(21,20,15,.10);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color: #5C5C53; text-decoration:none; font-size:13px; font-weight:600;
+    transition: all .25s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .footer-socials a:hover{ background: #15140F; color:#fff; border-color: #15140F; transform: translateY(-2px); }
+  .footer-col h4{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #15140F; margin-bottom:20px; font-weight:700;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col ul a{
+    color: #5C5C53; text-decoration:none; font-size:14px;
+    transition: color .2s; display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul a::before{ content:""; width:0; height:1px; background: #15140F; transition: width .25s var(--ease); }
+  .footer-col ul a:hover{ color: #15140F; }
+  .footer-col ul a:hover::before{ width:14px; }
+  .footer-address{ font-size:14px; color: #5C5C53; line-height:1.7; font-family:'Inter',sans-serif; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid rgba(21,20,15,.10);
+    font-size:12px; color: rgba(21,20,15,.4); flex-wrap:wrap; gap:12px;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* REVEAL */
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px){
+    .best-cards{ grid-template-columns:1fr 1fr; }
+    .how-we-work-section{ margin:22px 22px 22px; padding:56px 32px; }
+    .ecosystem-section{ grid-template-columns:1fr; margin:0 22px 22px; }
+    .ecosystem-card{ border-right:none; border-bottom:1px solid rgba(255,255,255,.08); }
+    .who-section{ grid-template-columns:1fr; margin:0 22px 22px; }
+    .who-visual{ min-height:300px; }
+    .who-text{ border-left:none; border-top:1px solid rgba(255,255,255,.08); padding:48px 32px; }
+    .equipment-section{ grid-template-columns:1fr; margin:0 22px 22px; }
+    .equipment-visual{ min-height:300px; order:0; }
+    .equipment-text{ border-right:none; border-bottom:1px solid rgba(255,255,255,.08); padding:48px 32px; order:1; }
+    .footer-grid{ grid-template-columns:1fr 1fr; gap:36px; }
+    .best-section{ padding:0 22px 22px; }
+    .project-band{ margin:0 22px 22px; }
+  }
+  @media (max-width: 768px){
+    nav{ left:10px; right:10px; padding:8px 10px 8px 18px; }
+    .nav-links, .nav-cta{ display:none; }
+    .hamburger{ display:flex; }
+    .page-hero{ height:100vh; min-height:100vh; padding:100px 24px 30px; }
+    .page-hero h1{ font-size:clamp(26px,8.5vw,42px); line-height:1.12; }
+    .hero-ticker{ font-size:clamp(120px,35vw,180px); }
+    .best-section{ padding:0 14px 14px; }
+    .best-cards{ grid-template-columns:1fr; gap:18px; }
+    .best-card{ padding:28px 22px 72px; }
+    .how-we-work-section{ margin:14px 14px 14px; padding:44px 24px; }
+    .project-band{ margin:0 14px 14px; padding:44px 24px; flex-direction:column; align-items:flex-start; }
+    footer{ margin:0 14px 14px; padding:44px 24px 24px; }
+    .footer-grid{ grid-template-columns:1fr; gap:32px; }
+    .who-text{ padding:44px 24px; }
+    .ecosystem-card{ padding:44px 24px; }
+    .ecosystem-section{ margin:0 14px 14px; }
+    .who-section{ margin:0 14px 14px; }
+    .equipment-text{ padding:44px 24px; }
+    .equipment-section{ margin:0 14px 14px; }
+  }
+
+  /* ─── OUR TEAM SECTION ─────────────────────────────── */
+.team-section{
+  padding: 0 40px 40px;
+}
+.team-section-header{
+  text-align: center;
+  margin-bottom: 40px;
+}
+.team-section-header h2{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+/* ─── OUR TEAM SECTION ─────────────────────────────── */
+.team-section{
+  padding: 0 40px 40px;
+}
+.team-section-header{
+  text-align: center;
+  margin-bottom: 56px;
+}
+.team-section-header h2{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.team-section-header p{
+  font-size: 15px;
+  color: rgba(255,255,255,.6);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.75;
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+.team-category{
+  margin-bottom: 56px;
+}
+.team-category:last-child{
+  margin-bottom: 0;
+}
+.team-category-label{
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.team-category-label::after{
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,.08);
+}
+
+/* Grid system */
+.team-grid{
+  display: grid;
+  gap: 24px;
+}
+.team-grid--2{
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 720px;
+  margin: 0 auto;
+}
+.team-grid--editors{
+  grid-template-columns: repeat(3, 1fr);
+}
+/* Centre the orphan row (last 2 of 5) */
+.team-grid--editors .team-card:nth-child(4){
+  grid-column: 1 / 2;
+  margin-left: auto;
+  width: 100%;
+}
+.team-grid--editors .team-card:nth-child(5){
+  grid-column: 2 / 3;
+  width: 100%;
+}
+
+/* Card */
+.team-card{
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px 72px;
+  background: rgba(13,19,38,.75);
+  border: 1px solid rgba(42,31,255,.35);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(8px);
+  transition: border-color .35s var(--ease), transform .35s var(--ease), background .35s var(--ease);
+}
+.team-card:hover{
+  border-color: rgba(216,255,61,.5);
+  transform: translateY(-6px);
+  background: rgba(13,19,38,.9);
+}
+.team-card::before{
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: transparent;
+  transition: background .35s var(--ease);
+}
+.team-card:hover::before{
+  background: var(--lime);
+}
+
+/* Image */
+.team-card-image{
+    height:300px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#0d1326;
+}
+
+.team-card-image img{
+    max-width:90%;
+    max-height:90%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+}
+
+.team-card:hover .team-card-image img{
+  transform: scale(1.06);
+  filter: saturate(110%) contrast(105%);
+}
+
+/* Text */
+.team-card h3{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(20px, 1.8vw, 26px);
+  letter-spacing: .04em;
+  color: #fff;
+  line-height: 1.1;
+  font-weight: 400;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  position: relative; z-index: 1;
+}
+.team-role{
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
+}
+.team-card p{
+  font-size: 13.5px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.75;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  position: relative; z-index: 1;
+  flex: 1;
+}
+
+/* Ghost number */
+.team-card-num{
+  position: absolute;
+  bottom: -14px; right: 18px;
+  z-index: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 96px;
+  line-height: 1;
+  color: rgba(255,255,255,.05);
+  letter-spacing: .02em;
+  pointer-events: none;
+  transition: color .35s var(--ease);
+}
+.team-card:hover .team-card-num{
+  color: rgba(216,255,61,.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px){
+  .team-section{ padding: 0 22px 22px; }
+  .team-grid--2{ grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+  .team-grid--editors{ grid-template-columns: repeat(2, 1fr); }
+  .team-grid--editors .team-card:nth-child(4),
+  .team-grid--editors .team-card:nth-child(5){
+    grid-column: auto;
+    margin-left: 0;
+  }
+}
+@media (max-width: 768px){
+  .team-section{ padding: 0 14px 14px; }
+  .team-grid--2,
+  .team-grid--editors{
+    grid-template-columns: 1fr;
+  }
+  .team-grid--editors .team-card:nth-child(4),
+  .team-grid--editors .team-card:nth-child(5){
+    grid-column: auto;
+    margin-left: 0;
+  }
+  .team-section-header{ margin-bottom: 40px; }
+  .team-category{ margin-bottom: 40px; }
+  .team-card{ padding: 24px 20px 64px; }
+}
+/* ─────────────────────────────────────────────────── */
+
+</style>
+
+<style>
+.team-page-hero .page-hero-content{max-width:880px;}
+.team-hero-copy{max-width:680px;margin:18px auto 26px;color:rgba(255,255,255,.68);font-size:15px;line-height:1.75;font-family:'Inter',sans-serif;}
+.team-page-hero .page-eyebrow{color:var(--lime);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px;font-family:'Inter',sans-serif;}
+.team-section{padding-top:72px;}
+.team-card-image{margin:-28px -24px 24px;height:360px;overflow:hidden;background:#080d1d;}
+.team-card-image img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:center top;transition:transform .6s var(--ease),filter .4s var(--ease);}
+.team-grid--2 .team-card-image{height:430px;}
+@media(max-width:768px){.team-section{padding-top:46px}.team-card-image,.team-grid--2 .team-card-image{height:360px;margin:-24px -20px 22px;}}
+</style>
+
+<style id="parashoot-nav-expansion-fix">
+@media (min-width:769px) and (max-width:1200px){
+  .nav-links{gap:0!important;}
+  .nav-links a{font-size:11px!important;padding:8px 8px!important;letter-spacing:.02em!important;}
+  .nav-cta{font-size:11px!important;padding:10px 14px!important;}
+}
+</style>
+
+<style id="parashoot-team-interactive-v2">
+/* Dedicated Team page: image-led cards with an information reveal on hover/focus. */
+.team-section{padding-top:72px;}
+.team-grid{gap:22px;align-items:stretch;}
+.team-grid--2{max-width:920px;}
+.team-grid--support{grid-template-columns:minmax(280px,440px);justify-content:center;}
+
+.team-card{
+  position:relative;
+  min-height:455px;
+  padding:0!important;
+  border-radius:24px;
+  overflow:hidden;
+  isolation:isolate;
+  background:#080d1d;
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 18px 45px rgba(0,0,0,.18);
+  cursor:default;
+  transform:translateZ(0);
+  transition:transform .42s var(--ease),border-color .42s var(--ease),box-shadow .42s var(--ease);
+}
+.team-grid--2 .team-card{min-height:545px;}
+.team-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  height:auto;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,8,24,.02) 30%,rgba(3,8,24,.48) 62%,rgba(3,8,24,.96) 100%);
+  transition:background .45s var(--ease);
+}
+.team-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  border-radius:inherit;
+  box-shadow:inset 0 0 0 0 rgba(216,255,61,0);
+  transition:box-shadow .42s var(--ease);
+}
+.team-card:hover,
+.team-card:focus-within,
+.team-card:focus{
+  outline:none;
+  transform:translateY(-8px);
+  border-color:rgba(216,255,61,.48);
+  box-shadow:0 26px 65px rgba(0,0,0,.34),0 0 28px rgba(42,31,255,.13);
+}
+.team-card:hover::before,
+.team-card:focus::before{
+  background:linear-gradient(180deg,rgba(3,8,24,.10) 8%,rgba(3,8,24,.56) 50%,rgba(3,8,24,.985) 100%);
+}
+.team-card:hover::after,
+.team-card:focus::after{box-shadow:inset 0 0 0 1px rgba(216,255,61,.35);}
+
+.team-card-image{
+  position:absolute!important;
+  inset:0!important;
+  z-index:0;
+  width:100%;
+  height:100%!important;
+  margin:0!important;
+  overflow:hidden;
+  background:linear-gradient(145deg,#101733,#060914);
+}
+.team-card-image img{
+  position:relative;
+  z-index:1;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:cover!important;
+  object-position:center top!important;
+  filter:saturate(.92) contrast(1.02);
+  transition:transform .75s cubic-bezier(.2,.75,.2,1),filter .5s var(--ease)!important;
+}
+.team-card:hover .team-card-image img,
+.team-card:focus .team-card-image img{
+  transform:scale(1.055);
+  filter:saturate(1.06) contrast(1.05);
+}
+.team-card-fallback{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  display:grid;
+  place-items:center;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:92px;
+  letter-spacing:.06em;
+  color:rgba(216,255,61,.72);
+  background:
+    radial-gradient(circle at 70% 22%,rgba(42,31,255,.32),transparent 34%),
+    radial-gradient(circle at 18% 75%,rgba(216,255,61,.14),transparent 38%),
+    #081026;
+}
+
+.team-card-info{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  z-index:3;
+  padding:28px 28px 26px;
+  transform:translateY(0);
+}
+.team-card-info h3{
+  margin:5px 0 0!important;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,2.5vw,38px)!important;
+  line-height:.98!important;
+  letter-spacing:.035em!important;
+  color:#fff;
+  text-transform:uppercase;
+}
+.team-role{
+  display:inline-block;
+  margin:0!important;
+  color:var(--lime)!important;
+  font:700 10px/1.3 'Inter',sans-serif!important;
+  letter-spacing:.16em!important;
+  text-transform:uppercase;
+}
+.team-card-description{
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transform:translateY(12px);
+  transition:max-height .5s var(--ease),opacity .32s var(--ease),transform .45s var(--ease),margin-top .45s var(--ease);
+  margin-top:0;
+}
+.team-card-description p{
+  margin:0!important;
+  max-width:38ch;
+  color:rgba(255,255,255,.72)!important;
+  font:400 13px/1.7 'Inter',sans-serif!important;
+}
+.team-card-description .team-hover-note{
+  display:block;
+  margin-top:13px;
+  color:rgba(216,255,61,.72);
+  font:600 9px/1 'Inter',sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.team-card:hover .team-card-description,
+.team-card:focus .team-card-description{
+  max-height:190px;
+  opacity:1;
+  transform:translateY(0);
+  margin-top:16px;
+}
+.team-card-num{
+  z-index:2!important;
+  bottom:-18px!important;
+  right:18px!important;
+  color:rgba(255,255,255,.055)!important;
+  transition:color .4s var(--ease),transform .4s var(--ease)!important;
+}
+.team-card:hover .team-card-num,
+.team-card:focus .team-card-num{
+  color:rgba(216,255,61,.10)!important;
+  transform:translateY(-4px);
+}
+.team-card-hint{
+  position:absolute;
+  z-index:3;
+  top:18px;
+  right:18px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 11px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;
+  background:rgba(5,9,22,.52);
+  backdrop-filter:blur(8px);
+  color:rgba(255,255,255,.7);
+  font:600 9px/1 'Inter',sans-serif;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  transition:color .3s,border-color .3s,background .3s;
+}
+.team-card:hover .team-card-hint,
+.team-card:focus .team-card-hint{
+  color:#101522;
+  background:var(--lime);
+  border-color:var(--lime);
+}
+
+@media (max-width:1024px){
+  .team-grid--support{grid-template-columns:minmax(260px,1fr);max-width:50%;margin:0 auto;}
+}
+@media (max-width:768px){
+  .team-section{padding-top:46px;}
+  .team-grid--support{max-width:none;grid-template-columns:1fr;}
+  .team-card,.team-grid--2 .team-card{min-height:470px;}
+  .team-card-info{padding:24px 22px 22px;}
+  .team-card-hint{display:none;}
+}
+/* Touch devices have no real hover, so keep the biography readable. */
+@media (hover:none){
+  .team-card-description{max-height:190px;opacity:1;transform:none;margin-top:14px;}
+  .team-card::before{background:linear-gradient(180deg,rgba(3,8,24,.03) 20%,rgba(3,8,24,.58) 56%,rgba(3,8,24,.985) 100%);}
+}
+</style>
+
+<style id="parashoot-team-size-v3">
+/* Slightly more compact profile proportions while retaining the hover biography interaction. */
+.team-grid{gap:20px;}
+.team-grid--2{max-width:800px!important;}
+.team-grid--editors{max-width:960px;margin-left:auto;margin-right:auto;}
+.team-grid--support{grid-template-columns:minmax(280px,380px)!important;max-width:380px!important;margin-left:auto!important;margin-right:auto!important;}
+.team-card{min-height:400px!important;border-radius:22px;}
+.team-grid--2 .team-card{min-height:470px!important;}
+.team-card-info{padding:24px 24px 22px!important;}
+.team-card-info h3{font-size:clamp(25px,2.2vw,34px)!important;}
+.team-card-description p{font-size:12.5px!important;line-height:1.65!important;}
+.team-card-num{font-size:82px!important;}
+@media (max-width:1024px){
+  .team-grid--support{max-width:380px!important;}
+  .team-card{min-height:410px!important;}
+  .team-grid--2 .team-card{min-height:450px!important;}
+}
+@media (max-width:768px){
+  .team-grid{gap:16px;}
+  .team-grid--support{max-width:none!important;}
+  .team-card,.team-grid--2 .team-card{min-height:430px!important;}
+  .team-card-info{padding:22px 20px 20px!important;}
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Studio</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="work.html">Portfolio</a></li>
+    <li><a href="team.html" class="active">Team</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="careers.html">Careers</a></li>
+    <li><a href="connect.html">Connect</a></li>
+  </ul>
+  <a href="connect.html" class="nav-cta">Start a Project</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Studio</a>
+  <a href="services.html">Services</a>
+  <a href="work.html">Portfolio</a>
+  <a href="team.html" class="active">Team</a>
+  <a href="clients.html">Clients</a>
+  <a href="careers.html">Careers</a>
+  <a href="connect.html">Connect</a>
+</div>
+
+<!-- 1. HERO — heading + Explore Portfolio button -->
+<section class="page-hero team-page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="hero-ticker" aria-hidden="true">TEAM &nbsp; TEAM &nbsp; TEAM &nbsp; TEAM &nbsp; TEAM &nbsp; TEAM &nbsp;</div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow">People Behind The Frame</p>
+    <h1>THE MINDS BEHIND <span class="lime-word">THE MAGIC</span></h1>
+    <p class="team-hero-copy">Photographers, filmmakers, editors and creative leads working together to turn moments into work that stays with you.</p>
+    <a href="#team-grid" class="btn-primary">Meet the Team</a>
+  </div>
+</section>
+
+<section class="team-section reveal" id="team-grid">
+  <div class="team-section-header">
+    <p class="section-label">Parashoot Studio</p>
+    <h2>OUR TEAM</h2>
+    <p>A compact production crew with a shared obsession for strong frames, clean edits and stories that feel alive.</p>
+  </div>
+
+  <div class="team-category">
+    <div class="team-category-label">Founders</div>
+    <div class="team-grid team-grid--2">
+      <article class="team-card team-card--founder" tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Anuraj.jpg" alt="Anuraj Kedar" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Founder &amp; Strategy Lead</span>
+          <h3>Anuraj Kedar</h3>
+          <div class="team-card-description"><p>Founder of Parashoot Studio, guiding client relationships, production strategy and the thinking that carries every brief from idea to final frame.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">01</span>
+      </article>
+      <article class="team-card team-card--founder" tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Ankith1.jpg" alt="Ankith Kedar" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Co-Founder &amp; Creative Director</span>
+          <h3>Ankith Kedar</h3>
+          <div class="team-card-description"><p>Co-Founder and creative lead shaping Parashoot Studio's visual direction across photography, film, design and production.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">02</span>
+      </article>
+    </div>
+  </div>
+
+  <div class="team-category">
+    <div class="team-category-label">Studio &amp; Technical</div>
+    <div class="team-grid team-grid--support">
+      <article class="team-card team-card--support" tabindex="0">
+        <div class="team-card-image"><div class="team-card-fallback" aria-hidden="true">GW</div><img src="assets/images/about/team/Govind.jpg.jpeg" alt="Govind Waghmare" loading="lazy" onerror="if(!this.dataset.remote){this.dataset.remote='1';this.src='https://beta.flashlabcreative.com/images/team/New%20pics/Govind.jpg.jpeg';}else{this.style.display='none';}"/></div>
+        <div class="team-card-info">
+          <span class="team-role">IT Technician</span>
+          <h3>Govind Waghmare</h3>
+          <div class="team-card-description"><p>Keeps the studio's systems, devices and technical workflow running smoothly behind the scenes so the creative team can stay focused on the work.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">01</span>
+      </article>
+    </div>
+  </div>
+
+  <div class="team-category">
+    <div class="team-category-label">Video Editors</div>
+    <div class="team-grid team-grid--editors">
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Jishnu.jpg" alt="Jishnu" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Video Editor</span>
+          <h3>Jishnu</h3>
+          <div class="team-card-description"><p>Builds pace, feeling and narrative through cinematic cuts and detail-led post production.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">01</span>
+      </article>
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Aaron.jpg" alt="Aaron" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Video Editor</span>
+          <h3>Aaron</h3>
+          <div class="team-card-description"><p>Shapes raw footage through precise edits, sound and motion into seamless visual stories.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">02</span>
+      </article>
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Nagesh.jpg" alt="Nagesh" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Video Editor</span>
+          <h3>Nagesh</h3>
+          <div class="team-card-description"><p>Turns campaign footage into focused, high-energy content made to hold attention.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">03</span>
+      </article>
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Abhi.jpg" alt="Abhimanue" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Video Editor</span>
+          <h3>Abhimanue</h3>
+          <div class="team-card-description"><p>Works across editing and motion to turn concepts into polished, scroll-stopping films.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">04</span>
+      </article>
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Aaron_New.jpg" alt="Aaron Rodrigues" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Video Editor</span>
+          <h3>Aaron Rodrigues</h3>
+          <div class="team-card-description"><p>Refines footage into clean, expressive edits that strengthen the story behind every project.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">05</span>
+      </article>
+    </div>
+  </div>
+
+  <div class="team-category">
+    <div class="team-category-label">Photographers / Videographers</div>
+    <div class="team-grid team-grid--2">
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Aman1.jpg" alt="Aman" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Photographer</span>
+          <h3>Aman</h3>
+          <div class="team-card-description"><p>Captures people, products and places with a sharp eye for mood, composition and brand character.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">01</span>
+      </article>
+      <article class="team-card " tabindex="0">
+        <div class="team-card-image"><img src="assets/images/about/team/Alwin.jpg" alt="Alwin" loading="lazy"/></div>
+        <div class="team-card-info">
+          <span class="team-role">Photographer / Videographer</span>
+          <h3>Alwin</h3>
+          <div class="team-card-description"><p>Moves between stills and motion, finding the frames that say more than a line of copy ever could.</p><span class="team-hover-note">Inside Parashoot Studio</span></div>
+        </div>
+        <span class="team-card-num" aria-hidden="true">02</span>
+      </article>
+    </div>
+  </div>
+
+
+</section>
+
+<div class="project-band reveal">
+  <div>
+    <h2>WANT TO CREATE <span class="lime-word">WITH US?</span></h2>
+    <p>We are always interested in people who care about craft, ideas and the details that make an image memorable.</p>
+  </div>
+  <a href="careers.html" class="btn-light">Explore Careers</a>
+</div>
+
+<!-- 9. FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+      <p>Goa's leading creative studio — photography, film, aerial &amp; post-production content.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
+        <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
+        <a href="https://instagram.com/parashoot.studio" target="_blank">ig</a>
+        <a href="https://www.youtube.com/channel/UCuFtcVt_Yp9CZ82UG6pm-pg" target="_blank">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Studio</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="connect.html">Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.flashlabcreative.com/services/" target="_blank">Digital Marketing</a></li>
+        <li><a href="https://cybercreative.in/services/" target="_blank">Web &amp; App Dev</a></li>
+        <li><a href="https://backstagexchange.com/" target="_blank">Event Activation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Location</h4>
+      <p class="footer-address">G26 Vikrant Complex,<br/>Next to State Bank of India (PBB),<br/>Opposite Luis &amp; Company,<br/>Malbhat Margao, Goa — 403601</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Copyright © 2022 - Parashoot Studio | Designed and Developed by 
+      <a href="https://cybercreative.in/" target="_blank" rel="noopener noreferrer">
+    Cyber Creative
+  </a></span>
+    <span>Designed &amp; Developed with ♥ in Goa</span>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.10 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>

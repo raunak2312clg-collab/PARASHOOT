@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ads — Parashoot Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:           #050816;
+    --bg-mid:       #0d1326;
+    --bg-light:     #111827;
+    --bg-blue:      #1e3a8a;
+    --panel:        rgba(255,255,255,0.04);
+    --panel-hover:  rgba(255,255,255,0.08);
+    --ink:          #ffffff;
+    --ink-2:        rgba(255,255,255,0.85);
+    --ink-mid:      rgba(255,255,255,0.6);
+    --ink-dim:      rgba(255,255,255,0.35);
+    --line:         rgba(255,255,255,0.08);
+    --line-strong:  rgba(255,255,255,0.16);
+    --nav-bg:       #F4F2EC;
+    --footer-bg:    #FFFFFF;
+    --footer-ink:   #15140F;
+    --footer-ink-mid: #5C5C53;
+    --footer-line:  rgba(21,20,15,0.10);
+    --indigo:       #2A1FFF;
+    --indigo-soft:  rgba(42,31,255,.18);
+    --lime:         #D8FF3D;
+    --lime-soft:    rgba(216,255,61,.22);
+    --cream:        #F4F2EC;
+    --r-sm: 10px;
+    --r-md: 18px;
+    --r-lg: 28px;
+    --r-xl: 40px;
+    --shadow-sm: 0 1px 2px rgba(5,8,22,.3), 0 2px 6px rgba(5,8,22,.2);
+    --shadow-md: 0 6px 20px -8px rgba(5,8,22,.6), 0 2px 6px rgba(5,8,22,.3);
+    --shadow-lg: 0 30px 60px -20px rgba(5,8,22,.8), 0 10px 20px -10px rgba(5,8,22,.5);
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --site-bg: linear-gradient(135deg, #050816 0%, #0d1326 30%, #111827 60%, #1e3a8a 100%);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--site-bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.8;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.4; mix-blend-mode:overlay;
+  }
+
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; }
+
+  /* NAV */
+  nav{
+    position:fixed; top:14px; left:14px; right:14px; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 14px 10px 22px; height:62px;
+    background: rgba(244,242,236,.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border:1px solid rgba(21,20,15,.10);
+    border-radius: 999px;
+    transition: box-shadow .35s var(--ease), background .35s var(--ease);
+  }
+  nav.scrolled{ background: rgba(244,242,236,.92); box-shadow: 0 6px 20px -8px rgba(21,20,15,.18), 0 2px 6px rgba(21,20,15,.05); }
+  .nav-logo img{ height:30px; }
+  .nav-links{ display:flex; gap:6px; list-style:none; }
+  .nav-links a{
+    color: #3A3A33; text-decoration:none;
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.04em; font-weight:500;
+    padding:8px 14px; border-radius:999px;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .nav-links a:hover{ background: #15140F; color:#fff; }
+  .nav-links a.active{ background: #15140F; color:#fff; }
+  .nav-cta{
+    background: var(--indigo); color:#fff;
+    border:none; padding:11px 20px;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    box-shadow: 0 6px 18px -8px rgba(42,31,255,.55);
+  }
+  .nav-cta::after{ content:"→"; transition: transform .25s var(--ease); }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(42,31,255,.7); }
+  .nav-cta:hover::after{ transform: translateX(3px); }
+
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index:1000; }
+  .hamburger span{ width:22px; height:2px; background: #15140F; display:block; transition:.3s; }
+  .mobile-menu{
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999;
+    background: #0d1326;
+    flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    box-shadow: var(--shadow-lg);
+    padding:40px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    color: #fff; text-decoration:none;
+    font-family:'Bebas Neue', sans-serif; font-size:36px; letter-spacing:.08em;
+    transition: color .2s; text-transform: uppercase;
+  }
+  .mobile-menu a:hover{ color: var(--lime); }
+
+  /* FOOTER */
+  footer{
+    margin: 0 40px 40px;
+    background: #FFFFFF; border:1px solid rgba(21,20,15,.10);
+    border-radius: var(--r-lg); padding: 64px 56px 32px;
+    color: #15140F;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap:48px; margin-bottom:56px;
+  }
+  .footer-brand img{ height:30px; margin-bottom:20px; }
+  .footer-brand p{ font-size:14px; color: #5C5C53; line-height:1.7; max-width:300px; margin-bottom:24px; font-family:'Inter',sans-serif; }
+  .footer-socials{ display:flex; gap:10px; }
+  .footer-socials a{
+    width:38px; height:38px; border:1px solid rgba(21,20,15,.10);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color: #5C5C53; text-decoration:none; font-size:13px; font-weight:600;
+    transition: all .25s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .footer-socials a:hover{ background: #15140F; color:#fff; border-color: #15140F; transform: translateY(-2px); }
+  .footer-col h4{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #15140F; margin-bottom:20px; font-weight:700;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col ul a{
+    color: #5C5C53; text-decoration:none; font-size:14px;
+    transition: color .2s; display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul a::before{ content:""; width:0; height:1px; background: #15140F; transition: width .25s var(--ease); }
+  .footer-col ul a:hover{ color: #15140F; }
+  .footer-col ul a:hover::before{ width:14px; }
+  .footer-address{ font-size:14px; color: #5C5C53; line-height:1.7; font-family:'Inter',sans-serif; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid rgba(21,20,15,.10);
+    font-size:12px; color: rgba(21,20,15,.4); flex-wrap:wrap; gap:12px;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* REVEAL */
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  @media (max-width: 1024px){
+    .footer-grid{ grid-template-columns: 1fr 1fr; gap:36px; }
+  }
+  @media (max-width: 768px){
+    nav{ left:10px; right:10px; padding:8px 10px 8px 18px; }
+    .nav-links, .nav-cta{ display:none; }
+    .hamburger{ display:flex; }
+    footer{ padding: 44px 24px 24px; margin-left:14px; margin-right:14px; }
+    .footer-grid{ grid-template-columns: 1fr; gap:32px; }
+  }
+
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  color: #F4F2EC;
+}
+  .hero-photo{ position:absolute; inset:0; z-index:0; }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(to right, rgba(5,8,22,.92) 0%, rgba(5,8,22,.65) 55%, rgba(5,8,22,.30) 100%),
+      linear-gradient(to top, rgba(5,8,22,.85) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(42,31,255,.45), transparent 55%);
+  }
+  .hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 30% 40%, #000 25%, transparent 75%);
+  }
+.hero-ghost{
+  position:absolute;
+  top:50%;
+  left:0;
+  width:100%;
+  transform:translateY(-50%);
+  overflow:hidden;
+  white-space:nowrap;
+  z-index:1;
+  pointer-events:none;
+}
+
+.hero-ghost-track{
+  display:inline-flex;
+  white-space:nowrap;
+  animation: ghostMarquee 25s linear infinite;
+}
+
+.hero-ghost span{
+  font-family:'Bebas Neue', sans-serif;
+  font-size:clamp(140px, 22vw, 340px);
+  color:rgba(255,255,255,.03);
+  line-height:.85;
+  padding-right:120px;
+  letter-spacing:.05em;
+}
+
+@keyframes ghostMarquee{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-50%);
+  }
+}
+
+  .hero-social{
+    position:absolute; left:18px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:18px; align-items:center; z-index:3;
+  }
+  .hero-social::before{
+    content:''; display:block; width:1px; height:60px;
+    background: rgba(255,255,255,.18); margin-bottom:4px;
+  }
+  .hero-social a{
+    color: rgba(244,242,236,.45); text-decoration:none; font-size:10px;
+    letter-spacing:.22em; text-transform:uppercase; font-weight:600;
+    writing-mode: vertical-rl; transition: color .2s;
+    font-family:'Inter',sans-serif;
+  }
+  .hero-social a:hover{ color: var(--lime); }
+ .hero-content{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  z-index:2;
+  width:min(900px, 90%);
+  text-align:center;
+}
+  .hero-actions{
+    justify-content:center;
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:7px 16px 7px 12px;
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:999px;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #F4F2EC; font-weight:600; margin-bottom:20px;
+    backdrop-filter: blur(10px);
+    font-family:'Inter',sans-serif;
+  }
+  .hero-eyebrow::before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background: var(--lime);
+    box-shadow:0 0 0 4px rgba(216,255,61,.18);
+    animation: pulse 2.2s var(--ease) infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 0 4px rgba(216,255,61,.18); }
+    50%   { box-shadow:0 0 0 9px rgba(216,255,61,.02); }
+  }
+  h1.hero-headline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(40px, 6.5vw, 84px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #F4F2EC;
+    text-transform: uppercase;
+  }
+h1.hero-headline span {
+  color: var(--lime);
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  display: inline;
+  margin-top: 0;
+}
+  .hero-sub{
+    color: rgba(244,242,236,.65);
+    margin:16px auto 0;
+    font-size:15px;
+    max-width:650px;
+    text-align:center;
+    line-height:1.7; font-weight:400;
+    font-family:'Inter',sans-serif;
+  }
+  .hero-actions{ margin-top:24px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .hero-aside{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; gap:14px;
+    align-self:end;
+    padding-right: 8px;
+    min-width:0;
+    width:100%;
+  }
+
+  @keyframes marquee{ 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+  .hero-meta {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--r-md); overflow: hidden;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    width:100%; max-width:100%;
+  }
+  .hero-meta-cell {
+    padding: 20px 16px; border-right: 1px solid rgba(255, 255, 255, .08);
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-width: 0;
+  }
+  .hero-meta-cell:last-child { border-right: none; }
+  .hero-meta-cell .k {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 2.8vw, 40px);
+    line-height: 1.1; color: #F4F2EC;
+    display: inline-flex; align-items: center; letter-spacing: 0.04em;
+  }
+  .hero-meta-cell .k::after { content: "+"; color: var(--lime); margin-left: 3px; font-size: .7em; vertical-align: top; margin-top: 6px; display: inline-block; }
+  .hero-meta-cell .l {
+    margin-top: 4px; font-size: 10px; letter-spacing: .12em;
+    text-transform: uppercase; color: rgba(244,242,236,.45); font-weight: 600; line-height: 1.3;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* BUTTONS */
+  .btn-primary{
+    padding:14px 26px; font-size:13px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    border:none; cursor:pointer;
+    font-family:'Inter',sans-serif;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  }
+  .hero .btn-primary{ background: var(--lime); color:#0E0D0A; }
+  .btn-primary::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-primary:hover{ background: var(--indigo); color:#fff; transform: translateY(-2px); }
+  .btn-primary:hover::after{ transform: translate(3px,-3px); }
+  .btn-ghost{
+    background: transparent; border:1px solid rgba(255,255,255,.3); color:#F4F2EC;
+    padding:14px 26px; font-size:13px; font-weight:500;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    font-family:'Inter',sans-serif;
+    transition: background .25s var(--ease), border-color .25s var(--ease);
+  }
+  .btn-ghost:hover{ background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); color:#fff; }
+
+  .scroll-indicator{
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    color: rgba(244,242,236,.5); font-size:10px; letter-spacing:.25em; text-transform:uppercase;
+    font-weight:600; z-index:2; pointer-events:none;
+    font-family:'Inter',sans-serif;
+  }
+  .scroll-indicator .line{
+    width:1px; height:44px;
+    background: linear-gradient(to bottom, #F4F2EC, transparent);
+    animation: scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine{
+    0%{ transform: scaleY(0); transform-origin: top; opacity:1; }
+    50%{ transform: scaleY(1); transform-origin: top; opacity:1; }
+    100%{ transform: scaleY(1); transform-origin: bottom; opacity:0; }
+  }
+
+  /* SECTION LABEL */
+  .section-label{
+    display:inline-flex; align-items:center; gap:12px;
+    font-size:14px; letter-spacing:.18em; text-transform:uppercase;
+    color: rgba(255,255,255,.75); font-weight:800; margin-bottom:48px;
+    font-family:'Inter',sans-serif;
+  }
+  .section-label::before{ content:""; width:36px; height:2px; background: rgba(255,255,255,.45); }
+
+  .videos-section{ padding: 80px 40px 120px; }
+  .video-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:22px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .video-card{
+    position:relative;
+    border-radius: var(--r-md);
+    overflow:hidden;
+    background: rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+  }
+  .video-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px -20px rgba(42,31,255,.45), 0 10px 20px -10px rgba(5,8,22,.5);
+    border-color: rgba(42,31,255,.35);
+  }
+  .video-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/9;
+    background:#000;
+    overflow:hidden;
+  }
+  .video-frame iframe{
+    position:absolute; inset:0; width:100%; height:100%;
+    border:0;
+  }
+
+  @media (max-width: 700px){
+    .videos-section{ padding: 50px 20px 80px; }
+    .video-grid{ grid-template-columns: 1fr; gap:16px; }
+  }
+</style>
+
+<style id="parashoot-nav-expansion-fix">
+@media (min-width:769px) and (max-width:1200px){
+  .nav-links{gap:0!important;}
+  .nav-links a{font-size:11px!important;padding:8px 8px!important;letter-spacing:.02em!important;}
+  .nav-cta{font-size:11px!important;padding:10px 14px!important;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="index.html"><img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Studio</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="work.html">Portfolio</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="careers.html">Careers</a></li>
+    <li><a href="connect.html">Connect</a></li>
+  </ul>
+  <a href="connect.html" class="nav-cta">Start a Project</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Studio</a>
+  <a href="services.html">Services</a>
+  <a href="work.html">Portfolio</a>
+  <a href="team.html">Team</a>
+  <a href="clients.html">Clients</a>
+  <a href="careers.html">Careers</a>
+  <a href="connect.html">Connect</a>
+</div>
+
+<section class="hero">
+  <div class="hero-photo">
+    <img  alt="" aria-hidden="true"/>
+  </div>
+  <div class="hero-bg"></div>
+<div class="hero-ghost">
+  <div class="hero-ghost-track">
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+
+    <!-- duplicate for seamless loop -->
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+    <span>ADS</span>
+  </div>
+</div>  
+  <div class="hero-content">
+    <h1 class="hero-headline">OUR WORK<br/><span>IN MOTION</span></h1>
+    <p class="hero-sub">A curated reel of ad films, brand content, and motion work shot &amp; produced by Parashoot Studio.</p>
+  
+  </div>
+  <aside class="hero-aside">
+    
+
+    
+  </aside>
+
+</section>
+
+<section class="videos-section">
+  <p class="section-label">Video Reel</p>
+  <div class="video-grid" id="videoGrid">
+    <!-- Video cards are generated below from the VIDEOS array -->
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+      <p>Goa's leading creative studio — photography, film, aerial &amp; post-production content.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
+        <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
+        <a href="https://instagram.com/parashoot.studio" target="_blank">ig</a>
+        <a href="https://www.youtube.com/channel/UCuFtcVt_Yp9CZ82UG6pm-pg" target="_blank">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Studio</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="connect.html">Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.flashlabcreative.com/services/" target="_blank">Digital Marketing</a></li>
+        <li><a href="https://cybercreative.in/services/" target="_blank">Web &amp; App Dev</a></li>
+        <li><a href="https://backstagexchange.com/" target="_blank">Event Activation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Location</h4>
+      <p class="footer-address">G26 Vikrant Complex,<br/>Next to State Bank of India (PBB),<br/>Opposite Luis &amp; Company,<br/>Malbhat Margao, Goa — 403601</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2022 – 2025 Parashoot Studio</span>
+    <span>Designed &amp; Developed with ♥ in Goa</span>
+  </div>
+</footer>
+
+<script>
+  function highlightActiveLink() {
+    var current = (location.pathname.split('/').pop() || 'index.html');
+    document.querySelectorAll('[data-page]').forEach(function (link) {
+      if (link.getAttribute('data-page') === current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  function wireHamburger() {
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (!hamburger || !mobileMenu) return;
+
+    hamburger.addEventListener('click', function () {
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        mobileMenu.classList.remove('open');
+      });
+    });
+  }
+
+  function wireScrollNav() {
+    var nav = document.getElementById('nav');
+    if (!nav) return;
+    window.addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+  }
+
+  highlightActiveLink();
+  wireHamburger();
+  wireScrollNav();
+
+  const VIDEOS = [
+   
+    { link: "https://youtu.be/tVkeks6fla8" },
+    { link: "https://youtu.be/7GMiYlTtDts" },
+    { link: "https://youtu.be/VRV0eYgLzAQ" },
+    { link: "https://youtu.be/CYMBdvNNO4o" },
+    // { link: "https://youtu.be/sRwzdUdxd7c" },
+    { link: "https://youtu.be/X_x9O-Sd54s" },
+    { link: "https://youtu.be/lhGfDvm1tsA" },
+    // { link: "https://youtu.be/pYqtiK4YCnw" },
+    { link: "https://youtu.be/36qWQ6Z3qTw" },
+    { link: "https://youtu.be/JsG2LCthQaU" },
+    { link: "https://youtu.be/NTAla1zZMQs" },
+    { link: "https://youtu.be/PyEXHMsPu8A" },
+    { link: "https://youtu.be/VxNNWr56VWM" },
+    { link: "https://youtu.be/aRzKs3J1l74" },
+    { link: "https://youtu.be/WL-6WNLriP4" },
+    { link: "https://youtu.be/abQQWwpEc7w" },
+    { link: "https://youtu.be/92KAtnqz9ik" },
+    { link: "https://youtu.be/8dfRmRP3ilM" },
+    { link: "https://youtu.be/Bx_4veSYcu0" },
+    { link: "https://youtu.be/iv0fmMFSUG8" },
+    { link: "https://youtu.be/Ljmg0zR3XaA" },
+    { link: "https://youtu.be/CQdJ854aBlE" }
+    // { link: "https://youtu.be/GtsViASiuG8" }
+  ];
+
+  function extractVideoId(link){
+    if (!link) return "";
+    const patterns = [
+      /youtu\.be\/([A-Za-z0-9_-]{11})/,
+      /[?&]v=([A-Za-z0-9_-]{11})/,
+      /embed\/([A-Za-z0-9_-]{11})/,
+      /shorts\/([A-Za-z0-9_-]{11})/
+    ];
+    for (const re of patterns) {
+      const match = link.match(re);
+      if (match) return match[1];
+    }
+    return "";
+  }
+
+  function buildCard(video){
+    const card = document.createElement("div");
+    card.className = "video-card reveal";
+
+    const videoId = extractVideoId(video.link);
+    if (!videoId) return card;
+
+    const frame = document.createElement("div");
+    frame.className = "video-frame";
+
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube.com/embed/" + videoId +
+      "?autoplay=1&mute=1&loop=1&playlist=" + videoId +
+      "&controls=0&modestbranding=1&rel=0&playsinline=1";
+    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+    iframe.allowFullscreen = true;
+    iframe.title = "Parashoot Studio ad reel";
+
+    frame.appendChild(iframe);
+    card.appendChild(frame);
+    return card;
+  }
+
+  const grid = document.getElementById("videoGrid");
+  VIDEOS.forEach(function (video) {
+    grid.appendChild(buildCard(video));
+  });
+
+  const revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("in"); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function (el) { revealObserver.observe(el); });
+</script>
+</body>
+</html>

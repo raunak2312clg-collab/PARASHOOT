@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Careers — Parashoot Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:           #050816;
+    --bg-mid:       #0d1326;
+    --bg-light:     #111827;
+    --bg-blue:      #1e3a8a;
+    --panel:        rgba(255,255,255,0.04);
+    --panel-hover:  rgba(255,255,255,0.08);
+    --ink:          #ffffff;
+    --ink-2:        rgba(255,255,255,0.85);
+    --ink-mid:      rgba(255,255,255,0.6);
+    --ink-dim:      rgba(255,255,255,0.35);
+    --line:         rgba(255,255,255,0.08);
+    --line-strong:  rgba(255,255,255,0.16);
+    --nav-bg:       #F4F2EC;
+    --footer-bg:    #FFFFFF;
+    --footer-ink:   #15140F;
+    --footer-ink-mid: #5C5C53;
+    --footer-line:  rgba(21,20,15,0.10);
+    --indigo:       #2A1FFF;
+    --indigo-soft:  rgba(42,31,255,.18);
+    --lime:         #D8FF3D;
+    --lime-soft:    rgba(216,255,61,.22);
+    --r-sm: 10px;
+    --r-md: 18px;
+    --r-lg: 28px;
+    --r-xl: 40px;
+    --shadow-sm: 0 1px 2px rgba(5,8,22,.3), 0 2px 6px rgba(5,8,22,.2);
+    --shadow-md: 0 6px 20px -8px rgba(5,8,22,.6), 0 2px 6px rgba(5,8,22,.3);
+    --shadow-lg: 0 30px 60px -20px rgba(5,8,22,.8), 0 10px 20px -10px rgba(5,8,22,.5);
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --site-bg: linear-gradient(135deg, #050816 0%, #0d1326 30%, #111827 60%, #1e3a8a 100%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body{
+    background: var(--site-bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.4; mix-blend-mode:overlay;
+  }
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; }
+
+  /* ══════════════════════════════════
+     NAV
+  ══════════════════════════════════ */
+  nav{
+    position:fixed; top:14px; left:14px; right:14px; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 14px 10px 22px; height:62px;
+    background: rgba(244,242,236,.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border:1px solid rgba(21,20,15,.10);
+    border-radius: 999px;
+    transition: box-shadow .35s var(--ease), background .35s var(--ease);
+  }
+  nav.scrolled{ background: rgba(244,242,236,.92); box-shadow: 0 6px 20px -8px rgba(21,20,15,.18), 0 2px 6px rgba(21,20,15,.05); }
+  .nav-logo img{ height:28px; max-width: 140px; object-fit: contain; }
+  .nav-links{ display:flex; gap:6px; list-style:none; }
+  .nav-links a{
+    color: #3A3A33; text-decoration:none;
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.04em; font-weight:500;
+    padding:8px 14px; border-radius:999px;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .nav-links a:hover{ background: #15140F; color:#fff; }
+  .nav-links a.active{ background: #15140F; color:#fff; }
+  .nav-cta{
+    background: var(--indigo); color:#fff;
+    border:none; padding:11px 20px;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    box-shadow: 0 6px 18px -8px rgba(42,31,255,.55);
+    white-space: nowrap;
+  }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(42,31,255,.7); }
+
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index:1000; flex-shrink:0; }
+  .hamburger span{ width:22px; height:2px; background: #15140F; display:block; transition:.3s; }
+  .hamburger.active span:nth-child(1){ transform: rotate(45deg) translate(5px,5px); }
+  .hamburger.active span:nth-child(2){ opacity:0; }
+  .hamburger.active span:nth-child(3){ transform: rotate(-45deg) translate(5px,-5px); }
+
+  .mobile-menu{
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999;
+    background: #0d1326;
+    flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    box-shadow: var(--shadow-lg);
+    padding:40px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    color: #fff; text-decoration:none;
+    font-family:'Bebas Neue', sans-serif; font-size:clamp(28px, 8vw, 40px); letter-spacing:.08em;
+    transition: color .2s; text-transform: uppercase;
+  }
+  .mobile-menu a:hover{ color: var(--lime); }
+  .mobile-menu-close{
+    position:absolute; top:24px; right:24px;
+    background:none; border:none; color:#fff; cursor:pointer;
+    font-size:28px; line-height:1; padding:8px;
+  }
+
+  /* ══════════════════════════════════
+     PAGE HERO
+  ══════════════════════════════════ */
+  .page-hero{
+    position: relative;
+    height: 100vh;
+    min-height: 500px;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 90px 24px 0;
+    overflow: hidden;
+    color: #F4F2EC;
+  }
+  .hero-content{
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    transform: translateY(-40px);
+  }
+  .hero-photo{ position:absolute; inset:0; z-index:0; }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; }
+  .hero-bg{
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(to bottom, rgba(5,8,22,.55) 0%, rgba(5,8,22,.78) 55%, rgba(5,8,22,.95) 100%),
+      radial-gradient(ellipse at 50% 30%, rgba(42,31,255,.35), transparent 60%);
+  }
+  .hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 50% 35%, #000 30%, transparent 75%);
+  }
+  .hero-ghost-wrap{
+    position: absolute;
+    bottom: - 2vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    height: clamp(80px, 18vw, 280px);
+    display: flex;
+    align-items: center;
+  }
+  .hero-ghost-track{
+    display: flex;
+    width: max-content;
+    animation: ghostScroll 22s linear infinite;
+  }
+  .hero-ghost{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 18vw, 280px);
+    color: rgba(255,255,255,.04); line-height: .85;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    padding-right: 0.5em;
+  }
+  @keyframes ghostScroll{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+  }
+  .page-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:rgba(244,242,236,.72);
+  }
+  .page-eyebrow::before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background: var(--lime);
+    box-shadow:0 0 0 4px rgba(216,255,61,.18);
+    animation: pulse 2.2s var(--ease) infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 0 4px rgba(216,255,61,.18); }
+    50%   { box-shadow:0 0 0 9px rgba(216,255,61,.02); }
+  }
+  .page-hero h1{
+    margin:0;
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:clamp(28px, 6.5vw, 84px);
+    font-weight:800;
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    text-align:center;
+  }
+  .page-hero h1 em{
+    font-style:normal;
+    color:var(--lime);
+    font-size:inherit;
+    font-weight:800;
+    letter-spacing:inherit;
+    display:inline;
+  }
+  .page-hero-sub{
+    color:rgba(244,242,236,.65);
+    margin:16px auto 0;
+    font-size:15px;
+    max-width:650px;
+    text-align:center;
+    line-height:1.7;
+    font-weight:400;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ══════════════════════════════════
+     SECTION LABEL
+  ══════════════════════════════════ */
+  .section-label{
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(255,255,255,.75); font-weight: 800;
+    margin-bottom: 48px; display: flex; align-items: center; gap: 12px;
+    font-family:'Inter',sans-serif;
+  }
+  .section-label::after{ content:''; flex:1; height:1px; background: rgba(255,255,255,.1); }
+  .join-left .section-label::after{ display:none; }
+
+  /* ══════════════════════════════════
+     JOIN SECTION
+  ══════════════════════════════════ */
+  .join-section{
+    padding: 100px 48px;
+    border-top: 1px solid rgba(255,255,255,.07);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    background: rgba(13,19,38,.5);
+    display: grid; grid-template-columns: 0.9fr 1.1fr;
+    gap: 80px; align-items: center;
+  }
+  .join-left h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 4.2vw, 58px);
+    line-height: 1.05; color: #F4F2EC; letter-spacing: .01em;
+    margin-bottom: 28px;
+  }
+  .join-left h2 span{ color: var(--lime); }
+  .join-left .join-image{
+    position: relative; width: 100%; aspect-ratio: 4/3;
+    overflow: hidden; border-radius: var(--r-md);
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    backdrop-filter: blur(8px);
+  }
+  .join-left .join-image img{ width:100%; height:100%; object-fit:cover; filter: saturate(90%) contrast(102%); }
+  .join-left .join-image::after{ content:''; position:absolute; inset:0; border:1px solid rgba(255,255,255,.08); border-radius: var(--r-md); pointer-events:none; }
+  .join-left .join-image-tag{
+    position:absolute; bottom:16px; left:16px;
+    background: rgba(5,8,22,.75); backdrop-filter: blur(8px);
+    color:#fff; font-size:10px; letter-spacing:.15em; text-transform:uppercase;
+    padding:8px 14px; font-weight:600; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.1);
+    font-family:'Inter',sans-serif;
+  }
+  .join-right h3{
+    font-size: 17px; font-weight: 400; color: rgba(255,255,255,.6);
+    line-height: 1.85; max-width: 480px;
+    font-family:'Inter',sans-serif;
+  }
+  .join-cta{ margin-top: 32px; }
+  .join-cta a{
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--lime); color: #0E0D0A;
+    padding: 15px 38px; font-size: 12px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    text-decoration: none; border-radius: 999px;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    box-shadow: 0 10px 30px -10px rgba(216,255,61,.4);
+    font-family:'Inter',sans-serif;
+  }
+  .join-cta a:hover{ transform: translateY(-2px); background: var(--indigo); color: #fff; box-shadow: 0 10px 30px -10px rgba(42,31,255,.6); }
+
+  /* ══════════════════════════════════
+     MOMENTS — DUAL-ROW MARQUEE
+  ══════════════════════════════════ */
+  .moments-section{ padding: 100px 0; border-bottom: 1px solid rgba(255,255,255,.07); overflow: hidden; }
+  .moments-section .section-label{ padding: 0 48px; }
+  .marquee-row{ display:flex; gap:14px; width:max-content; margin-bottom:14px; }
+  .marquee-row:last-child{ margin-bottom:0; }
+  .marquee-row.row-left{ animation: marqueeLeft 50s linear infinite; }
+  .marquee-row.row-right{ animation: marqueeRight 50s linear infinite; }
+  .moments-section:hover .marquee-row{ animation-play-state: paused; }
+  @keyframes marqueeLeft{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+  @keyframes marqueeRight{ from{ transform: translateX(-50%); } to{ transform: translateX(0); } }
+  .marquee-item{
+    flex-shrink:0; height:320px; overflow:hidden; border-radius: var(--r-md);
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(8px);
+  }
+  .marquee-item img{
+    height:100%; width:auto; display:block; object-fit:contain;
+    filter: saturate(90%) contrast(102%); transition: filter .4s, transform .7s var(--ease);
+  }
+  .marquee-item:hover img{ filter: saturate(115%) contrast(105%); transform: scale(1.03); }
+
+  /* ══════════════════════════════════
+     APPLICATION FORM
+  ══════════════════════════════════ */
+  .apply-section{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .apply-info{
+    padding: 80px 60px 80px 48px;
+    border-right: 1px solid rgba(255,255,255,.07);
+  }
+  .apply-info h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: .95; margin-bottom: 28px; color: #F4F2EC;
+  }
+  .apply-info h2 span{ color: var(--lime); }
+
+  /* ROLES LIST */
+  .roles-list{ margin-top: 40px; display:flex; flex-direction:column; gap:0; }
+  .role-item{
+    position: relative;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    cursor: default;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), padding .35s ease;
+  }
+  .role-item.in-view{ opacity:1; transform:none; }
+  .role-item:last-child{ border-bottom:none; }
+  .role-top{ display:flex; align-items:center; justify-content:space-between; }
+  .role-top-left{ display:flex; align-items:center; gap:16px; }
+  .role-index{
+    font-family:'Bebas Neue', sans-serif; font-size:16px; color:#F4F2EC;
+    letter-spacing:.05em; transition: color .3s var(--ease);
+  }
+  .role-item span.role-name{
+    font-size:18px; font-weight:700; color:#F4F2EC;
+    letter-spacing:-0.01em; transition: color .3s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .role-dot{ width:9px; height:9px; border-radius:50%; background: var(--lime); flex-shrink:0; transition: transform .3s var(--ease); }
+  .role-item:hover .role-dot{ transform: scale(1.4); }
+  .role-item:hover .role-index{ color: var(--lime); }
+  .role-item:hover .role-name{ color: var(--lime); }
+  .role-detail{
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s cubic-bezier(.16,1,.3,1), margin-top .4s ease;
+  }
+  .role-item:hover .role-detail,
+  .role-item.open .role-detail{ max-height: 500px; margin-top: 14px; }
+  .role-desc{
+    font-size:13px; color: rgba(255,255,255,.55); line-height:1.7; font-weight:300;
+    max-width:460px; margin-bottom:14px; font-family:'Inter',sans-serif;
+  }
+  .role-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .role-tag{
+    font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    padding:5px 12px; border:1.5px solid rgba(255,255,255,.14);
+    color: rgba(255,255,255,.45); font-weight:500; border-radius: 999px;
+    transition: border-color .3s var(--ease), color .3s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .role-item:hover .role-tag,
+  .role-item.open .role-tag{ border-color: var(--lime); color: var(--lime); }
+
+  .apply-form-wrap{ padding: 80px 48px 80px 60px; }
+  .apply-form-wrap h3{
+    font-family:'Bebas Neue', sans-serif; font-size:32px; letter-spacing:.03em;
+    margin-bottom:36px; color:#F4F2EC;
+  }
+  .apply-form-wrap h3 span{ color: var(--lime); }
+
+  /* FORM SUBHEADINGS */
+  .form-subheading{
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:700;
+    color: var(--lime); margin: 36px 0 18px; display:flex; align-items:center; gap:10px;
+    font-family:'Inter',sans-serif;
+  }
+  .form-subheading:first-of-type{ margin-top:0; }
+  .form-subheading::before{ content:''; width:18px; height:2px; background: var(--indigo); display:block; flex-shrink:0; }
+
+  .form-row{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px; }
+  .form-group{ display:flex; flex-direction:column; gap:8px; }
+  .form-group.full{ grid-column: 1 / -1; }
+  .form-group label{
+    font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+    color: rgba(255,255,255,.5); font-weight:600; font-family:'Inter',sans-serif;
+  }
+  .form-group input, .form-group textarea, .form-group select{
+    background: rgba(255,255,255,.04);
+    border: 1.5px solid rgba(255,255,255,.12);
+    color: #F4F2EC; padding: 14px 16px;
+    font-family:'Inter', sans-serif; font-size:14px; font-weight:300;
+    outline:none; transition: border-color .2s, background .2s;
+    width:100%; border-radius: var(--r-sm);
+    backdrop-filter: blur(6px);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus{
+    border-color: var(--lime); background: rgba(255,255,255,.07);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder{ color: rgba(255,255,255,.3); }
+  .form-group select option{ background: #0d1326; color:#F4F2EC; }
+  .form-group textarea{ resize:vertical; min-height:100px; }
+
+  .form-group label .req-star{ color: var(--lime); margin-left:3px; }
+  .form-group.error input,
+  .form-group.error textarea,
+  .form-group.error select,
+  .upload-box.error{
+    border-color:#ff6b6b !important;
+    background: rgba(255,107,107,.06) !important;
+  }
+  .form-group .field-error-msg{
+    display:none; font-size:11px; color:#ff8585; font-family:'Inter',sans-serif; letter-spacing:.02em;
+  }
+  .form-group.error .field-error-msg{ display:block; }
+
+  .upload-row{ display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:16px; }
+  .upload-box{
+    background: rgba(255,255,255,.04);
+    border: 1.5px dashed rgba(255,255,255,.16);
+    padding:24px 20px; text-align:center; cursor:pointer;
+    transition: border-color .2s, background .2s;
+    border-radius: var(--r-md);
+  }
+  .upload-box:hover{ border-color: var(--lime); background: rgba(255,255,255,.06); }
+  .upload-box input[type="file"]{ display:none; }
+  .upload-box label{ cursor:pointer; display:block; }
+  .upload-icon{ font-size:28px; display:block; margin-bottom:8px; }
+  .upload-title{
+    font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+    color:#F4F2EC; margin-bottom:4px; display:block; font-family:'Inter',sans-serif;
+  }
+  .upload-sub{ font-size:11px; color: rgba(255,255,255,.35); font-weight:300; font-family:'Inter',sans-serif; }
+  .upload-filename{ font-size:11px; color: var(--lime); margin-top:8px; display:none; }
+  .btn-submit{
+    background: var(--lime); color: #0E0D0A; border:none;
+    padding:16px 48px; font-family:'Inter', sans-serif; font-size:12px; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; cursor:pointer;
+    transition: background .25s var(--ease), transform .25s var(--ease), color .25s var(--ease);
+    margin-top:24px; border-radius: 999px;
+    box-shadow: 0 10px 30px -10px rgba(216,255,61,.4);
+    width:100%; max-width:320px;
+    touch-action: manipulation;
+  }
+  .btn-submit:hover{ background: var(--indigo); color:#fff; transform: translateY(-2px); }
+  .form-note{ font-size:12px; color: rgba(255,255,255,.35); font-weight:300; margin-top:12px; font-family:'Inter',sans-serif; }
+  .form-success{
+    display:none; background: rgba(216,255,61,.08);
+    border:1.5px solid var(--lime); padding:16px 20px; margin-top:16px;
+    font-size:13px; color: var(--lime); letter-spacing:.05em; border-radius: var(--r-sm);
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ══════════════════════════════════
+     PROJECT BAND
+  ══════════════════════════════════ */
+  .project-band{
+    margin: 40px 40px;
+    background: rgba(13,19,38,.8);
+    border: 1px solid rgba(255,255,255,.08);
+    color:#fff;
+    padding: 64px 56px; border-radius: var(--r-lg);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:24px;
+    position:relative; overflow:hidden;
+    backdrop-filter: blur(12px);
+  }
+  .project-band::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 90% 110%, rgba(42,31,255,.5), transparent 50%),
+      radial-gradient(circle at 10% -10%, rgba(216,255,61,.12), transparent 50%);
+    pointer-events:none;
+  }
+  .project-band > *{ position:relative; z-index:1; }
+  .project-band h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 68px);
+    color:#fff; letter-spacing:.02em; line-height:1; font-weight:400;
+  }
+  .project-band p{
+    font-size:14px; color: rgba(255,255,255,.55); max-width:440px;
+    margin-top:8px; line-height:1.6; font-family:'Inter',sans-serif;
+  }
+  .btn-light{
+    background: var(--lime); color: #0E0D0A;
+    padding:16px 40px; font-size:12px; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase;
+    text-decoration:none; white-space:nowrap;
+    display:inline-flex; align-items:center; gap:10px;
+    border-radius: 999px;
+    transition: transform .25s var(--ease);
+    box-shadow: 0 10px 30px -10px rgba(216,255,61,.5);
+    font-family:'Inter',sans-serif;
+  }
+  .btn-light::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-light:hover{ transform: translateY(-2px); }
+  .btn-light:hover::after{ transform: translate(3px,-3px); }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  footer{
+    margin: 0 40px 40px;
+    background: #FFFFFF; border:1px solid rgba(21,20,15,.10);
+    border-radius: var(--r-lg); padding: 64px 56px 32px;
+    color: #15140F;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap:48px; margin-bottom:56px;
+  }
+  .footer-brand img{ height:30px; margin-bottom:20px; }
+  .footer-brand p{ font-size:14px; color: #5C5C53; line-height:1.7; max-width:300px; margin-bottom:24px; font-family:'Inter',sans-serif; }
+  .footer-socials{ display:flex; gap:10px; flex-wrap:wrap; }
+  .footer-socials a{
+    width:38px; height:38px; border:1px solid rgba(21,20,15,.10);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color: #5C5C53; text-decoration:none; font-size:13px; font-weight:600;
+    transition: all .25s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .footer-socials a:hover{ background: #15140F; color:#fff; border-color: #15140F; transform: translateY(-2px); }
+  .footer-col h4{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #15140F; margin-bottom:20px; font-weight:700;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col ul a{
+    color: #5C5C53; text-decoration:none; font-size:14px;
+    transition: color .2s; display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul a::before{ content:""; width:0; height:1px; background: #15140F; transition: width .25s var(--ease); }
+  .footer-col ul a:hover{ color: #15140F; }
+  .footer-col ul a:hover::before{ width:14px; }
+  .footer-address{ font-size:14px; color: #5C5C53; line-height:1.7; font-family:'Inter',sans-serif; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid rgba(21,20,15,.10);
+    font-size:12px; color: rgba(21,20,15,.4); flex-wrap:wrap; gap:12px;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ══════════════════════════════════
+     RESPONSIVE — TABLET 1024px
+  ══════════════════════════════════ */
+  @media (max-width: 1024px){
+    .join-section{ grid-template-columns: 1fr; gap: 32px; text-align: left; padding: 60px 32px; }
+    .apply-section{ grid-template-columns:1fr; }
+    .apply-info{ border-right:none; border-bottom:1px solid rgba(255,255,255,.07); padding: 60px 32px; }
+    .apply-form-wrap{ padding: 60px 32px; }
+    .footer-grid{ grid-template-columns: 1fr 1fr; gap:36px; }
+    .project-band{ flex-direction: column; align-items: flex-start; margin: 24px 24px; padding: 44px 32px; }
+    footer{ margin: 0 24px 24px; padding: 44px 32px 24px; }
+  }
+
+  /* ══════════════════════════════════
+     RESPONSIVE — MOBILE 768px
+  ══════════════════════════════════ */
+  @media (max-width: 768px){
+    /* Nav */
+    nav{ left:10px; right:10px; top:10px; padding:8px 10px 8px 16px; height:54px; }
+    .nav-links, .nav-cta{ display:none; }
+    .hamburger{ display:flex; }
+    .nav-logo img{ height:24px; }
+
+    /* Hero */
+    .page-hero{
+      height: 100svh;
+      min-height: 480px;
+      padding: 80px 20px 60px;
+    }
+    .hero-content{ transform: translateY(-20px); }
+    .page-hero h1{
+      font-size: clamp(24px, 9vw, 44px);
+      white-space: normal;
+      word-break: break-word;
+    }
+    .page-hero-sub{ font-size:14px; padding: 0 4px; }
+    .hero-ghost-wrap{ height: clamp(60px, 14vw, 140px); }
+    .hero-ghost{ font-size: clamp(60px, 14vw, 140px); }
+
+    /* Join */
+    .join-section{
+      padding: 60px 20px;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .join-left h2{ font-size: clamp(28px, 7vw, 44px); margin-bottom: 20px; }
+    .join-right h3{ font-size: 15px; max-width: 100%; }
+    .join-cta a{ padding: 13px 28px; }
+
+    /* Section label */
+    .section-label{ margin-bottom: 28px; }
+
+    /* Moments */
+    .moments-section{ padding: 60px 0; }
+    .moments-section .section-label{ padding: 0 20px; }
+    .marquee-item{ height: 180px; }
+
+    /* Apply section */
+    .apply-section{ grid-template-columns: 1fr; }
+    .apply-info{ padding: 60px 20px 40px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .apply-info h2{ font-size: clamp(40px, 12vw, 60px); line-height: 0.9; margin-bottom: 20px; }
+    .roles-list{ margin-top: 28px; }
+    .role-item{ padding: 20px 0; cursor: pointer; }
+    .role-item span.role-name{ font-size: 16px; }
+
+    /* Form */
+    .apply-form-wrap{ padding: 40px 20px 60px; }
+    .apply-form-wrap h3{ font-size: 26px; margin-bottom: 28px; }
+    .form-row{ grid-template-columns: 1fr; gap: 14px; }
+    .form-group.full{ grid-column: 1; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+      font-size: 16px; /* prevents iOS zoom */
+      padding: 13px 14px;
+    }
+    .form-subheading{ margin: 28px 0 14px; }
+    .upload-box{ padding: 20px 16px; }
+    .btn-submit{ width: 100%; max-width: 100%; padding: 16px 24px; font-size: 13px; }
+
+    /* Project band */
+    .project-band{
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 20px 14px;
+      padding: 36px 20px;
+      gap: 20px;
+    }
+    .project-band h2{ font-size: clamp(32px, 9vw, 50px); }
+    .btn-light{ width: 100%; justify-content: center; }
+
+    /* Footer */
+    footer{
+      margin: 0 14px 20px;
+      padding: 40px 20px 24px;
+      border-radius: var(--r-md);
+    }
+    .footer-grid{ grid-template-columns: 1fr; gap: 28px; margin-bottom: 36px; }
+    .footer-brand img{ height:24px; }
+    .footer-bottom{
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding-top: 20px;
+    }
+  }
+
+  /* ══════════════════════════════════
+     RESPONSIVE — SMALL MOBILE 480px
+  ══════════════════════════════════ */
+  @media (max-width: 480px){
+    .page-hero h1{ font-size: clamp(22px, 10vw, 36px); }
+    .join-section{ padding: 48px 16px; }
+    .apply-info{ padding: 48px 16px 36px; }
+    .apply-form-wrap{ padding: 32px 16px 48px; }
+    .moments-section .section-label{ padding: 0 16px; }
+    .project-band{ margin: 16px 12px; padding: 28px 16px; }
+    footer{ margin: 0 12px 16px; padding: 32px 16px 20px; }
+    .nav-logo img{ height:22px; max-width: 110px; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .marquee-row{ animation: none; }
+    .hero-ghost-track{ animation: none; }
+    @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 4px rgba(216,255,61,.18); } }
+  }
+</style>
+
+<style id="parashoot-nav-expansion-fix">
+@media (min-width:769px) and (max-width:1200px){
+  .nav-links{gap:0!important;}
+  .nav-links a{font-size:11px!important;padding:8px 8px!important;letter-spacing:.02em!important;}
+  .nav-cta{font-size:11px!important;padding:10px 14px!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Studio</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="work.html">Portfolio</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="careers.html" class="active">Careers</a></li>
+    <li><a href="connect.html">Connect</a></li>
+  </ul>
+  <a href="connect.html" class="nav-cta">Start a Project</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="menuClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About Studio</a>
+  <a href="services.html">Services</a>
+  <a href="work.html">Portfolio</a>
+  <a href="team.html">Team</a>
+  <a href="clients.html">Clients</a>
+  <a href="careers.html" class="active">Careers</a>
+  <a href="connect.html">Connect</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-photo">
+  </div>
+  <div class="hero-bg"></div>
+  <div class="hero-ghost-wrap">
+    <div class="hero-ghost-track">
+      <span class="hero-ghost">WORK WITH US&nbsp;&nbsp;&nbsp;</span>
+      <span class="hero-ghost">WORK WITH US&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+  <div class="hero-content">
+    <p class="page-eyebrow">We're Hiring</p>
+    <h1>WORK WITH <em>US!</em></h1>
+    <p class="page-hero-sub">
+      We're always expanding and excited to discover new teammates whose perspectives and skills can elevate Parashoot Studio to new heights.
+    </p>
+  </div>
+</section>
+
+<!-- JOIN SECTION -->
+<section class="join-section">
+  <div class="join-left">
+    <p class="section-label">Why Join Us</p>
+    <h2>Build what's<br/>next, <span>together.</span></h2>
+    <div class="join-image">
+      <img src="assets/career/team.jpg" alt="Parashoot Studio team at work"/>
+      <span class="join-image-tag">The Team</span>
+    </div>
+  </div>
+  <div class="join-right">
+    <h3>We're always expanding and excited to discover new teammates whose perspectives and skills can elevate Parashoot Studio to new heights. If you bring craft, curiosity and a strong work ethic, we'd like to hear from you.</h3>
+    <div class="join-cta">
+      <a href="#apply-form">Apply Now ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- MOMENTS — DUAL-ROW MARQUEE -->
+<section class="moments-section">
+  <p class="section-label">Moments at Parashoot Studio</p>
+  <div class="marquee-row row-left" id="marqueeRow1"></div>
+  <div class="marquee-row row-right" id="marqueeRow2"></div>
+</section>
+
+<!-- APPLICATION FORM -->
+<section class="apply-section" id="apply-form">
+  <div class="apply-info">
+    <p class="section-label" style="margin-bottom:28px;">Apply Now</p>
+    <h2>JOIN<br/>OUR<br/><span>TEAM</span></h2>
+    <div class="roles-list" id="rolesList">
+      <div class="role-item">
+        <div class="role-top">
+          <div class="role-top-left">
+            <span class="role-index">01</span>
+            <span class="role-name">Cinematographer</span>
+          </div>
+          <div class="role-dot"></div>
+        </div>
+        <div class="role-detail">
+          <p class="role-desc">Someone who understands light, movement, and narrative, and can translate that into stunning footage across a range of projects.</p>
+          <div class="role-tags">
+            <span class="role-tag">Videography</span>
+            <span class="role-tag">Lighting</span>
+            <span class="role-tag">On-Location</span>
+          </div>
+        </div>
+      </div>
+      <div class="role-item">
+        <div class="role-top">
+          <div class="role-top-left">
+            <span class="role-index">02</span>
+            <span class="role-name">Video Editor</span>
+          </div>
+          <div class="role-dot"></div>
+        </div>
+        <div class="role-detail">
+          <p class="role-desc">Turn raw footage into polished, engaging content — proficient in colour grading, motion graphics and sound design, with fast turnarounds.</p>
+          <div class="role-tags">
+            <span class="role-tag">Final Cut Pro</span>
+            <span class="role-tag">Colour Grading</span>
+            <span class="role-tag">Motion Graphics</span>
+          </div>
+        </div>
+      </div>
+      <div class="role-item">
+        <div class="role-top">
+          <div class="role-top-left">
+            <span class="role-index">03</span>
+            <span class="role-name">Photographer</span>
+          </div>
+          <div class="role-dot"></div>
+        </div>
+        <div class="role-detail">
+          <p class="role-desc">Food, events, portraits or aerials — a strong eye for composition, light and storytelling, with the technical skill to deliver anywhere.</p>
+          <div class="role-tags">
+            <span class="role-tag">Studio Photography</span>
+            <span class="role-tag">On-Location</span>
+            <span class="role-tag">Post-Processing</span>
+          </div>
+        </div>
+      </div>
+      <div class="role-item">
+        <div class="role-top">
+          <div class="role-top-left">
+            <span class="role-index">04</span>
+            <span class="role-name">Social Media Content Creator</span>
+          </div>
+          <div class="role-dot"></div>
+        </div>
+        <div class="role-detail">
+          <p class="role-desc">Short-form videos, reels, stills and copy for brands across hospitality, sports and lifestyle — someone who lives social media trends.</p>
+          <div class="role-tags">
+            <span class="role-tag">Reels & Shorts</span>
+            <span class="role-tag">Copywriting</span>
+            <span class="role-tag">Trend Awareness</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="apply-form-wrap">
+    <h3>YOUR<br/><span>APPLICATION</span></h3>
+    <form id="careerForm">
+      <input type="hidden" name="access_key" value="cfb1cdce-5909-4c01-b8a7-283d0a4054bf">
+      <input type="hidden" name="subject" value="New Career Application — Parashoot Studio">
+      <input type="hidden" name="from_name" value="Parashoot Studio Careers Form">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+      <p class="form-subheading">Personal Details</p>
+      <div class="form-row">
+        <div class="form-group" id="group-fname">
+          <label>First Name <span class="req-star">*</span></label>
+          <input type="text" id="fname" name="first_name" placeholder="First name" required autocomplete="given-name"/>
+          <span class="field-error-msg">Please enter your first name.</span>
+        </div>
+        <div class="form-group" id="group-lname">
+          <label>Last Name <span class="req-star">*</span></label>
+          <input type="text" id="lname" name="last_name" placeholder="Last name" required autocomplete="family-name"/>
+          <span class="field-error-msg">Please enter your last name.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" id="group-email">
+          <label>Email Address <span class="req-star">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email"/>
+          <span class="field-error-msg">Please enter a valid email address.</span>
+        </div>
+        <div class="form-group" id="group-phone">
+          <label>Phone Number <span class="req-star">*</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required autocomplete="tel"/>
+          <span class="field-error-msg">Please enter your phone number.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full" id="group-address">
+          <label>Street Address <span class="req-star">*</span></label>
+          <input type="text" id="address" name="street_address" placeholder="Your street address" required autocomplete="street-address"/>
+          <span class="field-error-msg">Please enter your address.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" id="group-city">
+          <label>City <span class="req-star">*</span></label>
+          <input type="text" id="city" name="city" placeholder="City" required autocomplete="address-level2"/>
+          <span class="field-error-msg">Please enter your city.</span>
+        </div>
+        <div class="form-group">
+          <label>State / Province</label>
+          <input type="text" id="state" name="state" placeholder="State" autocomplete="address-level1"/>
+        </div>
+      </div>
+
+      <p class="form-subheading">Experience</p>
+      <div class="form-row">
+        <div class="form-group full" id="group-role">
+          <label>Position Applying For <span class="req-star">*</span></label>
+          <select id="role" name="position_applying_for" required>
+            <option value="" disabled selected>Select a role...</option>
+            <option>Cinematographer</option>
+            <option>Video Editor</option>
+            <option>Photographer</option>
+            <option>Social Media Content Creator</option>
+            <option>Other / General Application</option>
+          </select>
+          <span class="field-error-msg">Please select a position.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full" id="group-employment-type">
+          <label>Employment Type <span class="req-star">*</span></label>
+          <select id="employment-type" name="employment_type" required>
+            <option value="" disabled selected>Select type...</option>
+            <option>Full-Time</option>
+            <option>Internship</option>
+          </select>
+          <span class="field-error-msg">Please select an employment type.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" id="group-experience">
+          <label>Years of Experience <span class="req-star">*</span></label>
+          <select id="experience" name="years_of_experience" required>
+            <option value="" disabled selected>Select range...</option>
+            <option>Fresher</option>
+            <option>1–2 years</option>
+            <option>3–5 years</option>
+            <option>5–10 years</option>
+            <option>10+ years</option>
+          </select>
+          <span class="field-error-msg">Please select your experience level.</span>
+        </div>
+        <div class="form-group">
+          <label>Previous Job Title</label>
+          <input type="text" id="prev-title" name="previous_job_title" placeholder="e.g. Junior Editor"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>When Can You Start?</label>
+          <input type="text" id="start-date" name="start_date" placeholder="e.g. Immediately / Next Month"/>
+        </div>
+      </div>
+
+      <p class="form-subheading">Show Us Who You Are</p>
+      <div class="form-row">
+        <div class="form-group full" id="group-bio">
+          <label>Tell Us About Yourself <span class="req-star">*</span></label>
+          <textarea id="bio" name="about_yourself" placeholder="Share a bit about your background, skills and why you want to join Parashoot Studio..." required></textarea>
+          <span class="field-error-msg">Please tell us a bit about yourself.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Portfolio Link</label>
+          <input type="url" id="portfolio-link" name="portfolio_link" placeholder="https://yourportfolio.com"/>
+        </div>
+        <div class="form-group">
+          <label>Instagram Profile</label>
+          <input type="text" id="instagram" name="instagram" placeholder="@yourhandle"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>LinkedIn URL</label>
+          <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourname"/>
+        </div>
+      </div>
+      <div class="upload-row" id="group-cv">
+        <div class="upload-box" id="upload-box">
+          <input type="file" id="cv-upload" name="attachment" accept=".pdf,.doc,.docx" required/>
+          <label for="cv-upload">
+            <span class="upload-icon">📄</span>
+            <span class="upload-title">Upload CV <span class="req-star">*</span></span>
+            <span class="upload-sub">PDF or DOC — max 5MB</span>
+            <span class="upload-filename" id="cv-filename"></span>
+          </label>
+          <span class="field-error-msg" id="cv-error-msg" style="display:none; text-align:center; margin-top:6px;">Please upload your resume/CV.</span>
+        </div>
+      </div>
+
+      <p class="form-subheading">Availability</p>
+      <div class="form-row">
+        <div class="form-group full" id="group-referral">
+          <label>Where Did You Hear About Us? <span class="req-star">*</span></label>
+          <select id="referral" name="referral_source" required>
+            <option value="" disabled selected>Select an option...</option>
+            <option>Instagram</option>
+            <option>LinkedIn</option>
+            <option>Referral</option>
+            <option>Google</option>
+            <option>Other</option>
+          </select>
+          <span class="field-error-msg">Please tell us how you heard about us.</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">Submit Application</button>
+      <p class="form-note">We review applications within 5–7 business days and will reach out if there's a match.</p>
+      <div class="form-success" id="formSuccess">✓ &nbsp; Application submitted! We'll be in touch soon.</div>
+      <div class="form-success" id="formError" style="display:none; background:rgba(255,80,80,.12); border-color:rgba(255,80,80,.3); color:#ffb3b3;">⚠ &nbsp; Something went wrong. Please try again or email us directly.</div>
+    </form>
+  </div>
+</section>
+
+<!-- PROJECT BAND -->
+<div class="project-band">
+  <div>
+    <h2>Have a Project?</h2>
+    <p>Even if you're not applying, we'd love to work with you. Get in touch and let's create something great.</p>
+  </div>
+  <a href="connect.html" class="btn-light">Start a Project</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
+      <p>Goa's leading creative studio — photography, film, aerial & post-production content.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
+        <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
+        <a href="https://instagram.com/parashoot.studio" target="_blank">ig</a>
+        <a href="https://www.youtube.com/channel/UCuFtcVt_Yp9CZ82UG6pm-pg" target="_blank">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Studio</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="work.html">Portfolio</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="connect.html">Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.flashlabcreative.com/services/" target="_blank">Digital Marketing</a></li>
+        <li><a href="https://cybercreative.in/services/" target="_blank">Web & App Dev</a></li>
+        <li><a href="https://backstagexchange.com/" target="_blank">Event Activation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p class="footer-address">careers@parashootstudio.com<br/><br/>G26 Vikrant Complex,<br/>Malbhat Margao, Goa — 403601</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2022 – 2025 Parashoot Studio</span>
+    <span>Designed & Developed with ♥ in Goa</span>
+  </div>
+</footer>
+
+<script>
+  // Nav
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuClose = document.getElementById('menuClose');
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  });
+  menuClose.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('active');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('active');
+  }));
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
+
+  // File upload label feedback
+  document.getElementById('cv-upload').addEventListener('change', function() {
+    const label = document.getElementById('cv-filename');
+    if (this.files.length) { label.textContent = this.files[0].name; label.style.display = 'block'; }
+  });
+
+  const careerForm = document.getElementById('careerForm');
+
+  const requiredFields = [
+    { fieldId: 'fname',            groupId: 'group-fname' },
+    { fieldId: 'lname',            groupId: 'group-lname' },
+    { fieldId: 'email',            groupId: 'group-email' },
+    { fieldId: 'phone',            groupId: 'group-phone' },
+    { fieldId: 'address',          groupId: 'group-address' },
+    { fieldId: 'city',             groupId: 'group-city' },
+    { fieldId: 'role',             groupId: 'group-role' },
+    { fieldId: 'employment-type',  groupId: 'group-employment-type' },
+    { fieldId: 'experience',       groupId: 'group-experience' },
+    { fieldId: 'bio',              groupId: 'group-bio' },
+    { fieldId: 'referral',         groupId: 'group-referral' }
+  ];
+
+  requiredFields.forEach(({ fieldId, groupId }) => {
+    const field = document.getElementById(fieldId);
+    const group = document.getElementById(groupId);
+    field.addEventListener('input', () => { if (field.value.trim()) group.classList.remove('error'); });
+    field.addEventListener('change', () => { if (field.value.trim()) group.classList.remove('error'); });
+  });
+  document.getElementById('email').addEventListener('input', function() {
+    const group = document.getElementById('group-email');
+    if (this.value.trim() && isValidEmail(this.value.trim())) group.classList.remove('error');
+  });
+  document.getElementById('cv-upload').addEventListener('change', function() {
+    if (this.files.length) {
+      document.getElementById('upload-box').classList.remove('error');
+      document.getElementById('cv-error-msg').style.display = 'none';
+    }
+  });
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function validateForm() {
+    let firstInvalidGroup = null;
+    requiredFields.forEach(({ fieldId, groupId }) => {
+      const field = document.getElementById(fieldId);
+      const group = document.getElementById(groupId);
+      let invalid = !field.value.trim();
+      if (fieldId === 'email' && field.value.trim() && !isValidEmail(field.value.trim())) invalid = true;
+      group.classList.toggle('error', invalid);
+      if (invalid && !firstInvalidGroup) firstInvalidGroup = group;
+    });
+
+    const cvInput = document.getElementById('cv-upload');
+    const uploadBox = document.getElementById('upload-box');
+    const cvError = document.getElementById('cv-error-msg');
+    const cvInvalid = cvInput.files.length === 0;
+    uploadBox.classList.toggle('error', cvInvalid);
+    cvError.style.display = cvInvalid ? 'block' : 'none';
+    if (cvInvalid && !firstInvalidGroup) firstInvalidGroup = document.getElementById('group-cv');
+    return firstInvalidGroup;
+  }
+
+  careerForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formSuccess = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+    formSuccess.style.display = 'none';
+    formError.style.display = 'none';
+
+    const firstInvalidGroup = validateForm();
+    if (firstInvalidGroup) {
+      firstInvalidGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const focusable = firstInvalidGroup.querySelector('input, select, textarea');
+      if (focusable) setTimeout(() => focusable.focus(), 400);
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    const formData = new FormData(careerForm);
+    fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData })
+      .then(res => res.json())
+      .then(data => {
+        btn.textContent = 'Submit Application';
+        btn.disabled = false;
+        if (data.success) {
+          formSuccess.style.display = 'block';
+          careerForm.reset();
+          document.getElementById('cv-filename').textContent = '';
+          document.getElementById('cv-filename').style.display = 'none';
+        } else {
+          formError.style.display = 'block';
+        }
+      })
+      .catch(() => {
+        btn.textContent = 'Submit Application';
+        btn.disabled = false;
+        formError.style.display = 'block';
+      });
+  });
+
+  // Role items — hover on desktop, tap to expand on mobile
+  const roleItems = document.querySelectorAll('.role-item');
+  roleItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      roleItems.forEach(other => other.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  const roleObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(roleItems).indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('in-view'), idx * 120);
+        roleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  roleItems.forEach(item => roleObserver.observe(item));
+
+  // Marquee
+  const momentImages = [
+    "assets/career/c1.jpg","assets/career/c2.jpg","assets/career/c3.jpg",
+    "assets/career/c4.jpg","assets/career/c5.jpg","assets/career/c6.jpg",
+    "assets/career/c7.jpg","assets/career/c8.jpg","assets/career/c9.jpg",
+    "assets/career/c10.jpg","assets/career/c11.jpg","assets/career/c12.jpg",
+    "assets/career/c13.jpg","assets/career/c14.jpg","assets/career/c15.jpg"
+  ];
+
+  function buildMarqueeRow(rowEl, images) {
+    const allImages = images.concat(images);
+    rowEl.innerHTML = allImages.map(src =>
+      `<div class="marquee-item"><img src="${src}" alt="Studio moment" loading="lazy"/></div>`
+    ).join('');
+  }
+
+  const row1Images = momentImages.slice(0, 8);
+  const row2Images = momentImages.slice(7).concat(momentImages.slice(0, 7)).slice(0, 8);
+  buildMarqueeRow(document.getElementById('marqueeRow1'), row1Images);
+  buildMarqueeRow(document.getElementById('marqueeRow2'), row2Images);
+</script>
+</body>
+</html>

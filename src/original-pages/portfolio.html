@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio — Parashoot Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  /* ─── DESIGN TOKENS (matched to index.html's dark theme; nav/footer keep the light tokens) ─── */
+  :root{
+    --bg:           #050816;
+    --bg-mid:       #0d1326;
+    --bg-light:     #111827;
+    --bg-blue:      #1e3a8a;
+    --bg-soft:      rgba(255,255,255,.04);
+    --panel:        rgba(255,255,255,0.04);
+    --panel-hover:  rgba(255,255,255,0.08);
+    --ink:          #ffffff;
+    --ink-2:        rgba(255,255,255,0.85);
+    --ink-mid:      rgba(255,255,255,0.6);
+    --ink-dim:      rgba(255,255,255,0.35);
+    --line:         rgba(255,255,255,0.08);
+    --line-strong:  rgba(255,255,255,0.16);
+    /* nav/footer keep the original light palette, same as index.html */
+    --nav-bg:       #F4F2EC;
+    --footer-bg:    #FFFFFF;
+    --footer-ink:   #15140F;
+    --footer-ink-mid: #5C5C53;
+    --footer-line:  rgba(21,20,15,0.10);
+    --indigo:       #2A1FFF;
+    --indigo-soft:  rgba(42,31,255,.18);
+    --lime:         #D8FF3D;
+    --lime-soft:    rgba(216,255,61,.22);
+    --cream:        #F4F2EC;
+    --r-sm: 10px;
+    --r-md: 18px;
+    --r-lg: 28px;
+    --r-xl: 40px;
+    --shadow-sm: 0 1px 2px rgba(5,8,22,.3), 0 2px 6px rgba(5,8,22,.2);
+    --shadow-md: 0 6px 20px -8px rgba(5,8,22,.6), 0 2px 6px rgba(5,8,22,.3);
+    --shadow-lg: 0 30px 60px -20px rgba(5,8,22,.8), 0 10px 20px -10px rgba(5,8,22,.5);
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --site-bg: linear-gradient(135deg, #050816 0%, #0d1326 30%, #111827 60%, #1e3a8a 100%);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--site-bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:15px;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  /* Grain overlay */
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.4; mix-blend-mode:overlay;
+  }
+
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; }
+
+  /* ─── NAV (kept light, matches index.html) ─── */
+  nav{
+    position:fixed; top:14px; left:14px; right:14px; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 14px 10px 22px; height:62px;
+    background: rgba(244,242,236,.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border:1px solid rgba(21,20,15,.10);
+    border-radius: 999px;
+    transition: box-shadow .35s var(--ease), background .35s var(--ease);
+  }
+  nav.scrolled{ background: rgba(244,242,236,.92); box-shadow: 0 6px 20px -8px rgba(21,20,15,.18), 0 2px 6px rgba(21,20,15,.05); }
+  .nav-logo img{ height:30px; }
+  .nav-links{ display:flex; gap:6px; list-style:none; }
+  .nav-links a{
+    color: #3A3A33; text-decoration:none;
+    font-family:'Inter',sans-serif;
+    font-size:13px; letter-spacing:.04em; font-weight:500;
+    padding:8px 14px; border-radius:999px;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .nav-links a:hover{ background: #15140F; color:#fff; }
+  .nav-links a.active{ background: #15140F; color:#fff; }
+  .nav-cta{
+    background: var(--indigo); color:#fff;
+    border:none; padding:11px 20px;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.02em; border-radius:999px;
+    cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    box-shadow: 0 6px 18px -8px rgba(42,31,255,.55);
+  }
+  .nav-cta::after{ content:"→"; transition: transform .25s var(--ease); }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(42,31,255,.7); }
+  .nav-cta:hover::after{ transform: translateX(3px); }
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index:1000; }
+  .hamburger span{ width:22px; height:2px; background: #15140F; display:block; transition:.3s; }
+  .mobile-menu{
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999;
+    background: #0d1326;
+    flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    box-shadow: var(--shadow-lg);
+    padding:40px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    color: #fff; text-decoration:none;
+    font-family:'Bebas Neue', sans-serif; font-size:36px; letter-spacing:.08em;
+    transition: color .2s; text-transform: uppercase;
+  }
+  .mobile-menu a:hover{ color: var(--lime); }
+
+  /* ─── PAGE HERO (restyled to dark theme, same layout/structure as before — no bg photo, no marquee, no stats) ─── */
+  .page-hero{
+    position:relative; min-height: 100vh;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    padding: 120px 56px 56px;
+    overflow:hidden;
+    background: rgba(13,19,38,.8);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius: 0;
+    margin: 14px 14px 100px;
+    backdrop-filter: blur(12px);
+  }
+  .page-hero-bg{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(42,31,255,.5), transparent 55%),
+      radial-gradient(ellipse at 10% 90%, rgba(216,255,61,.12), transparent 50%);
+    pointer-events:none;
+  }
+  .page-hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 30% 40%, #000 25%, transparent 75%);
+  }
+.page-hero-ghost-wrap{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.page-hero-ghost-track{
+  position:absolute;
+  top:50%;
+  left:0;
+
+  display:flex;
+  align-items:center;
+  gap:8vw;
+
+  white-space:nowrap;
+
+  transform:translateY(-50%);
+
+  animation: ghostMarquee 25s linear infinite;
+}
+
+.page-hero-ghost-track span{
+  font-family:'Bebas Neue', sans-serif;
+  font-size:clamp(140px,22vw,340px);
+  line-height:.85;
+  letter-spacing:.02em;
+  color:rgba(255,255,255,.03);
+  flex-shrink:0;
+}
+
+@keyframes ghostMarquee{
+  from{
+    transform:translateY(-50%) translateX(0);
+  }
+
+  to{
+    transform:translateY(-50%) translateX(-50%);
+  }
+}
+  .page-hero-content{ position:relative; z-index:1; max-width:900px; width:100%; margin:0 auto; text-align:center; }
+  .page-hero-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:8px 16px 8px 12px;
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:999px;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color: #F4F2EC; font-weight:600; margin-bottom:28px;
+    backdrop-filter: blur(10px);
+    font-family:'Inter',sans-serif;
+  }
+  .page-hero-eyebrow::before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background: var(--lime);
+    box-shadow:0 0 0 4px rgba(216,255,61,.18);
+    animation: pulse 2.2s var(--ease) infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 0 4px rgba(216,255,61,.18); }
+    50%   { box-shadow:0 0 0 9px rgba(216,255,61,.02); }
+  }
+  .page-hero h1{
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(40px, 6.5vw, 84px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #F4F2EC;
+    text-transform: uppercase;
+  }
+  .page-hero h1 span{
+    color: var(--lime);
+    font-size:inherit;
+    font-weight: inherit;
+    letter-spacing:inherit;
+    display: inline-block;
+    margin-top: 4px;
+    text-transform: uppercase;
+    font-style: normal;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .page-hero-sub{
+    margin:16px auto 0; font-size:15px;
+    color: rgba(244,242,236,.65); max-width:650px; line-height:1.7;
+    text-align:center;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color: rgba(255,255,255,.75); font-weight:600; margin-bottom:48px;
+    font-family:'Inter',sans-serif;
+  }
+  .section-label::before{ content:""; width:28px; height:1px; background: rgba(255,255,255,.45); }
+
+  /* ─── FILTER BAR ─── */
+  .filter-section{ padding: 0 56px 60px; }
+  .filter-bar{
+    display:flex; flex-wrap:wrap; gap:10px;
+    margin-bottom: 0;
+  }
+  .filter-btn{
+    padding: 10px 18px;
+    font-size:12px; font-weight:600; letter-spacing:.06em;
+    text-transform:uppercase; border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.05); color:#fff;
+    cursor:pointer; transition: all .25s var(--ease);
+    font-family:'Inter', sans-serif;
+    backdrop-filter: blur(8px);
+  }
+  .filter-btn:hover{ background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.3); transform: translateY(-1px); }
+  .filter-btn.active{ background: var(--indigo); color:#fff; border-color: var(--indigo);
+    box-shadow: 0 6px 18px -6px rgba(42,31,255,.55);
+  }
+
+
+  /* ─── FLAGSHIP / GALLERY PROJECTS ─── */
+.projects-section {
+  padding: 0 56px 40px;
+}
+
+
+
+
+  /* Grid: 2 col, big cards */
+  .flagship-grid{
+    display:grid; grid-template-columns: repeat(2, 1fr);
+    gap:20px; margin-bottom:80px;
+  }
+  .flagship-card{
+    position:relative; overflow:hidden;
+    border-radius: var(--r-lg); border:1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.04);
+    display:flex; flex-direction:column;
+    transition: box-shadow .4s var(--ease), transform .4s var(--ease), background .4s var(--ease);
+    backdrop-filter: blur(8px);
+  }
+  .flagship-card:hover{ transform: translateY(-4px); box-shadow: 0 30px 60px -20px rgba(42,31,255,.4), 0 10px 20px -10px rgba(5,8,22,.5); background: rgba(42,31,255,.08); }
+
+  /* Featured flagship card — spans full width of the grid */
+  .flagship-card--featured{ grid-column: 1 / -1; }
+.flagship-card--featured .media-slots{ flex-wrap: wrap; }
+  /* ─── MEDIA GALLERY (top of each card) ─── */
+  .flagship-media{
+    width:100%; background: rgba(255,255,255,.02);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 16px; display:flex; flex-direction:column; gap:12px;
+  }
+
+ .flagship-card--featured .media-slot{
+    height: clamp(200px, 45vw, 520px);
+    object-fit:cover;
+  }
+  .media-slot video{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    background:#000;
+  }
+  /* Row of slots */
+  .media-slots{
+    display:flex; gap:10px; flex-wrap:wrap;
+  }
+
+  /* Individual slot — image or video */
+  .media-slot{
+    position:relative; flex:1; min-width:120px;
+   
+    border-radius: var(--r-md);
+    overflow:hidden; background: rgba(255,255,255,.03);
+    
+    transition: border-color .25s var(--ease), background .25s var(--ease);
+  }
+  .media-slot:hover{ border-color: var(--indigo); background: var(--indigo-soft); }
+
+  /* Slot that has an image filled in */
+  .flagship-media .media-slot img{
+    position:absolute; inset:0;
+    width:100%; height:100%; object-fit:cover; object-position:center;
+    display:block;
+    transition: transform 1.1s var(--ease), filter .5s var(--ease);
+    filter: saturate(92%) brightness(.97);
+  }
+  .flagship-card:hover .media-slot img{ transform:scale(1.05); filter:saturate(108%) brightness(1); }
+
+  /* Slot that has a video filled in */
+  .media-slot video{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    border-radius: inherit;
+  }
+  /* Empty placeholder — shown when no img/video inside */
+  .media-slot-placeholder{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; pointer-events:none;
+  }
+  .media-slot-placeholder .plus{
+    width:38px; height:38px; border-radius:50%;
+    background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16);
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; color: rgba(255,255,255,.6); font-weight:300; line-height:1;
+    transition: background .25s, color .25s;
+  }
+  .media-slot:hover .media-slot-placeholder .plus{
+    background: var(--indigo); color:#fff; border-color: var(--indigo);
+  }
+  .media-slot-placeholder span{
+    font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color: rgba(255,255,255,.35); font-weight:600; text-align:center; line-height:1.3;
+  }
+
+  /* Hide placeholder once a real asset is inside */
+  .media-slot:has(img) .media-slot-placeholder,
+  .media-slot:has(video) .media-slot-placeholder{ display:none; }
+
+  .flagship-body{
+    padding:30px 35px 40px;
+    display:flex; flex-direction:column; gap:12px; flex:1;
+  }
+  .flagship-tag{
+    display:inline-flex; align-self:flex-start;
+    background: var(--lime); color: #0E0D0A;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    font-weight:700; padding:6px 12px; border-radius:999px;
+  }
+  .flagship-number{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color: rgba(255,255,255,.35); font-weight:400;
+  }
+  .flagship-body h3{
+    font-family:'Bebas Neue', sans-serif; font-size:clamp(28px,3.5vw,42px);
+    letter-spacing:.04em; font-weight:400; color: #fff; line-height:.95;
+  }
+  .flagship-meta{
+    display:flex; align-items:center; gap:8px;
+    font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color: rgba(255,255,255,.35); font-weight:600;
+  }
+  .flagship-meta span{ color: var(--lime); }
+  .flagship-body p{
+    font-size:14px; color: rgba(255,255,255,.55); line-height:1.7;
+    max-width:52ch; font-weight:400;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ════════════════════════════════════════════════════════
+     MASONRY GALLERY — JS-balanced, natural aspect ratios
+     (true Pinterest algorithm). The container is set to
+     position:relative with an explicit height calculated by
+     JS once images load. Each .media-slot is positioned
+     absolutely (left/top/width set inline by JS) so columns
+     balance evenly regardless of photo count — unlike CSS
+     column-count, which fills top-to-bottom per column and
+     leaves trailing columns empty when counts don't divide
+     evenly.
+     ════════════════════════════════════════════════════════ */
+  .gallery-grid{
+    position: relative;
+    width: 100%;
+    /* height is set inline by JS once layout is computed */
+  }
+
+  .gallery-grid .media-slot{
+    position: absolute;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    display: block;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    cursor: pointer;
+    /* left/top/width set inline by JS */
+
+    /* scroll-reveal starting state */
+    opacity: 0;
+    transform: translateY(28px) scale(.98);
+    transition: opacity .7s var(--ease), transform .7s var(--ease), border-color .25s var(--ease);
+  }
+  .gallery-grid .media-slot.in{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .gallery-grid .media-slot:hover{ border-color: var(--indigo); z-index: 2; }
+
+  /* natural image sizing — no forced height, no cropping */
+  .gallery-grid .media-slot img{
+    position: static;        /* override the absolute positioning used on flagship slots */
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform .6s var(--ease), filter .5s var(--ease);
+    filter: saturate(92%) brightness(.97);
+  }
+
+  .gallery-grid .media-slot:hover img{
+    transform: scale(1.06);
+    filter: saturate(112%) brightness(1.05);
+  }
+
+  .gallery-grid .media-slot::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, rgba(216,255,61,0) 40%, rgba(216,255,61,.16) 100%);
+    opacity:0;
+    transition: opacity .4s var(--ease);
+    pointer-events:none;
+  }
+  .gallery-grid .media-slot:hover::after{ opacity:1; }
+
+  /* fallback while JS hasn't measured/positioned yet —
+     prevents a flash of stacked images at 0,0 */
+  .gallery-grid:not(.js-ready) .media-slot{
+    position: relative;
+    width: 100%;
+    margin-bottom: 14px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .category-block{ margin-bottom:80px; }
+  .category-block-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:10px; margin-bottom:24px;
+  }
+  .category-block-head h3{
+    font-family:'Bebas Neue', sans-serif; font-size:clamp(26px,3vw,38px);
+    letter-spacing:.04em; font-weight:400; color: #fff; text-transform:uppercase;
+  }
+  .category-block-head .flagship-tag{ margin:0; }
+
+  /* ─── FEATURED HIGHLIGHTS ─── */
+  .highlights-section{ padding: 0 56px 120px; }
+  .highlights-heading-row{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    margin-bottom:48px; flex-wrap:wrap; gap:16px;
+  }
+  .highlights-heading-row h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height:.9; font-weight:400; letter-spacing:.04em;
+    text-transform:uppercase; color: #fff;
+  }
+  .highlights-heading-row h2 em{
+    color: var(--lime);
+    font-family:'Instrument Serif', serif;
+    font-style:italic; font-weight:400; text-transform:none;
+  }
+
+  /* 4-col horizontal highlights */
+  .highlights-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr);
+    gap:16px;
+  }
+  .highlight-card{
+    position:relative; overflow:hidden;
+    aspect-ratio:3/4; background: rgba(255,255,255,.04);
+    border-radius: var(--r-lg); border:1px solid rgba(255,255,255,.08);
+    cursor:pointer;
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  .highlight-card:hover{ transform: translateY(-6px); box-shadow: 0 30px 60px -20px rgba(42,31,255,.4), 0 10px 20px -10px rgba(5,8,22,.5); }
+  .highlight-card img{
+    width:100%; height:100%; object-fit:cover;
+    transition: transform 1.2s var(--ease), filter .5s var(--ease);
+    filter: saturate(85%) contrast(102%);
+  }
+  .highlight-card:hover img{ transform: scale(1.08); filter: saturate(110%) contrast(105%); }
+  .highlight-overlay{
+    position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(5,8,22,.92) 0%, rgba(5,8,22,.25) 55%, rgba(5,8,22,0) 100%);
+    display:flex; flex-direction:column; justify-content:flex-end; padding:28px 24px;
+  }
+  .highlight-badge{
+    display:inline-flex; align-self:flex-start;
+    background: rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(8px);
+    color:#fff; font-size:10px; letter-spacing:.18em;
+    text-transform:uppercase; font-weight:700;
+    padding:5px 10px; border-radius:999px; margin-bottom:12px;
+  }
+  .highlight-card h4{
+    font-family:'Bebas Neue', sans-serif; font-size:clamp(20px,2vw,28px);
+    color:#fff; letter-spacing:.04em; font-weight:400; line-height:1; margin-bottom:8px;
+  }
+  .highlight-card p{
+    font-size:12.5px; color: rgba(255,255,255,.72); line-height:1.55;
+    font-weight:400; max-width:22ch;
+    font-family:'Inter',sans-serif;
+  }
+
+  .highlight-video{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:translate(-50%, -50%);
+  }
+
+  /* ─── PROJECT BAND ─── */
+  .project-band{
+    margin: 0 40px 40px;
+    background: rgba(13,19,38,.8); color:#fff;
+    border: 1px solid rgba(255,255,255,.08);
+    padding: 72px 56px; border-radius: var(--r-lg);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:24px;
+    position:relative; overflow:hidden;
+    backdrop-filter: blur(12px);
+  }
+  .project-band::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 90% 110%, rgba(42,31,255,.5), transparent 50%),
+      radial-gradient(circle at 10% -10%, rgba(216,255,61,.12), transparent 50%);
+    pointer-events:none;
+  }
+  .project-band > *{ position:relative; z-index:1; }
+  .project-band h2{
+    font-family:'Bebas Neue', sans-serif; font-size: clamp(40px, 5.5vw, 76px);
+    color:#fff; letter-spacing:.04em; line-height:1; font-weight:400;
+  }
+  .project-band p{
+    font-size:15px; color: rgba(255,255,255,.55); max-width:460px;
+    margin-top:14px; line-height:1.6;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-light{
+    background: var(--lime); color: #0E0D0A;
+    padding:18px 32px; font-size:13px; font-weight:700;
+    letter-spacing:.02em; border-radius:999px;
+    text-decoration:none; white-space:nowrap;
+    display:inline-flex; align-items:center; gap:10px;
+    transition: transform .25s var(--ease);
+    box-shadow: 0 10px 30px -10px rgba(216,255,61,.5);
+    font-family:'Inter',sans-serif;
+  }
+  .btn-light::after{ content:"↗"; transition: transform .25s var(--ease); }
+  .btn-light:hover{ transform: translateY(-2px); }
+  .btn-light:hover::after{ transform: translate(3px,-3px); }
+
+  /* ─── FOOTER (kept light, matches index.html) ─── */
+  footer{
+    margin: 0 40px 40px;
+    background: #FFFFFF; border:1px solid rgba(21,20,15,.10);
+    border-radius: var(--r-lg); padding: 64px 56px 32px;
+    color: #15140F;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap:48px; margin-bottom:56px;
+  }
+  .footer-brand img{ height:30px; margin-bottom:20px; }
+  .footer-brand p{ font-size:14px; color: #5C5C53; line-height:1.7; max-width:300px; margin-bottom:24px; font-family:'Inter',sans-serif; }
+  .footer-socials{ display:flex; gap:10px; }
+  .footer-socials a{
+    width:38px; height:38px; border:1px solid rgba(21,20,15,.10);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color: #5C5C53; text-decoration:none; font-size:13px; font-weight:600;
+    transition: all .25s var(--ease);
+    font-family:'Inter',sans-serif;
+  }
+  .footer-socials a:hover{ background: #15140F; color:#fff; border-color: #15140F; transform: translateY(-2px); }
+  .footer-col h4{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: #15140F; margin-bottom:20px; font-weight:700; font-family:'Inter',sans-serif; }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col ul a{
+    color: #5C5C53; text-decoration:none; font-size:14px;
+    transition: color .2s; display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif;
+  }
+  .footer-col ul a::before{ content:""; width:0; height:1px; background: #15140F; transition: width .25s var(--ease); }
+  .footer-col ul a:hover{ color: #15140F; }
+  .footer-col ul a:hover::before{ width:14px; }
+  .footer-address{ font-size:14px; color: #5C5C53; line-height:1.7; font-family:'Inter',sans-serif; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid rgba(21,20,15,.10);
+    font-size:12px; color: rgba(21,20,15,.4); flex-wrap:wrap; gap:12px;
+    font-family:'Inter',sans-serif;
+  }
+
+  /* ─── REVEAL ─── */
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1100px){
+    .highlights-grid{ grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 900px){
+    .flagship-grid{ grid-template-columns: 1fr; }
+    .highlights-grid{ grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 768px){
+    nav{ left:10px; right:10px; padding:8px 10px 8px 18px; }
+    .nav-links, .nav-cta{ display:none; }
+    .hamburger{ display:flex; }
+.page-hero{ padding:100px 20px 40px; margin:10px 10px 60px; min-height: 100vh; }    .filter-section{ padding:0 24px 40px; }
+    .projects-section{ padding:0 24px 70px; }
+    .highlights-section{ padding:0 24px 70px; }
+    .flagship-body{ padding:22px 22px 26px; }
+    .highlights-grid{ grid-template-columns: 1fr 1fr; gap:12px; }
+
+.project-band{ margin:0 14px 28px; padding:40px 24px; flex-direction:column; align-items:flex-start; gap:20px; }    footer{ margin:0 14px 28px; padding:48px 28px 28px; }
+.footer-grid{ grid-template-columns: 1fr; gap:28px; }
+.footer-brand p{ max-width:100%; }  }
+
+
+
+
+@media (max-width: 480px){
+    .highlights-grid{ grid-template-columns: 1fr; }
+    .filter-bar{ gap:8px; }
+    .filter-btn{ font-size:11px; padding:8px 14px; }
+    .flagship-body{ padding:18px 18px 22px; }
+    .flagship-body h3{ font-size: 26px; }
+    .category-block-head h3{ font-size: 24px; }
+    .page-hero h1{ font-size: 34px; }
+  }
+
+</style>
+
+<style id="parashoot-nav-expansion-fix">
+@media (min-width:769px) and (max-width:1200px){
+  .nav-links{gap:0!important;}
+  .nav-links a{font-size:11px!important;padding:8px 8px!important;letter-spacing:.02em!important;}
+  .nav-cta{font-size:11px!important;padding:10px 14px!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="assets/images/parashootlogo.png" alt="Parashoot Studio"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Studio</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="work.html" class="active">Portfolio</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="careers.html">Careers</a></li>
+    <li><a href="connect.html">Connect</a></li>
+  </ul>
+  <a href="connect.html" class="nav-cta">Start a Project</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Studio</a>
+  <a href="services.html">Services</a>
+  <a href="work.html" class="active">Portfolio</a>
+  <a href="team.html">Team</a>
+  <a href="clients.html">Clients</a>
+  <a href="careers.html">Careers</a>
+  <a href="connect.html">Connect</a>
+</div>
+
+<!-- ─── PAGE HERO ─── -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+<div class="page-hero-ghost-wrap" aria-hidden="true">
+  <div class="page-hero-ghost-track">
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+    <span>WORK</span>
+  </div>
+</div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Portfolio</p>
+    <h1>OUR  <span>Finest</span> WORK</h1>
+    <p class="page-hero-sub">Flagship campaigns, celebrity activations, music festivals, and brand films — every project shot with purpose.</p>
+  </div>
+</section>
+
+<!-- ─── FILTER BAR ─── -->
+<section class="filter-section">
+  <p class="section-label">Browse by Category</p>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-filter="all">All Projects</button>
+    <button class="filter-btn" data-filter="flagship">Flagship Projects</button>
+    <button class="filter-btn" data-filter="portraits">Portraits</button>
+    <button class="filter-btn" data-filter="food">Food &amp; Beverages</button>
+    <button class="filter-btn" data-filter="celebrity">Celebrity</button>
+    <button class="filter-btn" data-filter="nightlife">Night Life</button>
+    <button class="filter-btn" data-filter="sports">Sports</button>
+    <button class="filter-btn" data-filter="brands">Brands</button>
+    <button class="filter-btn" data-filter="aerial">Aerial</button>
+    <button class="filter-btn" data-filter="bts">BTS</button>
+    <button class="filter-btn" data-filter="jewellery">Jewellery</button>
+    <button class="filter-btn" data-filter="property">Property</button>
+  </div>
+</section>
+
+<!-- ─── FLAGSHIP PROJECTS ─── -->
+<section class="projects-section" id="projects">
+<p class="section-label" id="flagshipLabel">Flagship Projects</p>
+
+
+  <div class="flagship-grid">
+
+    <!-- Project 01: Netflix at IFFI 2024 -->
+<div class="flagship-card flagship-card--featured reveal" data-category="flagship">
+        <div class="flagship-media">
+        <div class="media-slots">
+          <div class="media-slot">
+            <img src="assets/flagship_proj/netfilx24_1.jpg" alt="Netflix IFFI 2024"/>
+          </div>
+          <div class="media-slot">
+            <img src="assets/flagship_proj/netflix24_2.jpg" alt="Netflix IFFI 2024"/>
+          </div>
+        </div>
+      </div>
+      <div class="flagship-body">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <span class="flagship-tag">Flagship Projects</span>
+          <span class="flagship-number">Project 01</span>
+        </div>
+        <h3>Netflix at IFFI 2024</h3>
+        <p class="flagship-meta"><span>Event</span> · Goa Film Festival Coverage</p>
+        <p>Celebrating cinema magic with red-carpet glamour, exclusive Netflix talent interviews, and immersive activations. Bold visuals captured creativity in motion.</p>
+      </div>
+    </div>
+
+    <!-- Project 02: Sunburn × Deltin -->
+<div class="flagship-card flagship-card--featured reveal" data-category="flagship">
+        <div class="flagship-media">
+        <div class="media-slots">
+          <div class="media-slot">
+            <video src="assets/flagship_proj/Sunburn-x-Deltin-2.mp4" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+      <div class="flagship-body">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <span class="flagship-tag">Nightlife</span>
+          <span class="flagship-number">Project 02</span>
+        </div>
+        <h3>Sunburn × Deltin Goa<br/>Experience Stage 2022</h3>
+        <p class="flagship-meta"><span>Event</span> · Music Festival Coverage</p>
+        <p>Electrifying performances and vibrant crowd energy brought Goa's biggest music festival to life, blending culture and rhythm.</p>
+      </div>
+    </div>
+
+    <!-- Project 03: Deltin Property Showcase -->
+<div class="flagship-card flagship-card--featured reveal" data-category="flagship">
+        <div class="flagship-media">
+        <div class="media-slots">
+          <div class="media-slot">
+            <video src="assets/flagship_proj/Deltin_All-properties_Horizontal.mp4" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+      <div class="flagship-body">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <span class="flagship-tag">Brands · Property</span>
+          <span class="flagship-number">Project 03</span>
+        </div>
+        <h3>Deltin Property Showcase</h3>
+        <p class="flagship-meta"><span>Client</span> · Delta Corp</p>
+        <p>A cinematic brand film highlighting luxury resorts, casinos, and lifestyle destinations — showcasing scale, design, and premium experiences.</p>
+      </div>
+    </div>
+
+    <!-- Project 04: Deltin at IFFI 2022 -->
+<div class="flagship-card flagship-card--featured reveal" data-category="flagship">
+        <div class="flagship-media">
+        <div class="media-slots">
+          <div class="media-slot">
+            <img src="assets/flagship_proj/deltiniff22_1.jpg" alt="Deltin IFFI 2022"/>
+          </div>
+          <div class="media-slot">
+            <img src="assets/flagship_proj/deltiniff22_2.jpg" alt="Deltin IFFI 2022"/>
+          </div>
+        </div>
+      </div>
+      <div class="flagship-body">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <span class="flagship-tag">Celebrity Activation</span>
+          <span class="flagship-number">Project 04</span>
+        </div>
+        <h3>Deltin at IFFI 2022</h3>
+        <p class="flagship-meta"><span>Event</span> · Film Festival · Celebrity</p>
+        <p>Where cinema met luxury — featuring celebrity interactions (Ajay Devgn, Anupam Kher, Rishab Shetty) and immersive brand showcases.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     CATEGORY GALLERIES — masonry layout, natural aspect ratios.
+     Each block carries data-category on the wrapper so the filter JS
+     can show/hide the whole block.
+     Replace the numbered placeholder paths with real assets — same
+     filename pattern, just swap the file.
+     ════════════════════════════════════════════════════════════════ -->
+
+<section class="projects-section" id="categoryGalleries">
+
+  <!-- PORTRAITS -->
+  <div class="category-block reveal" data-category="portraits">
+    <div class="category-block-head">
+      <h3>Portraits</h3>
+    </div>
+    <div class="gallery-grid">
+
+
+<div class="media-slot"><img src="assets/portrait/p1.jpg" alt="Portrait 1"></div>
+<div class="media-slot"><img src="assets/portrait/p2.jpg" alt="Portrait 2"></div>
+<div class="media-slot"><img src="assets/portrait/p3.jpg" alt="Portrait 3"></div>
+<div class="media-slot"><img src="assets/portrait/p4.jpg" alt="Portrait 4"></div>
+<div class="media-slot"><img src="assets/portrait/p5.jpg" alt="Portrait 5"></div>
+<div class="media-slot"><img src="assets/portrait/p6.jpg" alt="Portrait 6"></div>
+<div class="media-slot"><img src="assets/portrait/p7.jpg" alt="Portrait 7"></div>
+<div class="media-slot"><img src="assets/portrait/p8.jpg" alt="Portrait 8"></div>
+<div class="media-slot"><img src="assets/portrait/p9.jpg" alt="Portrait 9"></div>
+<div class="media-slot"><img src="assets/portrait/p10.jpg" alt="Portrait 10"></div>
+<div class="media-slot"><img src="assets/portrait/p11.jpg" alt="Portrait 11"></div>
+<div class="media-slot"><img src="assets/portrait/p12.jpg" alt="Portrait 12"></div>
+<div class="media-slot"><img src="assets/portrait/p13.jpg" alt="Portrait 13"></div>
+<div class="media-slot"><img src="assets/portrait/p14.jpg" alt="Portrait 14"></div>
+<div class="media-slot"><img src="assets/portrait/p15.jpg" alt="Portrait 15"></div>
+<div class="media-slot"><img src="assets/portrait/p16.jpg" alt="Portrait 16"></div>
+<div class="media-slot"><img src="assets/portrait/p17.jpg" alt="Portrait 17"></div>
+<div class="media-slot"><img src="assets/portrait/p18.jpg" alt="Portrait 18"></div>
+<div class="media-slot"><img src="assets/portrait/p19.jpg" alt="Portrait 19"></div>
+<div class="media-slot"><img src="assets/portrait/p20.jpg" alt="Portrait 20"></div>
+<div class="media-slot"><img src="assets/portrait/p21.jpg" alt="Portrait 21"></div>
+<div class="media-slot"><img src="assets/portrait/p22.jpg" alt="Portrait 22"></div>
+<div class="media-slot"><img src="assets/portrait/p23.jpg" alt="Portrait 23"></div>
+<div class="media-slot"><img src="assets/portrait/p24.jpg" alt="Portrait 24"></div>
+<div class="media-slot"><img src="assets/portrait/p25.jpg" alt="Portrait 25"></div>
+<div class="media-slot"><img src="assets/portrait/p26.jpg" alt="Portrait 26"></div>
+<div class="media-slot"><img src="assets/portrait/p27.jpg" alt="Portrait 27"></div>
+<div class="media-slot"><img src="assets/portrait/p28.jpg" alt="Portrait 28"></div>
+<div class="media-slot"><img src="assets/portrait/p29.jpg" alt="Portrait 29"></div>
+<div class="media-slot"><img src="assets/portrait/p30.jpg" alt="Portrait 30"></div>
+<div class="media-slot"><img src="assets/portrait/p31.jpg" alt="Portrait 31"></div>
+<div class="media-slot"><img src="assets/portrait/p32.jpg" alt="Portrait 32"></div>
+<div class="media-slot"><img src="assets/portrait/p33.jpg" alt="Portrait 33"></div>
+
+
+
+    </div>
+  </div>
+
+  <!-- FOOD & BEVERAGES -->
+  <div class="category-block reveal" data-category="food">
+    <div class="category-block-head">
+      <h3>Food &amp; Beverages</h3>
+    </div>
+    <div class="gallery-grid">
+
+     <div class="media-slot"><img src="assets/food/f1.jpg" alt="Food 1"></div>
+<div class="media-slot"><img src="assets/food/f2.jpg" alt="Food 2"></div>
+<div class="media-slot"><img src="assets/food/f3.jpg" alt="Food 3"></div>
+<div class="media-slot"><img src="assets/food/f4.jpg" alt="Food 4"></div>
+<div class="media-slot"><img src="assets/food/f5.jpg" alt="Food 5"></div>
+<div class="media-slot"><img src="assets/food/f6.jpg" alt="Food 6"></div>
+<div class="media-slot"><img src="assets/food/f7.jpg" alt="Food 7"></div>
+<div class="media-slot"><img src="assets/food/f8.jpg" alt="Food 8"></div>
+<div class="media-slot"><img src="assets/food/f9.jpg" alt="Food 9"></div>
+<div class="media-slot"><img src="assets/food/f10.jpg" alt="Food 10"></div>
+<div class="media-slot"><img src="assets/food/f11.jpg" alt="Food 11"></div>
+<div class="media-slot"><img src="assets/food/f12.jpg" alt="Food 12"></div>
+<div class="media-slot"><img src="assets/food/f13.jpg" alt="Food 13"></div>
+<div class="media-slot"><img src="assets/food/f14.jpg" alt="Food 14"></div>
+<div class="media-slot"><img src="assets/food/f15.jpg" alt="Food 15"></div>
+<div class="media-slot"><img src="assets/food/f16.jpg" alt="Food 16"></div>
+<div class="media-slot"><img src="assets/food/f17.jpg" alt="Food 17"></div>
+<div class="media-slot"><img src="assets/food/f18.jpg" alt="Food 18"></div>
+<div class="media-slot"><img src="assets/food/f19.jpg" alt="Food 19"></div>
+<div class="media-slot"><img src="assets/food/f20.jpg" alt="Food 20"></div>
+<div class="media-slot"><img src="assets/food/f21.jpg" alt="Food 21"></div>
+<div class="media-slot"><img src="assets/food/f22.jpg" alt="Food 22"></div>
+<div class="media-slot"><img src="assets/food/f23.jpg" alt="Food 23"></div>
+<div class="media-slot"><img src="assets/food/f24.jpg" alt="Food 24"></div>
+<div class="media-slot"><img src="assets/food/f25.jpg" alt="Food 25"></div>
+<div class="media-slot"><img src="assets/food/f26.jpg" alt="Food 26"></div>
+<div class="media-slot"><img src="assets/food/f27.jpg" alt="Food 27"></div>
+<div class="media-slot"><img src="assets/food/f28.jpg" alt="Food 28"></div>
+<div class="media-slot"><img src="assets/food/f29.jpg" alt="Food 29"></div>
+<div class="media-slot"><img src="assets/food/f30.jpg" alt="Food 30"></div>
+<div class="media-slot"><img src="assets/food/f31.jpg" alt="Food 31"></div>
+<div class="media-slot"><img src="assets/food/f32.jpg" alt="Food 32"></div>
+<div class="media-slot"><img src="assets/food/f33.jpg" alt="Food 33"></div>
+<div class="media-slot"><img src="assets/food/f34.jpg" alt="Food 34"></div>
+<div class="media-slot"><img src="assets/food/f35.jpg" alt="Food 35"></div>
+<div class="media-slot"><img src="assets/food/f36.jpg" alt="Food 36"></div>
+<div class="media-slot"><img src="assets/food/f37.jpg" alt="Food 37"></div>
+<div class="media-slot"><img src="assets/food/f38.jpg" alt="Food 38"></div>
+<div class="media-slot"><img src="assets/food/f39.jpg" alt="Food 39"></div>
+<div class="media-slot"><img src="assets/food/f40.jpg" alt="Food 40"></div>
+<div class="media-slot"><img src="assets/food/f41.jpg" alt="Food 41"></div>
+<div class="media-slot"><img src="assets/food/f42.jpg" alt="Food 42"></div>
+<div class="media-slot"><img src="assets/food/f43.jpg" alt="Food 43"></div>
+<div class="media-slot"><img src="assets/food/f44.jpg" alt="Food 44"></div>
+<div class="media-slot"><img src="assets/food/f45.jpg" alt="Food 45"></div>
+<div class="media-slot"><img src="assets/food/f46.jpg" alt="Food 46"></div>
+<div class="media-slot"><img src="assets/food/f47.jpg" alt="Food 47"></div>
+<div class="media-slot"><img src="assets/food/f48.jpg" alt="Food 48"></div>
+<div class="media-slot"><img src="assets/food/f49.jpg" alt="Food 49"></div>
+<div class="media-slot"><img src="assets/food/f50.jpg" alt="Food 50"></div>
+<div class="media-slot"><img src="assets/food/f51.jpg" alt="Food 51"></div>
+<div class="media-slot"><img src="assets/food/f52.jpg" alt="Food 52"></div>
+<div class="media-slot"><img src="assets/food/f53.jpg" alt="Food 53"></div>
+<div class="media-slot"><img src="assets/food/f54.jpg" alt="Food 54"></div>
+<div class="media-slot"><img src="assets/food/f55.jpg" alt="Food 55"></div>
+<div class="media-slot"><img src="assets/food/f56.jpg" alt="Food 56"></div>
+<div class="media-slot"><img src="assets/food/f57.jpg" alt="Food 57"></div>
+<div class="media-slot"><img src="assets/food/f58.jpg" alt="Food 58"></div>
+<div class="media-slot"><img src="assets/food/f59.jpg" alt="Food 59"></div>
+<div class="media-slot"><img src="assets/food/f60.jpg" alt="Food 60"></div>
+<div class="media-slot"><img src="assets/food/f61.jpg" alt="Food 61"></div>
+<div class="media-slot"><img src="assets/food/f62.jpg" alt="Food 62"></div>
+<div class="media-slot"><img src="assets/food/f63.jpg" alt="Food 63"></div>
+<div class="media-slot"><img src="assets/food/f64.jpg" alt="Food 64"></div>
+<div class="media-slot"><img src="assets/food/f65.jpg" alt="Food 65"></div>
+<div class="media-slot"><img src="assets/food/f66.jpg" alt="Food 66"></div>
+<div class="media-slot"><img src="assets/food/f67.jpg" alt="Food 67"></div>
+<div class="media-slot"><img src="assets/food/f68.jpg" alt="Food 68"></div>
+
+    </div>
+  </div>
+
+  <!-- CELEBRITY -->
+  <div class="category-block reveal" data-category="celebrity">
+    <div class="category-block-head">
+      <h3>Celebrity</h3>
+    </div>
+    <div class="gallery-grid">
+
+<div class="media-slot"><img src="assets/celebrity/c1.jpeg" alt="Celebrity 1"></div>
+<div class="media-slot"><img src="assets/celebrity/c2.jpg" alt="Celebrity 2"></div>
+<div class="media-slot"><img src="assets/celebrity/c3.jpg" alt="Celebrity 3"></div>
+<div class="media-slot"><img src="assets/celebrity/c4.jpg" alt="Celebrity 4"></div>
+<div class="media-slot"><img src="assets/celebrity/c5.jpeg" alt="Celebrity 5"></div>
+<div class="media-slot"><img src="assets/celebrity/c6.jpg" alt="Celebrity 6"></div>
+<div class="media-slot"><img src="assets/celebrity/c7.jpg" alt="Celebrity 7"></div>
+<div class="media-slot"><img src="assets/celebrity/c8.jpg" alt="Celebrity 8"></div>
+<div class="media-slot"><img src="assets/celebrity/c9.jpeg" alt="Celebrity 9"></div>
+<div class="media-slot"><img src="assets/celebrity/c10.jpg" alt="Celebrity 10"></div>
+<div class="media-slot"><img src="assets/celebrity/c11.jpeg" alt="Celebrity 11"></div>
+<div class="media-slot"><img src="assets/celebrity/c12.jpg" alt="Celebrity 12"></div>
+<div class="media-slot"><img src="assets/celebrity/c13.jpg" alt="Celebrity 13"></div>
+<div class="media-slot"><img src="assets/celebrity/c14.jpeg" alt="Celebrity 14"></div>
+<div class="media-slot"><img src="assets/celebrity/c15.jpg" alt="Celebrity 15"></div>
+<div class="media-slot"><img src="assets/celebrity/c16.jpg" alt="Celebrity 16"></div>
+<div class="media-slot"><img src="assets/celebrity/c17.jpeg" alt="Celebrity 17"></div>
+<div class="media-slot"><img src="assets/celebrity/c18.jpg" alt="Celebrity 18"></div>
+<div class="media-slot"><img src="assets/celebrity/c19.jpg" alt="Celebrity 19"></div>
+<div class="media-slot"><img src="assets/celebrity/c20.jpeg" alt="Celebrity 20"></div>
+<div class="media-slot"><img src="assets/celebrity/c21.jpg" alt="Celebrity 21"></div>
+<div class="media-slot"><img src="assets/celebrity/c22.jpg" alt="Celebrity 22"></div>
+<div class="media-slot"><img src="assets/celebrity/c23.jpg" alt="Celebrity 23"></div>
+<div class="media-slot"><img src="assets/celebrity/c24.jpg" alt="Celebrity 24"></div>
+<div class="media-slot"><img src="assets/celebrity/c25.jpg" alt="Celebrity 25"></div>
+<div class="media-slot"><img src="assets/celebrity/c26.jpg" alt="Celebrity 26"></div>
+<div class="media-slot"><img src="assets/celebrity/c27.jpg" alt="Celebrity 27"></div>
+<div class="media-slot"><img src="assets/celebrity/c28.jpg" alt="Celebrity 28"></div>
+<div class="media-slot"><img src="assets/celebrity/c29.jpg" alt="Celebrity 29"></div>
+<div class="media-slot"><img src="assets/celebrity/c30.jpg" alt="Celebrity 30"></div>
+   
+    </div>
+  </div>
+
+  <!-- NIGHT LIFE -->
+  <div class="category-block reveal" data-category="nightlife">
+    <div class="category-block-head">
+      <h3>Night Life</h3>
+    </div>
+    <div class="gallery-grid">
+
+
+    <div class="media-slot"><img src="assets/nightlife/n1.jpg" alt="Night Life 1"></div>
+<div class="media-slot"><img src="assets/nightlife/n2.jpg" alt="Night Life 2"></div>
+<div class="media-slot"><img src="assets/nightlife/n3.jpg" alt="Night Life 3"></div>
+<div class="media-slot"><img src="assets/nightlife/n4.jpg" alt="Night Life 4"></div>
+<div class="media-slot"><img src="assets/nightlife/n5.jpg" alt="Night Life 5"></div>
+<div class="media-slot"><img src="assets/nightlife/n6.jpg" alt="Night Life 6"></div>
+<div class="media-slot"><img src="assets/nightlife/n7.jpg" alt="Night Life 7"></div>
+<div class="media-slot"><img src="assets/nightlife/n8.jpg" alt="Night Life 8"></div>
+<div class="media-slot"><img src="assets/nightlife/n9.jpg" alt="Night Life 9"></div>
+<div class="media-slot"><img src="assets/nightlife/n10.jpg" alt="Night Life 10"></div>
+<div class="media-slot"><img src="assets/nightlife/n11.jpg" alt="Night Life 11"></div>
+<div class="media-slot"><img src="assets/nightlife/n12.jpg" alt="Night Life 12"></div>
+<div class="media-slot"><img src="assets/nightlife/n13.jpg" alt="Night Life 13"></div>
+<div class="media-slot"><img src="assets/nightlife/n14.jpg" alt="Night Life 14"></div>
+<div class="media-slot"><img src="assets/nightlife/n15.jpg" alt="Night Life 15"></div>
+<div class="media-slot"><img src="assets/nightlife/n16.jpg" alt="Night Life 16"></div>
+<div class="media-slot"><img src="assets/nightlife/n17.jpg" alt="Night Life 17"></div>
+<div class="media-slot"><img src="assets/nightlife/n18.jpg" alt="Night Life 18"></div>
+<div class="media-slot"><img src="assets/nightlife/n19.jpg" alt="Night Life 19"></div>
+<div class="media-slot"><img src="assets/nightlife/n20.jpg" alt="Night Life 20"></div>
+<div class="media-slot"><img src="assets/nightlife/n21.jpg" alt="Night Life 21"></div>
+<div class="media-slot"><img src="assets/nightlife/n22.jpg" alt="Night Life 22"></div>
+<div class="media-slot"><img src="assets/nightlife/n23.jpg" alt="Night Life 23"></div>
+<div class="media-slot"><img src="assets/nightlife/n24.jpg" alt="Night Life 24"></div>
+<div class="media-slot"><img src="assets/nightlife/n25.jpg" alt="Night Life 25"></div>
+<div class="media-slot"><img src="assets/nightlife/n26.jpg" alt="Night Life 26"></div>
+<div class="media-slot"><img src="assets/nightlife/n27.jpg" alt="Night Life 27"></div>
+<div class="media-slot"><img src="assets/nightlife/n28.jpg" alt="Night Life 28"></div>
+<div class="media-slot"><img src="assets/nightlife/n29.jpg" alt="Night Life 29"></div>
+<div class="media-slot"><img src="assets/nightlife/n30.jpg" alt="Night Life 30"></div>
+<div class="media-slot"><img src="assets/nightlife/n31.jpg" alt="Night Life 31"></div>
+<div class="media-slot"><img src="assets/nightlife/n32.jpg" alt="Night Life 32"></div>
+<div class="media-slot"><img src="assets/nightlife/n33.jpg" alt="Night Life 33"></div>
+<div class="media-slot"><img src="assets/nightlife/n34.jpg" alt="Night Life 34"></div>
+<div class="media-slot"><img src="assets/nightlife/n35.jpg" alt="Night Life 35"></div>
+<div class="media-slot"><img src="assets/nightlife/n36.jpg" alt="Night Life 36"></div>
+<div class="media-slot"><img src="assets/nightlife/n37.jpg" alt="Night Life 37"></div>
+<div class="media-slot"><img src="assets/nightlife/n38.jpg" alt="Night Life 38"></div>
+<div class="media-slot"><img src="assets/nightlife/n39.jpg" alt="Night Life 39"></div>
+<div class="media-slot"><img src="assets/nightlife/n40.jpg" alt="Night Life 40"></div>
+<div class="media-slot"><img src="assets/nightlife/n41.jpg" alt="Night Life 41"></div>
+<div class="media-slot"><img src="assets/nightlife/n42.jpg" alt="Night Life 42"></div>
+<div class="media-slot"><img src="assets/nightlife/n43.jpg" alt="Night Life 43"></div>
+<div class="media-slot"><img src="assets/nightlife/n44.jpg" alt="Night Life 44"></div>
+<div class="media-slot"><img src="assets/nightlife/n45.jpg" alt="Night Life 45"></div>
+<div class="media-slot"><img src="assets/nightlife/n46.jpg" alt="Night Life 46"></div>
+<div class="media-slot"><img src="assets/nightlife/n47.jpg" alt="Night Life 47"></div>
+<div class="media-slot"><img src="assets/nightlife/n48.jpg" alt="Night Life 48"></div>
+<div class="media-slot"><img src="assets/nightlife/n49.jpg" alt="Night Life 49"></div>
+<div class="media-slot"><img src="assets/nightlife/n50.jpg" alt="Night Life 50"></div>
+<div class="media-slot"><img src="assets/nightlife/n51.jpg" alt="Night Life 51"></div>
+<div class="media-slot"><img src="assets/nightlife/n52.jpg" alt="Night Life 52"></div>
+<div class="media-slot"><img src="assets/nightlife/n53.jpg" alt="Night Life 53"></div>
+<div class="media-slot"><img src="assets/nightlife/n54.jpg" alt="Night Life 54"></div>
+<div class="media-slot"><img src="assets/nightlife/n55.jpg" alt="Night Life 55"></div>
+<div class="media-slot"><img src="assets/nightlife/n56.jpg" alt="Night Life 56"></div>
+<div class="media-slot"><img src="assets/nightlife/n57.jpg" alt="Night Life 57"></div>
+<div class="media-slot"><img src="assets/nightlife/n58.jpg" alt="Night Life 58"></div>
+
+
+
+    </div>
+  </div>
+
+  <!-- SPORTS -->
+<!-- SPORTS -->
+  <div id="sports" class="category-block reveal" data-category="sports">    <div class="category-block-head">
+      <h3>Sports</h3>
+    </div>
+    <div class="gallery-grid">
+      <div class="media-slot"><img src="assets/sports/s1.jpg" alt="Sports 1"></div>
+      <div class="media-slot"><img src="assets/sports/s2.jpg" alt="Sports 2"></div>
+      <div class="media-slot"><img src="assets/sports/s3.jpg" alt="Sports 3"></div>
+      <div class="media-slot"><img src="assets/sports/s4.jpg" alt="Sports 4"></div>
+      <div class="media-slot"><img src="assets/sports/s5.jpg" alt="Sports 5"></div>
+      <div class="media-slot"><img src="assets/sports/s6.jpg" alt="Sports 6"></div>
+      <div class="media-slot"><img src="assets/sports/s7.jpg" alt="Sports 7"></div>
+      <div class="media-slot"><img src="assets/sports/s8.jpg" alt="Sports 8"></div>
+      <div class="media-slot"><img src="assets/sports/s9.jpg" alt="Sports 9"></div>
+      <div class="media-slot"><img src="assets/sports/s10.jpg" alt="Sports 10"></div>
+      <div class="media-slot"><img src="assets/sports/s11.jpg" alt="Sports 11"></div>
+      <div class="media-slot"><img src="assets/sports/s12.jpg" alt="Sports 12"></div>
+
+
+    </div>
+  </div>
+
+  <!-- BRANDS -->
+  <div class="category-block reveal" data-category="brands">
+    <div class="category-block-head">
+      <h3>Brands</h3>
+    </div>
+    <div class="gallery-grid">
+      <div class="media-slot"><img src="assets/brands/b1.jpg" alt="Brand 1"></div>
+      <div class="media-slot"><img src="assets/brands/b2.jpg" alt="Brand 2"></div>
+      <div class="media-slot"><img src="assets/brands/b3.jpg" alt="Brand 3"></div>
+      <div class="media-slot"><img src="assets/brands/b4.jpg" alt="Brand 4"></div>
+      <div class="media-slot"><img src="assets/brands/b5.jpg" alt="Brand 5"></div>
+      <div class="media-slot"><img src="assets/brands/b6.jpg" alt="Brand 6"></div>
+      <div class="media-slot"><img src="assets/brands/b7.jpg" alt="Brand 7"></div>
+      <div class="media-slot"><img src="assets/brands/b8.jpg" alt="Brand 8"></div>
+      <div class="media-slot"><img src="assets/brands/b9.jpg" alt="Brand 9"></div>
+      <div class="media-slot"><img src="assets/brands/b10.jpg" alt="Brand 10"></div>
+    </div>
+  </div>
+
+  <!-- AERIAL -->
+  <div id="aerial" class="category-block reveal" data-category="aerial">
+    <div class="category-block-head">
+      <h3>Aerial</h3>
+    </div>
+    <div class="gallery-grid">
+
+<div class="media-slot"><img src="assets/aerial/a1.jpg" alt="Aerial 1"></div>
+<div class="media-slot"><img src="assets/aerial/a2.jpg" alt="Aerial 2"></div>
+<div class="media-slot"><img src="assets/aerial/a3.jpg" alt="Aerial 3"></div>
+<div class="media-slot"><img src="assets/aerial/a4.jpg" alt="Aerial 4"></div>
+<div class="media-slot"><img src="assets/aerial/a5.jpg" alt="Aerial 5"></div>
+<div class="media-slot"><img src="assets/aerial/a6.jpg" alt="Aerial 6"></div>
+<div class="media-slot"><img src="assets/aerial/a7.jpg" alt="Aerial 7"></div>
+<div class="media-slot"><img src="assets/aerial/a8.jpg" alt="Aerial 8"></div>
+<div class="media-slot"><img src="assets/aerial/a9.jpg" alt="Aerial 9"></div>
+<div class="media-slot"><img src="assets/aerial/a10.jpg" alt="Aerial 10"></div>
+<div class="media-slot"><img src="assets/aerial/a11.jpg" alt="Aerial 11"></div>
+<div class="media-slot"><img src="assets/aerial/a12.jpg" alt="Aerial 12"></div>
+
+
+    </div>
+  </div>
+
+  <!-- BTS -->
+  <div class="category-block reveal" data-category="bts">
+    <div class="category-block-head">
+      <h3>Behind The Scenes</h3>
+    </div>
+    <div class="gallery-grid">
+
+<div class="media-slot"><img src="assets/bts/bts1.jpg" alt="BTS 1"></div>
+<div class="media-slot"><img src="assets/bts/bts2.jpg" alt="BTS 2"></div>
+<div class="media-slot"><img src="assets/bts/bts3.jpg" alt="BTS 3"></div>
+<div class="media-slot"><img src="assets/bts/bts4.jpg" alt="BTS 4"></div>
+<div class="media-slot"><img src="assets/bts/bts5.jpg" alt="BTS 5"></div>
+<div class="media-slot"><img src="assets/bts/bts6.jpg" alt="BTS 6"></div>
+<div class="media-slot"><img src="assets/bts/bts7.jpg" alt="BTS 7"></div>
+<div class="media-slot"><img src="assets/bts/bts8.jpg" alt="BTS 8"></div>
+<div class="media-slot"><img src="assets/bts/bts9.jpg" alt="BTS 9"></div>
+<div class="media-slot"><img src="assets/bts/bts10.jpg" alt="BTS 10"></div>
+<div class="media-slot"><img src="assets/bts/bts11.jpg" alt="BTS 11"></div>
+<div class="media-slot"><img src="assets/bts/bts12.jpg" alt="BTS 12"></div>
+<div class="media-slot"><img src="assets/bts/bts13.jpg" alt="BTS 13"></div>
+<div class="media-slot"><img src="assets/bts/bts14.jpg" alt="BTS 14"></div>
+<div class="media-slot"><img src="assets/bts/bts15.jpg" alt="BTS 15"></div>
+<div class="media-slot"><img src="assets/bts/bts16.jpg" alt="BTS 16"></div>
+<div class="media-slot"><img src="assets/bts/bts17.jpg" alt="BTS 17"></div>
+<div class="media-slot"><img src="assets/bts/bts18.jpg" alt="BTS 18"></div>
+<div class="media-slot"><img src="assets/bts/bts19.jpg" alt="BTS 19"></div>
+<div class="media-slot"><img src="assets/bts/bts20.jpg" alt="BTS 20"></div>
+<div class="media-slot"><img src="assets/bts/bts21.jpg" alt="BTS 21"></div>
+<div class="media-slot"><img src="assets/bts/bts22.jpg" alt="BTS 22"></div>
+<div class="media-slot"><img src="assets/bts/bts23.jpg" alt="BTS 23"></div>
+<div class="media-slot"><img src="assets/bts/bts24.jpg" alt="BTS 24"></div>
+<div class="media-slot"><img src="assets/bts/bts25.jpg" alt="BTS 25"></div>
+<div class="media-slot"><img src="assets/bts/bts26.jpg" alt="BTS 26"></div>
+<div class="media-slot"><img src="assets/bts/bts27.jpg" alt="BTS 27"></div>
+<div class="media-slot"><img src="assets/bts/bts28.jpg" alt="BTS 28"></div>
+<div class="media-slot"><img src="assets/bts/bts29.jpg" alt="BTS 29"></div>
+<div class="media-slot"><img src="assets/bts/bts30.jpg" alt="BTS 30"></div>
+<div class="media-slot"><img src="assets/bts/bts31.jpg" alt="BTS 31"></div>
+<div class="media-slot"><img src="assets/bts/bts32.jpg" alt="BTS 32"></div>
+<div class="media-slot"><img src="assets/bts/bts33.jpg" alt="BTS 33"></div>
+<div class="media-slot"><img src="assets/bts/bts34.jpg" alt="BTS 34"></div>
+
+
+    </div>
+  </div>
+
+  <!-- JEWELLERY -->
+  <div class="category-block reveal" data-category="jewellery">
+    <div class="category-block-head">
+      <h3>Jewellery</h3>
+    </div>
+    <div class="gallery-grid">
+
+     <div class="media-slot"><img src="assets/jewellery/j1.jpg" alt="Jewellery 1"></div>
+<div class="media-slot"><img src="assets/jewellery/j2.jpg" alt="Jewellery 2"></div>
+<div class="media-slot"><img src="assets/jewellery/j3.jpg" alt="Jewellery 3"></div>
+<div class="media-slot"><img src="assets/jewellery/j4.jpg" alt="Jewellery 4"></div>
+<div class="media-slot"><img src="assets/jewellery/j5.jpg" alt="Jewellery 5"></div>
+<div class="media-slot"><img src="assets/jewellery/j6.jpg" alt="Jewellery 6"></div>
+<div class="media-slot"><img src="assets/jewellery/j7.jpg" alt="Jewellery 7"></div>
+<div class="media-slot"><img src="assets/jewellery/j8.jpg" alt="Jewellery 8"></div>
+<div class="media-slot"><img src="assets/jewellery/j9.jpg" alt="Jewellery 9"></div>
+<div class="media-slot"><img src="assets/jewellery/j10.jpg" alt="Jewellery 10"></div>
+<div class="media-slot"><img src="assets/jewellery/j11.jpg" alt="Jewellery 11"></div>
+<div class="media-slot"><img src="assets/jewellery/j12.jpg" alt="Jewellery 12"></div>
+<div class="media-slot"><img src="assets/jewellery/j13.jpg" alt="Jewellery 13"></div>
+<div class="media-slot"><img src="assets/jewellery/j14.jpg" alt="Jewellery 14"></div>
+<div class="media-slot"><img src="assets/jewellery/j15.jpg" alt="Jewellery 15"></div>
+<div class="media-slot"><img src="assets/jewellery/j16.jpg" alt="Jewellery 16"></div>
+<div class="media-slot"><img src="assets/jewellery/j17.jpg" alt="Jewellery 17"></div>
+<div class="media-slot"><img src="assets/jewellery/j18.jpg" alt="Jewellery 18"></div>
+<div class="media-slot"><img src="assets/jewellery/j19.jpg" alt="Jewellery 19"></div>
+<div class="media-slot"><img src="assets/jewellery/j20.jpg" alt="Jewellery 20"></div>
+<div class="media-slot"><img src="assets/jewellery/j21.jpg" alt="Jewellery 21"></div>
+<div class="media-slot"><img src="assets/jewellery/j22.jpg" alt="Jewellery 22"></div>
+   
+    </div>
+  </div>
+
+  <!-- PROPERTY -->
+  <div class="category-block reveal" data-category="property">
+    <div class="category-block-head">
+      <h3>Property</h3>
+    </div>
+    <div class="gallery-grid">
+
+
+<div class="media-slot"><img src="assets/property/pr1.jpg" alt="Property 1"></div>
+<div class="media-slot"><img src="assets/property/pr2.jpg" alt="Property 2"></div>
+<div class="media-slot"><img src="assets/property/pr3.jpg" alt="Property 3"></div>
+<div class="media-slot"><img src="assets/property/pr4.jpg" alt="Property 4"></div>
+<div class="media-slot"><img src="assets/property/pr5.jpg" alt="Property 5"></div>
+<div class="media-slot"><img src="assets/property/pr6.jpg" alt="Property 6"></div>
+<div class="media-slot"><img src="assets/property/pr7.jpg" alt="Property 7"></div>
+<div class="media-slot"><img src="assets/property/pr8.jpg" alt="Property 8"></div>
+<div class="media-slot"><img src="assets/property/pr9.jpg" alt="Property 9"></div>
+<div class="media-slot"><img src="assets/property/pr10.jpg" alt="Property 10"></div>
+<div class="media-slot"><img src="assets/property/pr11.jpg" alt="Property 11"></div>
+<div class="media-slot"><img src="assets/property/pr12.jpg" alt="Property 12"></div>
+<div class="media-slot"><img src="assets/property/pr13.jpg" alt="Property 13"></div>
+<div class="media-slot"><img src="assets/property/pr14.jpg" alt="Property 14"></div>
+<div class="media-slot"><img src="assets/property/pr15.jpg" alt="Property 15"></div>
+<div class="media-slot"><img src="assets/property/pr16.jpg" alt="Property 16"></div>
+<div class="media-slot"><img src="assets/property/pr17.jpg" alt="Property 17"></div>
+<div class="media-slot"><img src="assets/property/pr18.jpg" alt="Property 18"></div>
+<div class="media-slot"><img src="assets/property/pr19.jpg" alt="Property 19"></div>
+<div class="media-slot"><img src="assets/property/pr20.jpg" alt="Property 20"></div>
+<div class="media-slot"><img src="assets/property/pr21.jpg" alt="Property 21"></div>
+<div class="media-slot"><img src="assets/property/pr22.jpg" alt="Property 22"></div>
+<div class="media-slot"><img src="assets/property/pr23.jpg" alt="Property 23"></div>
+<div class="media-slot"><img src="assets/property/pr24.jpg" alt="Property 24"></div>
+<div class="media-slot"><img src="assets/property/pr25.jpg" alt="Property 25"></div>
+<div class="media-slot"><img src="assets/property/pr26.jpg" alt="Property 26"></div>
+<div class="media-slot"><img src="assets/property/pr27.jpg" alt="Property 27"></div>
+<div class="media-slot"><img src="assets/property/pr28.jpg" alt="Property 28"></div>
+   
+   
+    </div>
+  </div>
+
+</section>
+
+<!-- ─── FEATURED HIGHLIGHTS ─── -->
+<section class="highlights-section" id="highlights">
+  <div class="highlights-heading-row">
+    <div>
+      <p class="section-label" style="margin-bottom:20px;">Featured Highlights</p>
+      <h2>STORIES<br/>WORTH <em>Telling</em></h2>
+    </div>
+  </div>
+
+  <div class="highlights-grid">
+
+    <!-- Ironman 70.3 -->
+    <div class="highlight-card reveal" data-category="flagship">
+      <video class="highlight-video" src="assets/flagship_proj/ironman.mp4" autoplay muted loop playsinline></video>
+      <div class="highlight-overlay">
+        <span class="highlight-badge">Sports</span>
+        <h4>Ironman 70.3 · Goa 2024</h4>
+        <p>Cinematic edit capturing Tejasvi Surya's grit, endurance, and spirit.</p>
+      </div>
+    </div>
+
+    <!-- Netflix IFFI -->
+    <div class="highlight-card reveal" data-category="flagship celebrity">
+      <video class="highlight-video" src="assets/flagship_proj/netflix_iffi.mp4" autoplay muted loop playsinline></video>
+      <div class="highlight-overlay">
+        <span class="highlight-badge">Flagship</span>
+        <h4>Netflix · IFFI 2024</h4>
+        <p>Immersive visuals celebrating the magic of cinema at IFFI.</p>
+      </div>
+    </div>
+
+    <!-- FIDE Chess -->
+    <div class="highlight-card reveal" data-category="flagship">
+      <video class="highlight-video" src="assets/flagship_proj/FIDE-October-2025-HIghlightv2.mp4" autoplay muted loop playsinline></video>
+      <div class="highlight-overlay">
+        <span class="highlight-badge">Brands</span>
+        <h4>FIDE Chess · Goa 2025</h4>
+        <p>Documenting logo &amp; anthem reveal, cultural performances, and launch highlights.</p>
+      </div>
+    </div>
+
+    <!-- Deltin IFFI highlight -->
+    <div class="highlight-card reveal" data-category="flagship celebrity brands">
+      <video class="highlight-video" src="assets/flagship_proj/Deltin-IFFI-Highlights-reel.mp4" autoplay muted loop playsinline></video>
+      <div class="highlight-overlay">
+        <span class="highlight-badge">Celebrity · Brands</span>
+        <h4>Deltin · IFFI 2022</h4>
+        <p>Cinema blended with luxury through celebrity moments and brand activations.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── PROJECT BAND ─── -->
+<div class="project-band reveal">
+  <div>
+    <h2>Start Your Project</h2>
+    <p>Parashoot covers all types of video &amp; photo content — social media, branding, ad films, weddings &amp; more.</p>
+  </div>
+  <a href="connect.html" class="btn-light">Get In Touch</a>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
+      <p>Goa's leading creative studio — photography, film, aerial &amp; post-production content.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
+        <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
+        <a href="https://instagram.com/parashoot.studio" target="_blank">ig</a>
+        <a href="https://www.youtube.com/channel/UCuFtcVt_Yp9CZ82UG6pm-pg" target="_blank">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Studio</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="work.html">Portfolio</a></li>
+        <li><a href="connect.html">Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.flashlabcreative.com/services/" target="_blank">Digital Marketing</a></li>
+        <li><a href="https://cybercreative.in/services/" target="_blank">Web &amp; App Dev</a></li>
+        <li><a href="https://backstagexchange.com/" target="_blank">Event Activation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Location</h4>
+      <p class="footer-address">G26 Vikrant Complex,<br/>Next to State Bank of India (PBB),<br/>Opposite Luis &amp; Company,<br/>Malbhat Margao, Goa — 403601</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+<span>Copyright © 2022 - Parashoot Studio | Designed and Developed by 
+       <a href="https://cybercreative.in/" target="_blank" rel="noopener noreferrer">
+    Cyber Creative
+  </a></span>
+      <span>Designed &amp; Developed with ♥ in Goa</span>
+  </div>
+</footer>
+
+<!-- ─── SCRIPTS ─── -->
+
+<script>
+  /* Hamburger */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => 
+    mobileMenu.classList.toggle('open')
+  );
+
+  mobileMenu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () =>
+      mobileMenu.classList.remove('open')
+    )
+  );
+
+  /* Scrolled nav */
+  const nav = document.getElementById('nav');
+
+  window.addEventListener('scroll', () =>
+    nav.classList.toggle('scrolled', window.scrollY > 20)
+  );
+
+  /* Reveal on scroll — section-level blocks (.reveal) */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.10 });
+
+  document.querySelectorAll('.reveal').forEach(el =>
+    revealObserver.observe(el)
+  );
+
+  /* ─────────────────────────────────────────────
+     MASONRY GALLERY — JS-balanced layout engine
+     True Pinterest algorithm: for each photo, find
+     the currently-shortest column and place it there.
+     Recalculates on load, resize, and filter changes
+     so columns always stay even regardless of image
+     count or category.
+     ───────────────────────────────────────────── */
+  const GAP = 14;
+
+  function getColumnCount(width){
+    if (width <= 480) return 1;
+    if (width <= 768) return 2;
+    if (width <= 1100) return 3;
+    return 3;
+  }
+
+  function layoutMasonry(grid){
+    const slots = Array.from(grid.querySelectorAll('.media-slot'));
+    if (!slots.length) return;
+
+    const containerWidth = grid.clientWidth;
+    const cols = getColumnCount(containerWidth);
+    const colWidth = (containerWidth - GAP * (cols - 1)) / cols;
+    const colHeights = new Array(cols).fill(0);
+
+    slots.forEach(slot => {
+      const img = slot.querySelector('img');
+      if (!img) return;
+
+      // natural aspect ratio of the real image
+      let ratio = 1.25; // sensible fallback before image dimensions are known
+      if (img.naturalWidth && img.naturalHeight) {
+        ratio = img.naturalHeight / img.naturalWidth;
+      }
+      const slotHeight = colWidth * ratio;
+
+      // find the shortest column
+      let shortestCol = 0;
+      for (let i = 1; i < cols; i++){
+        if (colHeights[i] < colHeights[shortestCol]) shortestCol = i;
+      }
+
+      const left = shortestCol * (colWidth + GAP);
+      const top = colHeights[shortestCol];
+
+      slot.style.width = `${colWidth}px`;
+      slot.style.left = `${left}px`;
+      slot.style.top = `${top}px`;
+
+      colHeights[shortestCol] = top + slotHeight + GAP;
+    });
+
+    const maxHeight = Math.max(...colHeights) - GAP;
+    grid.style.height = `${maxHeight}px`;
+    grid.classList.add('js-ready');
+  }
+
+  function layoutAllMasonryGrids(){
+    document.querySelectorAll('.gallery-grid').forEach(grid => {
+      // skip hidden grids (inside filtered-out category blocks) —
+      // clientWidth would read 0 and break the calculation
+      if (grid.closest('.category-block')?.style.display === 'none') return;
+      layoutMasonry(grid);
+    });
+  }
+
+  function waitForImagesThenLayout(grid){
+    const imgs = Array.from(grid.querySelectorAll('.media-slot img'));
+    let pending = imgs.length;
+    if (!pending) return;
+
+    imgs.forEach(img => {
+      if (img.complete && img.naturalWidth) {
+        pending--;
+        if (pending === 0) layoutMasonry(grid);
+      } else {
+        img.addEventListener('load', () => {
+          pending--;
+          if (pending === 0) layoutMasonry(grid);
+        });
+        img.addEventListener('error', () => {
+          pending--;
+          if (pending === 0) layoutMasonry(grid);
+        });
+      }
+    });
+  }
+
+  document.querySelectorAll('.gallery-grid').forEach(grid => {
+    waitForImagesThenLayout(grid);
+  });
+
+  // debounced resize re-layout
+  let masonryResizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(masonryResizeTimer);
+    masonryResizeTimer = setTimeout(layoutAllMasonryGrids, 150);
+  });
+
+  // staggered scroll-reveal per photo, same as before
+  const masonryObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        masonryObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.gallery-grid').forEach(grid => {
+    const slots = grid.querySelectorAll('.media-slot');
+    slots.forEach((slot, i) => {
+      const delay = Math.min(i * 0.06, 0.6);
+      slot.style.transitionDelay = `${delay}s`;
+      masonryObserver.observe(slot);
+    });
+  });
+
+  /* Filter bar */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const flagshipCards = document.querySelectorAll('.flagship-card');
+  const categoryBlocks = document.querySelectorAll('.category-block');
+  const highlightCards = document.querySelectorAll('.highlight-card');
+
+  const projectsSection = document.getElementById('projects');
+  const categoryGalleriesSection = document.getElementById('categoryGalleries');
+  const highlightsSection = document.getElementById('highlights');
+
+  // IMPORTANT: label fix (single reference only)
+  const flagshipLabel = document.getElementById('flagshipLabel');
+
+  filterBtns.forEach(btn => {
+
+    btn.addEventListener('click', () => {
+
+      // active button UI
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      const showFlagship = filter === 'all' || filter === 'flagship';
+      const showCategories = filter === 'all' || filter !== 'flagship';
+      const showHighlights = filter === 'all' || filter === 'flagship';
+
+      projectsSection.style.marginBottom = showFlagship ? '100px' : '0px';
+      categoryGalleriesSection.style.marginBottom = showCategories ? '100px' : '0px';
+    highlightsSection.style.display = showHighlights ? '' : 'none';
+      /* -----------------------------
+         FLAGSHIP LABEL SHOW/HIDE
+      ------------------------------*/
+      if (flagshipLabel) {
+        if (filter === 'all' || filter === 'flagship') {
+          flagshipLabel.style.display = '';
+        } else {
+          flagshipLabel.style.display = 'none';
+        }
+      }
+
+      /* -----------------------------
+         FLAGSHIP PROJECTS
+      ------------------------------*/
+      flagshipCards.forEach(card => {
+        const cats = (card.dataset.category || '').split(' ');
+        const show = filter === 'all' || cats.includes(filter);
+
+        card.style.display = show ? '' : 'none';
+
+        if (show) {
+          setTimeout(() => card.classList.add('in'), 50);
+        }
+      });
+
+      /* -----------------------------
+         CATEGORY BLOCKS (masonry galleries)
+      ------------------------------*/
+      categoryBlocks.forEach(block => {
+        const blockCat = block.dataset.category;
+        const show = filter === 'all' || blockCat === filter;
+        const wasHidden = block.style.display === 'none';
+
+        block.style.display = show ? '' : 'none';
+
+        if (show) {
+          setTimeout(() => block.classList.add('in'), 50);
+          // re-trigger the per-photo stagger reveal whenever a
+          // hidden gallery becomes visible again via the filter
+          const grid = block.querySelector('.gallery-grid');
+          if (grid) {
+            // layout was skipped while hidden (clientWidth was 0),
+            // so recalculate now that the block is visible again
+            if (wasHidden || !grid.classList.contains('js-ready')) {
+              requestAnimationFrame(() => layoutMasonry(grid));
+            }
+            grid.querySelectorAll('.media-slot').forEach(slot => {
+              slot.classList.add('in');
+            });
+          }
+        }
+      });
+
+      /* -----------------------------
+         HIGHLIGHTS
+      ------------------------------*/
+      highlightCards.forEach(card => {
+        const cats = (card.dataset.category || '').split(' ');
+        const show = filter === 'all' || cats.includes(filter);
+
+        card.style.display = show ? '' : 'none';
+
+        if (show) {
+          setTimeout(() => card.classList.add('in'), 50);
+        }
+      });
+
+    });
+
+  });
+
+  /* Auto-activate filter from URL param, e.g. work.html?filter=brands */
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlFilter = urlParams.get('filter');
+  if (urlFilter) {
+    const targetBtn = document.querySelector(`.filter-btn[data-filter="${urlFilter}"]`);
+    if (targetBtn) {
+      targetBtn.click();
+      setTimeout(() => {
+        const target = document.getElementById(urlFilter)
+                    || document.querySelector(`.category-block[data-category="${urlFilter}"]`)
+                    || document.getElementById('projects');
+        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }
+
+</script>
+</body>
+</html>
