@@ -757,7 +757,7 @@
     </div>
 
     <div class="form-submit-row">
-      <button class="btn-submit magnetic no-tween" id="submitBtn" onclick="handleSubmit()">Send Message</button>
+      <button class="btn-submit magnetic no-tween" id="submitBtn">Send Message</button>
     </div>
 
     <div class="form-success" id="formSuccess">
@@ -973,6 +973,9 @@ if (!name || !email || !phone || !service || !message) {
       setTimeout(() => success.classList.remove('show'), 6000);
     }, 1400);
   }
+
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.addEventListener('click', handleSubmit);
 </script>
 </body>
 </html>

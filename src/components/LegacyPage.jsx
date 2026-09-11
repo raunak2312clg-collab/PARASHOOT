@@ -52,7 +52,16 @@ function addScript(scriptNode) {
       return;
     }
 
-    script.textContent = scriptNode.textContent;
+    // Legacy pages were originally standalone HTML documents. Running their
+    // inline scripts directly in the React shell puts top-level const/let
+    // declarations in the same global scope on every navigation, which
+    // causes errors such as "Identifier 'hamburger' has already been declared".
+    // Scope each page's inline script to its own function instead.
+    script.textContent = `
+      (() => {
+        ${scriptNode.textContent}
+      })();
+    `;
     document.body.appendChild(script);
 
     resolve();
