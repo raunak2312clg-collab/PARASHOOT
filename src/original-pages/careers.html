@@ -1256,7 +1256,7 @@
   function buildMarqueeRow(rowEl, images) {
     const allImages = images.concat(images);
     rowEl.innerHTML = allImages.map(src =>
-      `<div class="marquee-item"><img src="${src}" alt="Studio moment" loading="lazy"/></div>`
+      `<div class="marquee-item"><img src="${src}" alt="Studio moment"/></div>`
     ).join('');
   }
 

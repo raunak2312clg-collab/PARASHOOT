@@ -176,23 +176,9 @@ function deriveAltText(img) {
 }
 
 function enhanceMedia(documentNode) {
-  let priorityImages = 0;
-
+  // V2.1: keep image loading exactly like the original site.
+  // No forced lazy/eager loading, fetch priority or async decoding is applied.
   documentNode.querySelectorAll('img').forEach((img) => {
-    img.setAttribute('decoding', 'async');
-
-    const hiddenChrome = img.closest('nav, .mobile-menu, footer');
-    const isHero = Boolean(img.closest('.hero, .page-hero, .hero-photo, .work-hero, .about-hero, .team-hero, .services-hero'));
-    const shouldEagerLoad = !hiddenChrome && (isHero || priorityImages < 2);
-
-    if (shouldEagerLoad) {
-      img.setAttribute('loading', 'eager');
-      if (priorityImages === 0) img.setAttribute('fetchpriority', 'high');
-      priorityImages += 1;
-    } else {
-      img.setAttribute('loading', 'lazy');
-    }
-
     const currentAlt = img.getAttribute('alt');
     if ((currentAlt === null || currentAlt.trim() === '') && img.getAttribute('aria-hidden') !== 'true') {
       img.setAttribute('alt', deriveAltText(img));
