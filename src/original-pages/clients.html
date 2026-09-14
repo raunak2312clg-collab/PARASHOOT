@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Clients — Parashoot Studio</title>
+  <meta name="description" content="Explore brands and organisations that have worked with Parashoot Studio across photography, film and creative production.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -1036,16 +1037,15 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    const grid=document.querySelector('.clients-logo-grid');
-    const btn=document.getElementById('clientsLoadBtn');
-    if(!grid||!btn) return;
+  const grid=document.querySelector('.clients-logo-grid');
+  const btn=document.getElementById('clientsLoadBtn');
+  if(grid&&btn){
     btn.addEventListener('click', function(){
       const expanded=grid.classList.toggle('expanded');
       btn.textContent=expanded?'Show Less':'Load More';
       if(!expanded) document.getElementById('clients-grid').scrollIntoView({behavior:'smooth',block:'start'});
     });
-  });
+  }
 </script>
 </body>
 </html>

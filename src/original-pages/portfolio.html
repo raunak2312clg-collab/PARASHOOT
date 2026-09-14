@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Portfolio — Parashoot Studio</title>
+  <meta name="description" content="Browse the full Parashoot Studio portfolio across flagship projects, portraits, food, celebrity, nightlife, sports, brands, aerial, BTS, jewellery and property.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
@@ -1672,7 +1673,7 @@
   });
 
   /* Auto-activate filter from URL param, e.g. work.html?filter=brands */
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search || (window.location.hash.includes('?') ? '?' + window.location.hash.split('?').slice(1).join('?') : ''));
   const urlFilter = urlParams.get('filter');
   if (urlFilter) {
     const targetBtn = document.querySelector(`.filter-btn[data-filter="${urlFilter}"]`);

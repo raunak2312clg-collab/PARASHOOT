@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Home — Parashoot Studio</title>
+  <meta name="description" content="Parashoot Studio is a Goa-based creative production studio for photography, film, aerial coverage and post-production.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -1463,7 +1464,7 @@
   window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
 
 
-const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search || (window.location.hash.includes('?') ? '?' + window.location.hash.split('?').slice(1).join('?') : ''));
 const filter = params.get('filter');
 
 if (filter) {
