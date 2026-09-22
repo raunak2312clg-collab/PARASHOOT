@@ -731,7 +731,7 @@
 <!-- NAV -->
 <nav id="nav">
   <a class="nav-logo" href="index.html">
-    <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
+    <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
@@ -891,51 +891,40 @@
       <p class="form-subheading">Personal Details</p>
       <div class="form-row">
         <div class="form-group" id="group-fname">
-          <label>First Name <span class="req-star">*</span></label>
+          <label for="fname">First Name <span class="req-star">*</span></label>
           <input type="text" id="fname" name="first_name" placeholder="First name" required autocomplete="given-name"/>
           <span class="field-error-msg">Please enter your first name.</span>
         </div>
         <div class="form-group" id="group-lname">
-          <label>Last Name <span class="req-star">*</span></label>
+          <label for="lname">Last Name <span class="req-star">*</span></label>
           <input type="text" id="lname" name="last_name" placeholder="Last name" required autocomplete="family-name"/>
           <span class="field-error-msg">Please enter your last name.</span>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group" id="group-email">
-          <label>Email Address <span class="req-star">*</span></label>
+          <label for="email">Email Address <span class="req-star">*</span></label>
           <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email"/>
           <span class="field-error-msg">Please enter a valid email address.</span>
         </div>
         <div class="form-group" id="group-phone">
-          <label>Phone Number <span class="req-star">*</span></label>
+          <label for="phone">Phone Number <span class="req-star">*</span></label>
           <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required autocomplete="tel"/>
           <span class="field-error-msg">Please enter your phone number.</span>
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group full" id="group-address">
-          <label>Street Address <span class="req-star">*</span></label>
-          <input type="text" id="address" name="street_address" placeholder="Your street address" required autocomplete="street-address"/>
-          <span class="field-error-msg">Please enter your address.</span>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group" id="group-city">
-          <label>City <span class="req-star">*</span></label>
-          <input type="text" id="city" name="city" placeholder="City" required autocomplete="address-level2"/>
-          <span class="field-error-msg">Please enter your city.</span>
-        </div>
-        <div class="form-group">
-          <label>State / Province</label>
-          <input type="text" id="state" name="state" placeholder="State" autocomplete="address-level1"/>
+        <div class="form-group full" id="group-location">
+          <label for="location">Current Location <span class="req-star">*</span></label>
+          <input type="text" id="location" name="current_location" placeholder="City, State" required autocomplete="address-level2"/>
+          <span class="field-error-msg">Please enter your current location.</span>
         </div>
       </div>
 
       <p class="form-subheading">Experience</p>
       <div class="form-row">
         <div class="form-group full" id="group-role">
-          <label>Position Applying For <span class="req-star">*</span></label>
+          <label for="role">Position Applying For <span class="req-star">*</span></label>
           <select id="role" name="position_applying_for" required>
             <option value="" disabled selected>Select a role...</option>
             <option>Cinematographer</option>
@@ -949,7 +938,7 @@
       </div>
       <div class="form-row">
         <div class="form-group full" id="group-employment-type">
-          <label>Employment Type <span class="req-star">*</span></label>
+          <label for="employment-type">Employment Type <span class="req-star">*</span></label>
           <select id="employment-type" name="employment_type" required>
             <option value="" disabled selected>Select type...</option>
             <option>Full-Time</option>
@@ -959,8 +948,8 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group" id="group-experience">
-          <label>Years of Experience <span class="req-star">*</span></label>
+        <div class="form-group full" id="group-experience">
+          <label for="experience">Years of Experience <span class="req-star">*</span></label>
           <select id="experience" name="years_of_experience" required>
             <option value="" disabled selected>Select range...</option>
             <option>Fresher</option>
@@ -971,14 +960,10 @@
           </select>
           <span class="field-error-msg">Please select your experience level.</span>
         </div>
-        <div class="form-group">
-          <label>Previous Job Title</label>
-          <input type="text" id="prev-title" name="previous_job_title" placeholder="e.g. Junior Editor"/>
-        </div>
       </div>
       <div class="form-row">
         <div class="form-group full">
-          <label>When Can You Start?</label>
+          <label for="start-date">When Can You Start?</label>
           <input type="text" id="start-date" name="start_date" placeholder="e.g. Immediately / Next Month"/>
         </div>
       </div>
@@ -986,25 +971,21 @@
       <p class="form-subheading">Show Us Who You Are</p>
       <div class="form-row">
         <div class="form-group full" id="group-bio">
-          <label>Tell Us About Yourself <span class="req-star">*</span></label>
+          <label for="bio">Tell Us About Yourself <span class="req-star">*</span></label>
           <textarea id="bio" name="about_yourself" placeholder="Share a bit about your background, skills and why you want to join Parashoot Studio..." required></textarea>
           <span class="field-error-msg">Please tell us a bit about yourself.</span>
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Portfolio Link</label>
-          <input type="url" id="portfolio-link" name="portfolio_link" placeholder="https://yourportfolio.com"/>
-        </div>
-        <div class="form-group">
-          <label>Instagram Profile</label>
-          <input type="text" id="instagram" name="instagram" placeholder="@yourhandle"/>
+        <div class="form-group full">
+          <label for="portfolio-link">Portfolio / Work Link</label>
+          <input type="url" id="portfolio-link" name="portfolio_link" placeholder="Website, Drive, Behance, Vimeo or similar"/>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group full">
-          <label>LinkedIn URL</label>
-          <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourname"/>
+          <label for="profile-link">Additional Profile</label>
+          <input type="text" id="profile-link" name="profile_link" placeholder="Instagram, LinkedIn or another relevant profile"/>
         </div>
       </div>
       <div class="upload-row" id="group-cv">
@@ -1023,21 +1004,20 @@
       <p class="form-subheading">Availability</p>
       <div class="form-row">
         <div class="form-group full" id="group-referral">
-          <label>Where Did You Hear About Us? <span class="req-star">*</span></label>
-          <select id="referral" name="referral_source" required>
-            <option value="" disabled selected>Select an option...</option>
+          <label for="referral">Where Did You Hear About Us?</label>
+          <select id="referral" name="referral_source">
+            <option value="" selected>Select an option...</option>
             <option>Instagram</option>
             <option>LinkedIn</option>
             <option>Referral</option>
             <option>Google</option>
             <option>Other</option>
           </select>
-          <span class="field-error-msg">Please tell us how you heard about us.</span>
         </div>
       </div>
 
       <button type="submit" class="btn-submit" id="submitBtn">Submit Application</button>
-      <p class="form-note">We review applications within 5–7 business days and will reach out if there's a match.</p>
+      <p class="form-note">If your profile matches a current opening, our team will get in touch.</p>
       <div class="form-success" id="formSuccess">✓ &nbsp; Application submitted! We'll be in touch soon.</div>
       <div class="form-success" id="formError" style="display:none; background:rgba(255,80,80,.12); border-color:rgba(255,80,80,.3); color:#ffb3b3;">⚠ &nbsp; Something went wrong. Please try again or email us directly.</div>
     </form>
@@ -1057,8 +1037,8 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
-      <p>Goa's leading creative studio — photography, film, aerial & post-production content.</p>
+      <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+      <p>Goa-based photography and film production for brands, events, campaigns and people.</p>
       <div class="footer-socials">
         <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
         <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
@@ -1131,13 +1111,11 @@
     { fieldId: 'lname',            groupId: 'group-lname' },
     { fieldId: 'email',            groupId: 'group-email' },
     { fieldId: 'phone',            groupId: 'group-phone' },
-    { fieldId: 'address',          groupId: 'group-address' },
-    { fieldId: 'city',             groupId: 'group-city' },
+    { fieldId: 'location',         groupId: 'group-location' },
     { fieldId: 'role',             groupId: 'group-role' },
     { fieldId: 'employment-type',  groupId: 'group-employment-type' },
     { fieldId: 'experience',       groupId: 'group-experience' },
-    { fieldId: 'bio',              groupId: 'group-bio' },
-    { fieldId: 'referral',         groupId: 'group-referral' }
+    { fieldId: 'bio',              groupId: 'group-bio' }
   ];
 
   requiredFields.forEach(({ fieldId, groupId }) => {

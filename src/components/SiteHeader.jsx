@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const NAV_ITEMS = [
@@ -12,11 +12,16 @@ const NAV_ITEMS = [
   { label: 'Connect', to: '/connect', match: ['/connect', '/connect.html'] },
 ];
 
+function normalizePath(pathname) {
+  return pathname.replace(/\/+$/, '') || '/';
+}
+
 export default function SiteHeader() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const logoSrc = `${import.meta.env.BASE_URL}assets/images/Parashoot-Logo.png`;
+  const currentPath = useMemo(() => normalizePath(location.pathname), [location.pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -28,7 +33,7 @@ export default function SiteHeader() {
   useEffect(() => {
     setMenuOpen(false);
     document.body.style.overflow = '';
-  }, [location.pathname]);
+  }, [location.pathname, location.search, location.hash]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -37,11 +42,19 @@ export default function SiteHeader() {
     };
   }, [menuOpen]);
 
-  const isActive = (item) => item.match.includes(location.pathname);
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  const isActive = (item) => item.match.some((path) => normalizePath(path) === currentPath);
 
   return (
     <>
-      <div className={`ps-shell-nav${scrolled ? ' is-scrolled' : ''}`} role="navigation" aria-label="Primary navigation">
+      <nav className={`ps-shell-nav${scrolled ? ' is-scrolled' : ''}`} aria-label="Primary navigation">
         <Link className="ps-shell-nav-logo" to="/" aria-label="Parashoot Studio home">
           <img src={logoSrc} alt="Parashoot Studio" />
         </Link>
@@ -52,6 +65,7 @@ export default function SiteHeader() {
               key={item.label}
               to={item.to}
               className={isActive(item) ? 'is-active' : ''}
+              aria-current={isActive(item) ? 'page' : undefined}
             >
               {item.label}
             </Link>
@@ -65,20 +79,27 @@ export default function SiteHeader() {
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
+          aria-controls="ps-mobile-menu"
           onClick={() => setMenuOpen((open) => !open)}
         >
           <span />
           <span />
           <span />
         </button>
-      </div>
+      </nav>
 
-      <div className={`ps-shell-mobile-menu${menuOpen ? ' is-open' : ''}`} aria-hidden={!menuOpen}>
+      <nav
+        id="ps-mobile-menu"
+        className={`ps-shell-mobile-menu${menuOpen ? ' is-open' : ''}`}
+        aria-label="Mobile navigation"
+        aria-hidden={!menuOpen}
+      >
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.label}
             to={item.to}
             className={isActive(item) ? 'is-active' : ''}
+            aria-current={isActive(item) ? 'page' : undefined}
             onClick={() => setMenuOpen(false)}
           >
             {item.label}
@@ -87,7 +108,7 @@ export default function SiteHeader() {
         <Link className="ps-shell-mobile-cta" to="/connect" onClick={() => setMenuOpen(false)}>
           Start a Project →
         </Link>
-      </div>
+      </nav>
     </>
   );
 }

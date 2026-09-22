@@ -770,10 +770,10 @@
 .proof-intro>p:last-child,.clients-grid-head>p{font-family:'Inter',sans-serif;color:rgba(255,255,255,.58);line-height:1.75;font-size:14px;max-width:58ch;}
 .proof-stats{display:grid;grid-template-rows:repeat(3,1fr);}
 .proof-stat{padding:28px 34px;display:flex;align-items:center;gap:22px;border-bottom:1px solid rgba(255,255,255,.08);}
-.proof-stat:last-child{border-bottom:0}.proof-stat strong{font:400 54px/1 'Bebas Neue',sans-serif;color:var(--lime);min-width:92px}.proof-stat span{font:600 11px/1.4 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.proof-stat:last-child{border-bottom:0}.proof-stat strong{font:400 clamp(34px,3.6vw,54px)/1 'Bebas Neue',sans-serif;color:var(--lime);min-width:118px}.proof-stat span{font:600 11px/1.4 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
 .clients-grid-section{padding:72px 40px 40px;}
 .clients-grid-head{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:34px}.clients-grid-head>p{max-width:360px;margin-bottom:10px}
-.clients-logo-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}.logo-card{height:142px;border-radius:18px;display:flex;align-items:center;justify-content:center;padding:22px;border:1px solid rgba(255,255,255,.08);transition:transform .3s var(--ease),border-color .3s var(--ease)}.logo-card:hover{transform:translateY(-4px);border-color:rgba(216,255,61,.45)}.logo-card.dark{background:#070707}.logo-card.light{background:#f4f2ec}.logo-card img{width:100%;height:100%;object-fit:contain}.client-logo-more{display:none}.clients-logo-grid.expanded .client-logo-more{display:flex}.clients-load-wrap{text-align:center;padding-top:28px}.clients-load{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:12px 24px;font:600 11px/1 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.25s}.clients-load:hover{background:var(--lime);border-color:var(--lime);color:#111}
+.clients-logo-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}.logo-card{height:142px;border-radius:18px;display:flex;align-items:center;justify-content:center;padding:22px;border:1px solid rgba(255,255,255,.11);background:#777b85;transition:transform .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease)}.logo-card:hover{transform:translateY(-4px);border-color:rgba(216,255,61,.45);background:#818690}.logo-card.dark,.logo-card.light{background:#777b85}.logo-card img{width:100%;height:100%;max-width:88%;max-height:78%;object-fit:contain}.logo-card.dark img{mix-blend-mode:screen}.logo-card.light img{mix-blend-mode:multiply}.client-logo-more{display:none}.clients-logo-grid.expanded .client-logo-more{display:flex}.clients-load-wrap{text-align:center;padding-top:28px}.clients-load{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:12px 24px;font:600 11px/1 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.25s}.clients-load:hover{background:var(--lime);border-color:var(--lime);color:#111}
 @media(max-width:1100px){.clients-logo-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:768px){.client-proof{margin:0 14px 14px;grid-template-columns:1fr}.proof-intro{padding:42px 24px;border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.proof-stat{padding:22px 24px}.clients-grid-section{padding:52px 14px 20px}.clients-grid-head{display:block}.clients-grid-head>p{margin-top:12px}.clients-logo-grid{grid-template-columns:repeat(2,1fr);gap:9px}.logo-card{height:116px;padding:16px;border-radius:14px}}
 </style>
@@ -818,7 +818,7 @@
     box-shadow:0 20px 46px rgba(0,0,0,.30),0 0 24px rgba(42,31,255,.12);
   }
   .logo-card:hover::after{opacity:1;}
-  .logo-card:hover img{transform:scale(1.075);filter:saturate(1.08) contrast(1.04);}
+  .logo-card:hover img{transform:scale(1.075);}
 }
 @media (hover:none){
   .logo-card:active{transform:scale(.985)!important;border-color:rgba(216,255,61,.45)!important;}
@@ -878,9 +878,9 @@
     <p>We work across one-off campaigns, events, content retainers and full productions — bringing the same production discipline to every scale of brief.</p>
   </div>
   <div class="proof-stats">
-    <div class="proof-stat"><strong>8+</strong><span>Years of Experience</span></div>
-    <div class="proof-stat"><strong>150+</strong><span>Photo Shoot Projects</span></div>
-    <div class="proof-stat"><strong>600+</strong><span>Video &amp; Film Projects</span></div>
+    <div class="proof-stat"><strong>BRAND</strong><span>Commercial campaigns &amp; launches</span></div>
+    <div class="proof-stat"><strong>LIVE</strong><span>Events, sport &amp; nightlife coverage</span></div>
+    <div class="proof-stat"><strong>SOCIAL</strong><span>Always-on content &amp; retainers</span></div>
   </div>
 </section>
 
@@ -890,81 +890,81 @@
     <p>Some local. Some global. All part of the Parashoot story.</p>
   </div>
   <div class="clients-logo-grid">
-    <div class="logo-card dark"><img src="assets/images/sponsors/row1/Altr-Ego-Logo.png" alt="Altr Ego Logo"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/ambikachicken.png" alt="ambikachicken"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Best-NRI-Deals.jpg" alt="Best NRI Deals"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Bohemian-Crystal-Company.jpg" alt="Bohemian Crystal Company"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Bombay-Adda-Goa-White.png" alt="Bombay Adda Goa White"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Borecha-Logo.png" alt="Borecha Logo"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/BRAINWASH.png" alt="BRAINWASH"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Bullfrog-Grind.png" alt="Bullfrog Grind"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Cape-Town-Cafe.png" alt="Cape Town Cafe"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Car-Glaze.png" alt="Car Glaze"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Casa-Playa-White.png" alt="Casa Playa White"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Croque-Resort.png" alt="Croque Resort"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/cyber-creative.png" alt="cyber creative"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Dranding-Co.png" alt="Dranding Co"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Fc-Goa.png" alt="Fc Goa"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Flamingos.png" alt="Flamingos"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Glenmark_Pharmaceuticals_logo.png" alt="Glenmark Pharmaceuticals logo"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Goa-Goes-Clubbing-White.png" alt="Goa Goes Clubbing White"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/goa-marriott.jpg" alt="goa marriott"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Hammerzz-Logo.png" alt="Hammerzz Logo"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/heineken-krank-goa-logo.png" alt="heineken krank goa logo"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Hungover-Bunny.png" alt="Hungover Bunny"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/HyattCentric.png" alt="HyattCentric"/></div>
-<div class="logo-card dark"><img src="assets/images/sponsors/row1/Jumpnet.png" alt="Jumpnet"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/KAP-Panandiker-Plaza-Realty-Logo.png" alt="KAP Panandiker Plaza Realty Logo"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Lenseyezia.png" alt="Lenseyezia"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Mickeys-Logo.png" alt="Mickeys Logo"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Midas-Touch.png" alt="Midas Touch"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/nelrich-logo.png" alt="nelrich logo"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Pipa-Bella-White.png" alt="Pipa Bella White"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Quicksand_White.png" alt="Quicksand White"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Rezilient-Fitness.png" alt="Rezilient Fitness"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Shubh-Sai-Trading.png" alt="Shubh Sai Trading"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Tatakiwhite.png" alt="Tatakiwhite"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/The-Foundation-1024x724.jpg" alt="The Foundation 1024x724"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/The-White-Resort.png" alt="The White Resort"/></div>
-<div class="logo-card dark client-logo-more"><img src="assets/images/sponsors/row1/Tulum-Logo-White.png" alt="Tulum Logo White"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Babs-Hideout-Logo.png" alt="Babs Hideout Logo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Bali-Beat-Logo-Black.png" alt="Bali Beat Logo Black"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Cafe-Mambos.jpg" alt="Cafe Mambos"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Cafe-Mojo.png" alt="Cafe Mojo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Captain-Martian.png" alt="Captain Martian"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Clover.png" alt="Clover"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Deltin-Casinos-Hotels-Logo-black.png" alt="Deltin Casinos Hotels Logo black"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Flames.png" alt="Flames"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Flashlab-Logo.png" alt="Flashlab Logo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Forca-Goa-Foundation.png" alt="Forca Goa Foundation"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/glory_goa.png" alt="glory goa"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/goamonitor.png" alt="goamonitor"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/HEINEKEN-GREEN-LOGO.png" alt="HEINEKEN GREEN LOGO"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Holiday-Inn-White.png" alt="Holiday Inn White"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Holistic-Body-Healing.png" alt="Holistic Body Healing"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Middle-FInger-white.png" alt="Middle FInger white"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/nucleya.webp" alt="nucleya"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/orane-logo.png" alt="orane logo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Owl-Nightclub.png" alt="Owl Nightclub"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/permaguard.png" alt="permaguard"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Radisson-Blu.jpg" alt="Radisson Blu"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/ritviz.jpg" alt="ritviz"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/SinQ.png" alt="SinQ"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Smirnoff-Experience.png" alt="Smirnoff Experience"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Sochi-Beach-Logo.png" alt="Sochi Beach Logo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/starbucks.png" alt="starbucks"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Strobe-Nightlife-1.png" alt="Strobe Nightlife 1"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Take-5ive.png" alt="Take 5ive"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/tgob-logo-gold.svg" alt="tgob logo gold"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/The-Playroom.png" alt="The Playroom"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Think-Next-Logo.png" alt="Think Next Logo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/tinera-stays.png" alt="tinera stays"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/TKS.png" alt="TKS"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/W-Goa-Black.png" alt="W Goa Black"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/woodburns-logo.png" alt="woodburns logo"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/world-of-wine.jpeg" alt="world of wine"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/Yacht-club.png" alt="Yacht club"/></div>
-<div class="logo-card light client-logo-more"><img src="assets/images/sponsors/row2/yuhotel.png" alt="yuhotel"/></div>
+    <div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Altr-Ego-Logo.png" alt="Altr Ego Logo"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/ambikachicken.png" alt="ambikachicken"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Best-NRI-Deals.jpg" alt="Best NRI Deals"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Bohemian-Crystal-Company.jpg" alt="Bohemian Crystal Company"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Bombay-Adda-Goa-White.png" alt="Bombay Adda Goa White"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Borecha-Logo.png" alt="Borecha Logo"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/BRAINWASH.png" alt="BRAINWASH"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Bullfrog-Grind.png" alt="Bullfrog Grind"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Cape-Town-Cafe.png" alt="Cape Town Cafe"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Car-Glaze.png" alt="Car Glaze"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Casa-Playa-White.png" alt="Casa Playa White"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Croque-Resort.png" alt="Croque Resort"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/cyber-creative.png" alt="cyber creative"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Dranding-Co.png" alt="Dranding Co"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Fc-Goa.png" alt="Fc Goa"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Flamingos.png" alt="Flamingos"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Glenmark_Pharmaceuticals_logo.png" alt="Glenmark Pharmaceuticals logo"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Goa-Goes-Clubbing-White.png" alt="Goa Goes Clubbing White"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/goa-marriott.jpg" alt="goa marriott"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Hammerzz-Logo.png" alt="Hammerzz Logo"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/heineken-krank-goa-logo.png" alt="heineken krank goa logo"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Hungover-Bunny.png" alt="Hungover Bunny"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/HyattCentric.png" alt="HyattCentric"/></div>
+<div class="logo-card dark"><img loading="eager" src="assets/images/sponsors/row1/Jumpnet.png" alt="Jumpnet"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/KAP-Panandiker-Plaza-Realty-Logo.png" alt="KAP Panandiker Plaza Realty Logo"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Lenseyezia.png" alt="Lenseyezia"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Mickeys-Logo.png" alt="Mickeys Logo"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Midas-Touch.png" alt="Midas Touch"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/nelrich-logo.png" alt="nelrich logo"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Pipa-Bella-White.png" alt="Pipa Bella White"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Quicksand_White.png" alt="Quicksand White"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Rezilient-Fitness.png" alt="Rezilient Fitness"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Shubh-Sai-Trading.png" alt="Shubh Sai Trading"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Tatakiwhite.png" alt="Tatakiwhite"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/The-Foundation-1024x724.jpg" alt="The Foundation 1024x724"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/The-White-Resort.png" alt="The White Resort"/></div>
+<div class="logo-card dark client-logo-more"><img loading="eager" src="assets/images/sponsors/row1/Tulum-Logo-White.png" alt="Tulum Logo White"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Babs-Hideout-Logo.png" alt="Babs Hideout Logo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Bali-Beat-Logo-Black.png" alt="Bali Beat Logo Black"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Cafe-Mambos.jpg" alt="Cafe Mambos"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Cafe-Mojo.png" alt="Cafe Mojo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Captain-Martian.png" alt="Captain Martian"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Clover.png" alt="Clover"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Deltin-Casinos-Hotels-Logo-black.png" alt="Deltin Casinos Hotels Logo black"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Flames.png" alt="Flames"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Flashlab-Logo.png" alt="Flashlab Logo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Forca-Goa-Foundation.png" alt="Forca Goa Foundation"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/glory_goa.png" alt="glory goa"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/goamonitor.png" alt="goamonitor"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/HEINEKEN-GREEN-LOGO.png" alt="HEINEKEN GREEN LOGO"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Holiday-Inn-White.png" alt="Holiday Inn White"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Holistic-Body-Healing.png" alt="Holistic Body Healing"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Middle-FInger-white.png" alt="Middle FInger white"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/nucleya.webp" alt="nucleya"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/orane-logo.png" alt="orane logo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Owl-Nightclub.png" alt="Owl Nightclub"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/permaguard.png" alt="permaguard"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Radisson-Blu.jpg" alt="Radisson Blu"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/ritviz.jpg" alt="ritviz"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/SinQ.png" alt="SinQ"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Smirnoff-Experience.png" alt="Smirnoff Experience"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Sochi-Beach-Logo.png" alt="Sochi Beach Logo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/starbucks.png" alt="starbucks"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Strobe-Nightlife-1.png" alt="Strobe Nightlife 1"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Take-5ive.png" alt="Take 5ive"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/tgob-logo-gold.svg" alt="tgob logo gold"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/The-Playroom.png" alt="The Playroom"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Think-Next-Logo.png" alt="Think Next Logo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/tinera-stays.png" alt="tinera stays"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/TKS.png" alt="TKS"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/W-Goa-Black.png" alt="W Goa Black"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/woodburns-logo.png" alt="woodburns logo"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/world-of-wine.jpeg" alt="world of wine"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/Yacht-club.png" alt="Yacht club"/></div>
+<div class="logo-card light client-logo-more"><img loading="eager" src="assets/images/sponsors/row2/yuhotel.png" alt="yuhotel"/></div>
   </div>
   <div class="clients-load-wrap"><button class="clients-load" id="clientsLoadBtn" type="button">Load More</button></div>
 </section>
@@ -982,7 +982,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
-      <p>Goa's leading creative studio — photography, film, aerial &amp; post-production content.</p>
+      <p>Goa-based photography and film production for brands, events, campaigns and people.</p>
       <div class="footer-socials">
         <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
         <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>
@@ -1034,6 +1034,19 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
   }, { threshold: 0.10 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+<script>
+  // V2.2: client logos should be ready before the hidden rows are revealed.
+  // Hidden images can otherwise be deprioritised by the browser even without lazy loading.
+  const clientLogoPreloads = [];
+  document.querySelectorAll('.clients-logo-grid img').forEach((img) => {
+    img.loading = 'eager';
+    const preload = new Image();
+    preload.src = img.currentSrc || img.src;
+    clientLogoPreloads.push(preload);
+  });
+  window.__parashootClientLogoPreloads = clientLogoPreloads;
 </script>
 
 <script>

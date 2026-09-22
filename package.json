@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently -k \"node server/dev.js\" \"vite\"",
-    "build": "vite build",
+    "build": "vite build && node scripts/postbuild.mjs",
     "start": "node server/index.js",
     "preview": "vite preview"
   },

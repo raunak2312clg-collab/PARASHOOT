@@ -1,7 +1,13 @@
 import React, { useLayoutEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const HEAD_MARKER = 'data-parashoot-page-head';
 const SCRIPT_MARKER = 'data-parashoot-page-script';
+
+function rewriteLegacyAssetPaths(source) {
+  const base = import.meta.env.BASE_URL;
+  return source.replace(/([\'"`(=])(?:\.\/)?assets\//g, `$1${base}assets/`);
+}
 
 function cloneHeadNode(node) {
   const tag = node.tagName.toLowerCase();
@@ -15,6 +21,9 @@ function cloneHeadNode(node) {
   }
 
   if (tag === 'link') {
+    const href = node.getAttribute('href') || '';
+    if (href.includes('fonts.googleapis.com') || href.includes('fonts.gstatic.com')) return null;
+
     const link = document.createElement('link');
     for (const attr of node.attributes) link.setAttribute(attr.name, attr.value);
     link.setAttribute(HEAD_MARKER, 'true');
@@ -30,9 +39,7 @@ function addScript(scriptNode) {
     const script = document.createElement('script');
     script.setAttribute(SCRIPT_MARKER, 'true');
 
-    for (const attr of scriptNode.attributes) {
-      script.setAttribute(attr.name, attr.value);
-    }
+    for (const attr of scriptNode.attributes) script.setAttribute(attr.name, attr.value);
 
     if (scriptNode.src) {
       script.async = false;
@@ -45,13 +52,9 @@ function addScript(scriptNode) {
       return;
     }
 
-    // Each legacy page used to run as its own document. Scope inline JS so
-    // repeated const/let declarations do not collide while navigating in React.
-    script.textContent = `
-      (() => {
-        ${scriptNode.textContent}
-      })();
-    `;
+    // Each legacy page originally ran as its own document. Scope inline JS so
+    // const/let declarations from one route cannot collide with another route.
+    script.textContent = `(() => {\n${scriptNode.textContent}\n})();`;
     document.body.appendChild(script);
     resolve();
   });
@@ -61,8 +64,10 @@ function getInternalRoute(href) {
   if (!href) return null;
 
   const trimmed = href.trim();
-  if (!trimmed || trimmed.startsWith('#')) return null;
+  if (!trimmed || trimmed === '#') return null;
   if (trimmed.startsWith('mailto:') || trimmed.startsWith('tel:') || trimmed.startsWith('javascript:')) return null;
+
+  if (trimmed.startsWith('#')) return trimmed;
 
   let path = trimmed;
   let search = '';
@@ -94,11 +99,12 @@ function getInternalRoute(href) {
 
   path = path
     .replace(/^\.\//, '')
+    .replace(/^\/PARASHOOT\//i, '')
     .replace(/^\//, '')
     .replace(/\/$/, '')
     .replace(/\.html$/, '');
 
-  if (!path || path === 'index') return '/';
+  if (!path || path === 'index') return `/${search}${fragment}`;
 
   const routeMap = {
     about: '/about',
@@ -119,13 +125,35 @@ function getInternalRoute(href) {
   return route ? `${route}${search}${fragment}` : null;
 }
 
+function toPublicHref(route) {
+  if (route.startsWith('#')) return route;
+
+  const match = route.match(/^([^?#]*)(.*)$/);
+  const pathname = match?.[1] || '/';
+  const suffix = match?.[2] || '';
+  const base = import.meta.env.BASE_URL;
+  const routePath = pathname === '/' ? '' : `${pathname.replace(/^\/+|\/+$/g, '')}/`;
+  return `${base}${routePath}${suffix}`;
+}
+
 function convertLegacyLinks(documentNode) {
   documentNode.querySelectorAll('a[href]').forEach((anchor) => {
-    const route = getInternalRoute(anchor.getAttribute('href'));
-    if (!route) return;
+    const href = anchor.getAttribute('href');
+    const route = getInternalRoute(href);
 
-    anchor.setAttribute('href', `#${route}`);
-    anchor.removeAttribute('target');
+    if (route) {
+      if (route.startsWith('#')) {
+        anchor.setAttribute('href', route);
+      } else {
+        anchor.setAttribute('href', toPublicHref(route));
+        anchor.setAttribute('data-ps-route', route);
+        anchor.removeAttribute('target');
+      }
+    }
+
+    if (anchor.getAttribute('target') === '_blank') {
+      anchor.setAttribute('rel', 'noopener noreferrer');
+    }
   });
 }
 
@@ -176,48 +204,30 @@ function deriveAltText(img) {
 }
 
 function enhanceMedia(documentNode) {
-  // V2.1: keep image loading exactly like the original site.
-  // No forced lazy/eager loading, fetch priority or async decoding is applied.
+  // Keep photography loading behaviour intact: V3 does not blanket-lazy-load images.
   documentNode.querySelectorAll('img').forEach((img) => {
     const currentAlt = img.getAttribute('alt');
-    if ((currentAlt === null || currentAlt.trim() === '') && img.getAttribute('aria-hidden') !== 'true') {
+    const decorative = img.getAttribute('aria-hidden') === 'true'
+      || img.closest('.service-bg, .hero-photo, .page-hero-bg, .work-bg');
+
+    if (!decorative && (currentAlt === null || currentAlt.trim() === '')) {
       img.setAttribute('alt', deriveAltText(img));
     }
   });
 
   documentNode.querySelectorAll('iframe').forEach((iframe) => {
     if (!iframe.hasAttribute('loading')) iframe.setAttribute('loading', 'lazy');
+    if (!iframe.hasAttribute('title')) iframe.setAttribute('title', 'Embedded media');
   });
 
   documentNode.querySelectorAll('video').forEach((video) => {
     video.setAttribute('preload', 'metadata');
+    video.setAttribute('playsinline', '');
     if (video.hasAttribute('autoplay')) {
       video.removeAttribute('autoplay');
       video.setAttribute('data-autoplay-on-view', 'true');
     }
   });
-}
-
-function setMetaContent(selector, content) {
-  if (!content) return;
-  const node = document.head.querySelector(selector);
-  if (node) node.setAttribute('content', content);
-}
-
-function applyPageMeta(pageDocument) {
-  if (pageDocument.title) document.title = pageDocument.title;
-
-  const description = pageDocument.querySelector('meta[name="description"]')?.getAttribute('content');
-  if (description) {
-    setMetaContent('meta[name="description"]', description);
-    setMetaContent('meta[property="og:description"]', description);
-    setMetaContent('meta[name="twitter:description"]', description);
-  }
-
-  if (pageDocument.title) {
-    setMetaContent('meta[property="og:title"]', pageDocument.title);
-    setMetaContent('meta[name="twitter:title"]', pageDocument.title);
-  }
 }
 
 function setupDeferredVideoPlayback(mountNode) {
@@ -239,35 +249,52 @@ function setupDeferredVideoPlayback(mountNode) {
   return () => observer.disconnect();
 }
 
+function setupInternalNavigation(mountNode, navigate) {
+  const handleClick = (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    const anchor = event.target.closest('a[data-ps-route]');
+    if (!anchor || !mountNode.contains(anchor)) return;
+
+    const route = anchor.getAttribute('data-ps-route');
+    if (!route) return;
+
+    event.preventDefault();
+    navigate(route);
+  };
+
+  mountNode.addEventListener('click', handleClick);
+  return () => mountNode.removeEventListener('click', handleClick);
+}
 
 function setupRouteAnchorScroll() {
-  const hashParts = window.location.hash.split('#');
-  if (hashParts.length < 3) return () => {};
+  const targetId = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+  if (!targetId) return () => {};
 
-  const targetId = decodeURIComponent(hashParts.slice(2).join('#'));
   const timer = window.setTimeout(() => {
     document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 350);
+  }, 250);
 
   return () => window.clearTimeout(timer);
 }
 
 export default function LegacyPage({ source }) {
   const mountRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useLayoutEffect(() => {
     const parser = new DOMParser();
-    const pageDocument = parser.parseFromString(source, 'text/html');
+    const pageDocument = parser.parseFromString(rewriteLegacyAssetPaths(source), 'text/html');
     const mountNode = mountRef.current;
 
     if (!mountNode) return undefined;
 
-    window.scrollTo(0, 0);
+    if (!location.hash) window.scrollTo(0, 0);
 
     document.querySelectorAll(`[${HEAD_MARKER}]`).forEach((node) => node.remove());
     document.querySelectorAll(`[${SCRIPT_MARKER}]`).forEach((node) => node.remove());
 
-    applyPageMeta(pageDocument);
     convertLegacyLinks(pageDocument);
     enhanceMedia(pageDocument);
 
@@ -279,10 +306,10 @@ export default function LegacyPage({ source }) {
 
     const bodyClone = pageDocument.body.cloneNode(true);
     bodyClone.querySelectorAll('script').forEach((node) => node.remove());
-    // V2 renders one shared React footer. The legacy footer copy is no longer mounted.
     bodyClone.querySelectorAll('footer').forEach((node) => node.remove());
     mountNode.innerHTML = bodyClone.innerHTML;
 
+    const cleanupNavigation = setupInternalNavigation(mountNode, navigate);
     const cleanupVideoPlayback = setupDeferredVideoPlayback(mountNode);
     const cleanupRouteAnchor = setupRouteAnchorScroll();
     const scriptNodes = Array.from(pageDocument.querySelectorAll('script'));
@@ -297,6 +324,7 @@ export default function LegacyPage({ source }) {
 
     return () => {
       cancelled = true;
+      cleanupNavigation();
       cleanupVideoPlayback();
       cleanupRouteAnchor();
       injectedHeadNodes.forEach((node) => node.remove());
@@ -304,7 +332,7 @@ export default function LegacyPage({ source }) {
       mountNode.innerHTML = '';
       document.body.style.overflow = '';
     };
-  }, [source]);
+  }, [source, navigate, location.pathname, location.search, location.hash]);
 
   return <div className="react-legacy-page" ref={mountRef} />;
 }

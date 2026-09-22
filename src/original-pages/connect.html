@@ -621,7 +621,7 @@
 <!-- ─── NAV ─── -->
 <nav id="nav">
   <a class="nav-logo" href="index.html">
-    <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
+    <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
@@ -719,46 +719,73 @@
 
     <div class="form-row">
       <div class="form-group">
-        <label>Your Name <span class="req">*</span></label>
+        <label for="fname">Your Name <span class="req">*</span></label>
         <input type="text" id="fname" name="first_name" placeholder="First name" required autocomplete="given-name"/>
       </div>
       <div class="form-group">
-        <label>Last Name</label>
+        <label for="lname">Last Name</label>
         <input type="text" id="lname" name="last_name" placeholder="Last name" autocomplete="family-name"/>
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
-        <label>Email Address <span class="req">*</span></label>
+        <label for="email">Email Address <span class="req">*</span></label>
         <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email"/>
       </div>
       <div class="form-group">
-<label>Phone Number <span class="req">*</span></label>
+<label for="phone">Phone Number <span class="req">*</span></label>
 <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required autocomplete="tel"/>      </div>
     </div>
 
     <div class="form-row">
       <div class="form-group full">
-<label>Service Needed <span class="req">*</span></label>
+<label for="service">Service Needed <span class="req">*</span></label>
 <select id="service" name="service" required>
             <option value="" disabled selected>Select a service...</option>
           <option>Photography</option>
-          <option>Videography</option>
-          <option>Aerial Coverage</option>
-          <option>Post Production</option>
-          <option>Wedding Coverage</option>
-          <option>Live Event Coverage</option>
-          <option>Social Media Content</option>
+          <option>Film &amp; Video Production</option>
+          <option>Drone &amp; Aerial</option>
+          <option>Post-Production</option>
+          <option>Weddings &amp; Celebrations</option>
+          <option>Event Coverage</option>
+          <option>Social Content</option>
           <option>Other</option>
         </select>
       </div>
     </div>
 
     <div class="form-row">
+      <div class="form-group">
+        <label for="timeline">Project Timeline</label>
+        <select id="timeline" name="project_timeline">
+          <option value="" selected>Select timeline...</option>
+          <option>Within 2 weeks</option>
+          <option>2–4 weeks</option>
+          <option>1–3 months</option>
+          <option>3+ months</option>
+          <option>Ongoing / Retainer</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="budget">Approx. Budget</label>
+        <select id="budget" name="budget_range">
+          <option value="" selected>Select range...</option>
+          <option>Under ₹25,000</option>
+          <option>₹25,000–₹50,000</option>
+          <option>₹50,000–₹1,00,000</option>
+          <option>₹1,00,000–₹2,50,000</option>
+          <option>₹2,50,000+</option>
+          <option>Need help scoping</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
       <div class="form-group full">
-        <label>Tell Us About Your Project <span class="req">*</span></label>
-        <textarea id="message" name="message" placeholder="Describe your project, timeline and any specific requirements..." required></textarea>
+        <label for="message">Tell Us About Your Project <span class="req">*</span></label>
+        <textarea id="message" name="message" placeholder="What are you creating, where will it be used, and what should the finished work achieve?" required></textarea>
       </div>
     </div>
 
@@ -781,7 +808,7 @@
   <div class="map-header">
     <div>
       <h2>Our Location</h2>
-<p>📍 Flashlab Creative, G26 Vikrant Complex, Malbhat, Margao, Goa 403601</p>    </div>
+<p>📍 Parashoot Studio, G26 Vikrant Complex, Malbhat, Margao, Goa 403601</p>    </div>
 <a href="https://maps.app.goo.gl/SEkngpWyizPp3zPV6"
    target="_blank"
    rel="noopener noreferrer"
@@ -791,7 +818,7 @@
   </div>
 <div class="map-embed">
   <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3848.952810761542!2d73.96142071084837!3d15.270369060266638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfb3c15e66be93%3A0x5db29cb82b90889e!2sFlashlab%20Creative!5e0!3m2!1sen!2sin!4v1782208286897!5m2!1sen!2sin"
+    src="https://www.google.com/maps?q=15.270369,73.961421&z=16&output=embed"
    
     allowfullscreen
     referrerpolicy="no-referrer-when-downgrade">
@@ -836,8 +863,8 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="https://parashootstudio.com/wp-content/uploads/2025/07/cropped-Parashoot-Logo-BlackR-scaled-1.png" alt="Parashoot Studio"/>
-      <p>Goa's leading creative studio — photography, film, aerial &amp; post-production content.</p>
+      <img src="assets/images/Parashoot-Logo.png" alt="Parashoot Studio"/>
+      <p>Goa-based photography and film production for brands, events, campaigns and people.</p>
       <div class="footer-socials">
         <a href="https://www.facebook.com/parashoot.studio/" target="_blank">f</a>
         <a href="https://www.linkedin.com/in/parashoot-studio-216860231/" target="_blank">in</a>

@@ -1,0 +1,29 @@
+PARASHOOT V3 PATCH — apply over V2.3
+
+What this changes
+- Replaces hash URLs with clean BrowserRouter URLs such as /about/, /services/, /portfolio/.
+- Adds a post-build generator that creates real GitHub Pages route folders, legacy .html entry files, sitemap.xml, robots.txt and 404.html.
+- Adds route-specific titles, meta descriptions, canonical URLs, Open Graph/Twitter tags and JSON-LD structured data.
+- Adds Organization/LocalBusiness/WebSite/WebPage structured data for Parashoot Studio.
+- Keeps the photography-first image behaviour: NO blanket image lazy-loading is introduced.
+- Improves semantic structure, skip navigation, keyboard focus, reduced-motion support and mobile menu accessibility.
+- Retains the shared site-wide navigation/footer and makes internal links use React routing.
+- Cleans unsupported/contradictory marketing claims and improves Home/Services positioning for a photography + film production studio.
+- Keeps Work as the curated showcase and Portfolio as the broader archive.
+- Simplifies Careers application fields to avoid collecting unnecessary residential information at the first stage.
+- Keeps Connect as a real Web3Forms project enquiry form and improves project-enquiry fields/copy.
+- Adds a branded React 404 page.
+
+Important
+- Do NOT copy an old dist folder into the project. dist is generated.
+- Keep your existing public/ folder exactly as it is; this patch does not contain your media library.
+- Sunburn-x-Deltin-2.mp4 remains your intentional local-only/omitted large asset unless you deploy it separately.
+
+After copying this patch over V2.3:
+1. npm.cmd run build
+2. Check that dist/about/index.html, dist/services/index.html, dist/sitemap.xml and dist/robots.txt were created.
+3. git add .
+4. git commit -m "Upgrade PARASHOOT to V3"
+5. git push
+
+GitHub Actions will run npm ci -> npm run build -> deploy ./dist.

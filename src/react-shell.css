@@ -17,6 +17,7 @@ body,
   display: none !important;
 }
 
+/* V2.3: isolate the React shell from legacy page CSS. */
 .ps-shell-nav,
 .ps-shell-nav *,
 .ps-shell-mobile-menu,
@@ -24,6 +25,34 @@ body,
 .ps-shell-footer,
 .ps-shell-footer * {
   box-sizing: border-box;
+}
+
+.ps-shell-nav,
+.ps-shell-mobile-menu,
+.ps-shell-footer {
+  isolation: isolate;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  text-transform: none;
+  line-height: 1.2;
+}
+
+.ps-shell-nav a,
+.ps-shell-mobile-menu a,
+.ps-shell-footer a {
+  text-decoration: none;
+}
+
+.ps-shell-nav img,
+.ps-shell-footer img {
+  max-width: none;
+}
+
+.ps-shell-nav button {
+  font: inherit;
+  color: inherit;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .ps-shell-nav {
@@ -38,21 +67,24 @@ body,
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: rgba(244, 242, 236, 0.74);
+  background: #f4f2ec;
   border: 1px solid rgba(21, 20, 15, 0.1);
   border-radius: 999px;
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ps-shell-nav.is-scrolled {
-  background: rgba(244, 242, 236, 0.94);
+  background: #f4f2ec;
   box-shadow: 0 6px 20px -8px rgba(21, 20, 15, 0.18), 0 2px 6px rgba(21, 20, 15, 0.05);
 }
 
 .ps-shell-nav-logo {
   display: inline-flex;
+  color: #15140f;
+  background: transparent;
+  border: 0;
   align-items: center;
   flex: 0 0 auto;
 }
@@ -72,7 +104,12 @@ body,
 }
 
 .ps-shell-nav-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
   padding: 8px 14px;
+  border: 0;
   border-radius: 999px;
   color: #3a3a33;
   text-decoration: none;
@@ -102,6 +139,9 @@ body,
 
 .ps-shell-nav-cta {
   flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  line-height: 1;
   padding: 11px 20px;
   border-radius: 999px;
   font-size: 12px;
@@ -197,6 +237,7 @@ body,
 
 .ps-shell-footer {
   position: relative;
+  clear: both;
   z-index: 2;
   margin: 0 40px 40px;
   padding: 64px 56px 32px;
@@ -366,5 +407,117 @@ body,
   .ps-shell-footer * {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* V3 accessibility and system states */
+.ps-skip-link {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  z-index: 3000;
+  transform: translate(-50%, -160%);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #d8ff3d;
+  color: #0d1326;
+  font: 700 12px/1 'Inter', Arial, sans-serif;
+  letter-spacing: .05em;
+  text-decoration: none;
+  transition: transform .2s ease;
+}
+
+.ps-skip-link:focus {
+  transform: translate(-50%, 0);
+  outline: 3px solid #2a1fff;
+  outline-offset: 3px;
+}
+
+.ps-shell-nav a:focus-visible,
+.ps-shell-nav button:focus-visible,
+.ps-shell-mobile-menu a:focus-visible,
+.ps-shell-footer a:focus-visible,
+.react-legacy-page a:focus-visible,
+.react-legacy-page button:focus-visible,
+.react-legacy-page input:focus-visible,
+.react-legacy-page select:focus-visible,
+.react-legacy-page textarea:focus-visible,
+.ps-not-found a:focus-visible {
+  outline: 3px solid #d8ff3d;
+  outline-offset: 4px;
+}
+
+.ps-main:focus {
+  outline: none;
+}
+
+.ps-not-found {
+  min-height: 82vh;
+  padding: 150px 32px 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background: radial-gradient(circle at 50% 20%, rgba(42,31,255,.24), transparent 42%), #0d1326;
+}
+
+.ps-not-found-kicker {
+  margin: 0 0 16px;
+  color: #d8ff3d;
+  font: 700 11px/1 'Inter', Arial, sans-serif;
+  letter-spacing: .18em;
+}
+
+.ps-not-found h1 {
+  max-width: 900px;
+  margin: 0;
+  font: 400 clamp(54px, 10vw, 120px)/.9 'Bebas Neue', Impact, sans-serif;
+  letter-spacing: .02em;
+}
+
+.ps-not-found > p:not(.ps-not-found-kicker) {
+  max-width: 560px;
+  margin: 24px 0 0;
+  color: rgba(255,255,255,.68);
+  font: 400 15px/1.7 'Inter', Arial, sans-serif;
+}
+
+.ps-not-found-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.ps-not-found-actions a {
+  padding: 12px 22px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 999px;
+  color: #fff;
+  font: 600 12px/1 'Inter', Arial, sans-serif;
+  text-decoration: none;
+}
+
+.ps-not-found-actions a:first-child {
+  border-color: #d8ff3d;
+  background: #d8ff3d;
+  color: #0d1326;
+}
+
+@media (max-width: 768px) {
+  .ps-not-found { padding-inline: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  .react-legacy-page *,
+  .react-legacy-page *::before,
+  .react-legacy-page *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }
